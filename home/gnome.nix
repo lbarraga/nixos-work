@@ -5,6 +5,7 @@
       disabled-extensions = [];
       enabled-extensions = [
         "appindicatorsupport@rgcjonas.gmail.com"
+        "auto-move-windows@gnome-shell-extensions.gcampax.github.com"
         "blur-my-shell@aunetx"
         "just-perfection-desktop@just-perfection"
         "space-bar@luchrioh"
@@ -40,6 +41,16 @@
       switch-to-application-9 = [];
     };
 
+    # Pins the work apps to a fixed workspace whenever they open. The desktop
+    # ids for the two firefox profiles come from home/work-session.nix.
+    "org/gnome/shell/extensions/auto-move-windows" = {
+      application-list = [
+        "firefox-ugent.desktop:2"
+        "Mattermost.desktop:2"
+        "firefox-imec.desktop:3"
+      ];
+    };
+
     "org/gnome/shell/extensions/space-bar/behavior" = {
       show-empty-workspaces = false;
       toggle-overview = false;
@@ -71,6 +82,9 @@
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
       ];
     };
 
@@ -78,6 +92,24 @@
       name = "Open Terminal";
       command = "ghostty";
       binding = "<Super>Return";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+      name = "Start Work Session";
+      command = "work-start";
+      binding = "<Super><Shift>w";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      name = "Firefox (UGent)";
+      command = "firefox-ugent";
+      binding = "<Super><Shift>u";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
+      name = "Firefox (IMEC)";
+      command = "firefox-imec";
+      binding = "<Super><Shift>i";
     };
 
     # Legacy GNOME terminal preference, still honoured by some older apps.

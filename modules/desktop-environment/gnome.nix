@@ -13,6 +13,7 @@
   environment.systemPackages = with pkgs; [
     gnome-tweaks
     gnomeExtensions.appindicator
+    gnomeExtensions.auto-move-windows
     gnomeExtensions.blur-my-shell
     gnomeExtensions.just-perfection
     gnomeExtensions.space-bar
