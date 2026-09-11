@@ -7,6 +7,7 @@
     gnome-tour
     epiphany
     geary
+    gnome-console
   ];
 
   environment.systemPackages = with pkgs; [

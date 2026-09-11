@@ -11,4 +11,11 @@
       ];
     };
   };
+
+  # Make Ghostty the default terminal for anything following the freedesktop
+  # xdg-terminal-exec spec (GTK/GLib "open in terminal", desktop entries with
+  # Terminal=true, etc.).
+  xdg.configFile."xdg-terminals.list".text = ''
+    com.mitchellh.ghostty.desktop
+  '';
 }

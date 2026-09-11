@@ -80,6 +80,12 @@
       binding = "<Super>Return";
     };
 
+    # Legacy GNOME terminal preference, still honoured by some older apps.
+    "org/gnome/desktop/applications/terminal" = {
+      exec = "ghostty";
+      exec-arg = "-e";
+    };
+
     "org/gnome/desktop/notifications/application/com-mitchellh-ghostty" = {
       application-id = "com.mitchellh.ghostty.desktop";
       enable = false;
