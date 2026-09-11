@@ -1,0 +1,23 @@
+# Claude Code
+.claude/
+CLAUDE.md
+
+# Nix build outputs — `nixos-rebuild build` and `nix build` drop these symlinks
+# in the working directory.
+result
+result-*
+
+# Nix develop / direnv
+.direnv/
+.envrc.local
+
+# NixOS VM images from `nixos-rebuild build-vm`
+*.qcow2
+
+# Editor and OS noise
+*.swp
+*~
+.DS_Store
+
+# NOTE: flake.lock is deliberately NOT ignored — it pins your inputs and must
+# be committed for the config to be reproducible.
