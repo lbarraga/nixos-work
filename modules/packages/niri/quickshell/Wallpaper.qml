@@ -18,7 +18,7 @@ PanelWindow {
     right: true
   }
 
-  color: "#1e1e2e"
+  color: "#14160e"
 
   Image {
     anchors.fill: parent

@@ -1,8 +1,8 @@
-/* Theme for the YubiKey PIN prompt. Dark, centred, no result list. */
+/* Theme for the YubiKey PIN prompt. Ninth Wave palette -- see CLAUDE.md. */
 * {
-    bg:     #1a1b26;
-    fg:     #c0caf5;
-    accent: #7aa2f7;
+    bg:     #232518;
+    fg:     #efe3c4;
+    accent: #f5d62e;
     background-color: transparent;
     text-color:       @fg;
     font:             "monospace 12";

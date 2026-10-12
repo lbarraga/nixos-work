@@ -12,11 +12,14 @@ PanelWindow {
   }
 
   implicitHeight: 30
-  color: "#1e1e2e"
+
+  // Ninth Wave palette -- see CLAUDE.md. Slightly translucent so the painting
+  // tints the bar, matching foot's glass.
+  color: "#d0232518"
 
   Text {
     anchors.centerIn: parent
-    color: "#cdd6f4"
+    color: "#efe3c4"
     font.pixelSize: 14
     text: Qt.formatDateTime(clock.date, "HH:mm")
   }

@@ -94,6 +94,50 @@ One file (or folder) per machine, defining `flake.nixosConfigurations.<name>`.
 - Do NOT build configs by appending Nix strings to a file read with `builtins.readFile`.
 - Do NOT put niri `output` blocks in the config by default. The laptop docks into unknown monitor setups, and niri's automatic placement plus `niri msg output` covers that.
 
+## Colors: the Ninth Wave palette
+
+The desktop is themed after the wallpaper, Aivazovsky's *The Ninth Wave*. The
+colors below were sampled from the painting itself with imagemagick, then the
+darkest and lightest were nudged until every foreground reaches WCAG AA on the
+base.
+
+| Role | Hex | From the painting |
+|---|---|---|
+| base | `#14160E` | deepest shadow -- window and terminal background |
+| surface | `#232518` | bar, panels, pinentry box |
+| overlay | `#3F402B` | selections, borders, inactive ring |
+| muted | `#9A8265` | comments, placeholder, inactive text |
+| text | `#EFE3C4` | warm parchment, never pure white |
+| sun | `#F5D62E` | primary accent: prompt, focus ring, matches |
+| amber | `#DE982D` | warnings, git dirty, selection background |
+| fire | `#E8703A` | errors, urgent |
+| rust | `#C96A4A` | secondary red; also stands in for magenta |
+| crest | `#9DBF4E` | success, git clean |
+| sea | `#7FB0B3` | the only cool tone in the painting; info, the "blue" slot |
+
+The painting has no purple, so the magenta slot reuses `rust` rather than
+inventing a hue that is not on the canvas.
+
+**The hexes are hardcoded in each config, on purpose.** There is no palette
+module and no theming system. Two of the consumers (`Bar.qml` and
+`pinentry.rasi`) are native config formats, and feeding Nix values into them
+would need the substitution this file forbids -- so a shared palette could
+never have covered more than half of them anyway. Changing a color means
+editing these files:
+
+- `modules/packages/foot.nix` -- `colors` block, 16 ANSI slots
+- `modules/packages/fuzzel.nix` -- `colors` block (RRGGBBAA)
+- `modules/packages/starship.nix` -- `style` strings
+- `modules/packages/niri/config.kdl` -- `focus-ring` and `border` colors
+- `modules/packages/niri/quickshell/Bar.qml` -- bar background and text
+- `modules/packages/niri/quickshell/Wallpaper.qml` -- pre-load fallback
+- `modules/features/yubikey/pinentry.rasi` -- the `*` block
+
+Transparency: foot runs at `alpha=0.82` with `blur=yes`, and the bar at
+`#d0232518`, so the wallpaper shows through both. The blur is real -- niri
+advertises `ext_background_effect_manager_v1`, which is the protocol foot's
+`blur` option requires.
+
 ## Current state of the key files
 
 `modules/packages/niri/niri.nix`:
