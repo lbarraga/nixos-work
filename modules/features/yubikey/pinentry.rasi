@@ -1,0 +1,38 @@
+/* Theme for the YubiKey PIN prompt. Dark, centred, no result list. */
+* {
+    bg:     #1a1b26;
+    fg:     #c0caf5;
+    accent: #7aa2f7;
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "monospace 12";
+}
+
+window {
+    location:         center;
+    anchor:           center;
+    width:            28em;
+    padding:          1.5em;
+    border:           2px;
+    border-color:     @accent;
+    border-radius:    12px;
+    background-color: @bg;
+}
+
+mainbox {
+    children: [ message, inputbar ];
+    spacing:  1.2em;
+}
+
+message { padding: 0; }
+textbox { text-color: @fg; }
+
+inputbar {
+    children: [ prompt, entry ];
+    spacing:  0.6em;
+}
+
+prompt { text-color: @accent; }
+entry  { placeholder: ""; }
+
+listview { enabled: false; }

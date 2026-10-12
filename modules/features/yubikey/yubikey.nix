@@ -2,6 +2,22 @@
   flake.modules.nixos.yubikey = {pkgs, ...}: let
     # The card's key: used for ssh (authentication subkey) and git signing.
     fingerprint = "7D7927AE9E9E61C7736EE6A8D78940BF1814BF2E";
+
+    # gpg-agent's `pinentry-program` takes a path and no arguments, so the
+    # theme has to be baked into the rofi that pinentry-rofi calls.
+    # bemenu cannot do this: it is a dmenu bar, always full width at a screen
+    # edge, with no option for a centred box.
+    themedRofi = pkgs.symlinkJoin {
+      name = "rofi-pinentry";
+      paths = [pkgs.rofi];
+      nativeBuildInputs = [pkgs.makeWrapper];
+      postBuild = ''
+        wrapProgram $out/bin/rofi --add-flags "-theme ${./pinentry.rasi}"
+      '';
+    };
+
+    # Private to this feature: a pinentry is not useful on its own.
+    pinentry = pkgs.pinentry-rofi.override {rofi = themedRofi;};
   in {
     services.pcscd.enable = true;
     services.udev.packages = with pkgs; [yubikey-personalization];
@@ -12,9 +28,7 @@
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      # pinentry-gnome3 prompts through gcr's D-Bus prompter, which does not
-      # run under niri. The Qt one talks Wayland directly.
-      pinentryPackage = pkgs.pinentry-qt;
+      pinentryPackage = pinentry;
     };
 
     # gpg keeps its keyring in $HOME, so there is nothing for a NixOS option to
