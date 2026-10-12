@@ -1,10 +1,8 @@
 {
-  flake.modules.nixos.base = { pkgs, ... }: {
+  flake.modules.nixos.base = {
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-    environment.systemPackages = with pkgs; [
-      vim
-      git
-    ];
+    programs.nh.enable = true;
+    programs.nix-ld.enable = true;
   };
 }

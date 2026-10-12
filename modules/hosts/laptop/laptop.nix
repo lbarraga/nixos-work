@@ -1,4 +1,8 @@
-{ config, inputs, ... }: {
+{
+  config,
+  inputs,
+  ...
+}: {
   flake.nixosConfigurations.laptop = inputs.nixpkgs.lib.nixosSystem {
     modules = with config.flake.modules.nixos; [
       base
@@ -7,6 +11,13 @@
       user
       audio
       niri
+      desktop-apps
+      shell
+      fonts
+      claude-code
+      cli-tools
+      yubikey
+
       inputs.disko.nixosModules.disko
       ./_disko.nix
       ./_hardware-configuration.nix

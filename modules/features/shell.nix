@@ -1,0 +1,47 @@
+{ self, ... }: {
+  flake.modules.nixos.shell = { pkgs, lib, ... }:
+    let
+      mine = self.packages.${pkgs.stdenv.hostPlatform.system};
+    in {
+      programs.zsh = {
+        enable = true;
+        enableCompletion = true;
+        autosuggestions.enable = true;
+        syntaxHighlighting.enable = true;
+        histSize = 50000;
+
+        # NixOS runs `prompt suse` after interactiveShellInit, which overwrites
+        # whatever starship just set up.
+        promptInit = "";
+
+        shellAliases = {
+          ls = "eza --git --icons=auto";
+          ll = "eza -lah --git --icons=auto";
+          lt = "eza --tree --git --icons=auto";
+          open = "xdg-open";
+          temp = ''cd "$(mktemp -d)"'';
+          nix-shell = "nix-shell --run zsh";
+        };
+
+        # mkAfter so this lands after the plugin modules: autosuggest-accept
+        # only exists once zsh-autosuggestions has been sourced.
+        interactiveShellInit = lib.mkAfter ''
+          zstyle ':completion:*' menu select
+          zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+          bindkey '^o' autosuggest-accept
+          bindkey '\e[1;5D' backward-word
+          bindkey '\e[1;5C' forward-word
+          bindkey '^k' up-line-or-history
+          bindkey '^j' down-line-or-history
+
+          eval "$(${lib.getExe mine.starship} init zsh)"
+        '';
+      };
+
+      # Programs the aliases call by name.
+      environment.systemPackages = [ pkgs.eza pkgs.xdg-utils ];
+
+      users.users.lukasbt.shell = pkgs.zsh;
+    };
+}

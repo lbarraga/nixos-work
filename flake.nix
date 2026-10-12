@@ -11,6 +11,9 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # My nixvim config. It pins its own nixpkgs on purpose: nixvim plugins are
+    # built against it, and following ours tends to break them.
+    neovim.url = "github:lbarraga/neovim";
   };
 
   outputs = inputs:

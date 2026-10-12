@@ -15,6 +15,7 @@
           pkgs.xwayland-satellite
           pkgs.playerctl
           pkgs.brightnessctl
+          pkgs.procps
           { data = niriBar; prefix = true; }
         ];
       };

@@ -6,6 +6,7 @@
       network
       user
       claude-code
+      cli-tools
       {
         nixpkgs.hostPlatform = "x86_64-linux";
         networking.hostName = "claude-vm";
