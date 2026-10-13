@@ -366,7 +366,7 @@ binds {
     Mod+RETURN hotkey-overlay-title="Open a Terminal: foot" { spawn "footclient"; }
     Mod+SPACE hotkey-overlay-title="Run an Application: fuzzel" { spawn-sh "pkill fuzzel || exec fuzzel"; }
 
-    // Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.

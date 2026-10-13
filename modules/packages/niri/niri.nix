@@ -36,6 +36,7 @@
         pkgs.playerctl
         pkgs.brightnessctl
         pkgs.procps
+        config.packages.hyprlock
         {
           data = niriBar;
           prefix = true;
