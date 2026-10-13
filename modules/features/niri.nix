@@ -15,14 +15,13 @@
     hardware.graphics.enable = true;
     services.upower.enable = true;
 
-    # The niri wrapper ships an ExecReload pointing at its own generated
-    # niri-config.kdl, which is empty because our config arrives through
-    # "config.kdl".path rather than the wrapper's `settings`. Every switch
-    # reloads the unit and would load that empty file into the running
-    # session, wiping every keybind. Without --path, niri reloads the file it
-    # actually started with.
-    systemd.user.services.niri.serviceConfig.ExecReload =
-      lib.mkForce "${mine.niri}/bin/niri msg action load-config-file";
+    # ExecReload is a systemd list: a second assignment appends rather than
+    # replaces, so the wrapper's --path line would still run after ours and
+    # load the empty config anyway. The empty string first resets the list.
+    systemd.user.services.niri.serviceConfig.ExecReload = lib.mkForce [
+      ""
+      "${mine.niri}/bin/niri msg action load-config-file"
+    ];
 
     # hyprlock authenticates through PAM. Without this service file every
     # password is rejected, with no hint as to why.

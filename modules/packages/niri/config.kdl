@@ -638,3 +638,16 @@ cursor {
     xcursor-theme "Bibata-Modern-Amber"
     xcursor-size 24
 }
+
+// The desk monitor at work, matched by make/model/serial rather than by
+// connector, so it follows the screen and not the port. The block is inert
+// when this monitor is not connected; every other setup still gets niri's
+// automatic placement, per the rule in CLAUDE.md.
+output "Dell Inc. DELL P2422H 3HS55V3" {
+    position x=1920 y=0
+}
+
+// Pinned only so the Dell above has something to sit to the right of.
+output "LG Display 0x07E0 Unknown" {
+    position x=0 y=0
+}
