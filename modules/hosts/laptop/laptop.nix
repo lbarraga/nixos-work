@@ -16,6 +16,7 @@
       fonts
       claude-code
       cli-tools
+      notifications
       yubikey
 
       inputs.disko.nixosModules.disko
