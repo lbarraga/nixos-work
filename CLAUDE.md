@@ -131,6 +131,7 @@ editing these files:
 - `modules/packages/niri/config.kdl` -- `focus-ring` and `border` colors
 - `modules/packages/niri/quickshell/Bar.qml` -- bar background and text
 - `modules/packages/niri/quickshell/Wallpaper.qml` -- pre-load fallback
+- `modules/packages/fastfetch.nix` -- `logo.color` and `display.color`
 - `modules/features/yubikey/pinentry.rasi` -- the `*` block
 
 Transparency: foot runs at `alpha=0.82` with `blur=yes`, and the bar at

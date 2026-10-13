@@ -1,7 +1,10 @@
 {inputs, ...}: {
-  flake.modules.nixos.cli-tools = {pkgs, ...}: {
+  flake.modules.nixos.cli-tools = {pkgs, ...}: let
+    mine = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
+  in {
     environment.systemPackages = [
       inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
+      mine.fastfetch
     ]
     ++ (with pkgs; [
       git
@@ -9,7 +12,6 @@
       btop
       killall
       tree
-      fastfetch
       unzip
     ]);
 
