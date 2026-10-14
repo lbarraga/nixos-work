@@ -12,6 +12,7 @@
       ++ (with pkgs; [
         obsidian
         mattermost-desktop
+        papers # gnome pdf viewer
       ]);
 
     xdg.mime.defaultApplications = {
