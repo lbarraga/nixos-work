@@ -7,36 +7,36 @@
           font = "monospace:size=11";
         };
 
-        # Ninth Wave palette -- see CLAUDE.md. foot wants bare hex, no '#'.
+        # Charing Cross palette -- see CLAUDE.md. foot wants bare hex, no '#'.
         colors-dark = {
           # Glass: the painting shows through, and niri implements
           # ext-background-effect-v1, so the blur is real rather than faked.
           alpha = 0.82;
           blur = "yes";
 
-          background = "14160e";
-          foreground = "efe3c4";
+          background = "0c1a21";
+          foreground = "deeaf2";
 
-          regular0 = "232518"; # black   / surface
-          regular1 = "c96a4a"; # red     / rust
-          regular2 = "9dbf4e"; # green   / wave crest
-          regular3 = "de982d"; # yellow  / amber
-          regular4 = "7fb0b3"; # blue    / deep sea
-          regular5 = "e8703a"; # magenta / fire (the painting has no purple)
-          regular6 = "7fb0b3"; # cyan    / deep sea
-          regular7 = "9a8265"; # white   / muted
+          regular0 = "14262e"; # black   / fog bank
+          regular1 = "cc6a5a"; # red     / ember, dimmed
+          regular2 = "6fb08a"; # green   / the halo round the sun
+          regular3 = "dbbc84"; # yellow  / sand
+          regular4 = "7fb1d8"; # blue    / the Thames
+          regular5 = "d98f7d"; # magenta / the sun, dimmed (no purple here)
+          regular6 = "86c3c9"; # cyan    / mist
+          regular7 = "7fa2ae"; # white   / fog
 
-          bright0 = "3f402b";
-          bright1 = "e8703a";
-          bright2 = "aaa136";
-          bright3 = "f5d62e";
-          bright4 = "9dc6c8";
-          bright5 = "f28737";
-          bright6 = "9dc6c8";
-          bright7 = "efe3c4";
+          bright0 = "23424d";
+          bright1 = "e0705a";
+          bright2 = "86c6a0";
+          bright3 = "ecd0a0";
+          bright4 = "9cc6e4";
+          bright5 = "f3a48e";
+          bright6 = "9fd4d8";
+          bright7 = "deeaf2";
 
-          selection-foreground = "14160e";
-          selection-background = "de982d";
+          selection-foreground = "0c1a21";
+          selection-background = "dbbc84";
         };
       };
     };

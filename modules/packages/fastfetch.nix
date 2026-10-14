@@ -3,24 +3,25 @@
     packages.fastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
       inherit pkgs;
       settings = {
-        # Ninth Wave palette -- see CLAUDE.md. fastfetch turns these into
+        # Charing Cross palette -- see CLAUDE.md. fastfetch turns these into
         # truecolor escapes, so the "#rrggbb" form is exact.
         #
-        # All three slots are `sea`, which is also where foot maps ANSI blue
-        # and cyan. That matters: the built-in NixOS logo bakes raw 34/36
-        # escapes into its art that these slots cannot override, and this is
-        # the one color choice that makes them blend in rather than clash.
+        # All three slots are `thames`. That matters: the built-in NixOS logo
+        # bakes raw 34/36 escapes into its art that these slots cannot
+        # override, and foot maps those two to `thames` and `mist` -- the same
+        # stretch of river a shade apart -- so the baked-in blues blend with
+        # the ones set here rather than clash.
         logo.color = {
-          "1" = "#7fb0b3"; # sea
-          "2" = "#7fb0b3";
-          "3" = "#7fb0b3";
+          "1" = "#7fb1d8"; # thames
+          "2" = "#7fb1d8";
+          "3" = "#7fb1d8";
         };
 
         display.color = {
-          title = "#f5d62e";
-          keys = "#9dbf4e";
-          separator = "#9a8265";
-          output = "#efe3c4";
+          title = "#f3a48e";
+          keys = "#6fb08a";
+          separator = "#7fa2ae";
+          output = "#deeaf2";
         };
 
         # Passing --config replaces fastfetch's built-in config wholesale, so

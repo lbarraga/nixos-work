@@ -5,7 +5,7 @@
     ...
   }: let
     mine = self.packages.${pkgs.stdenv.hostPlatform.system};
-    cursorTheme = "Bibata-Modern-Amber";
+    cursorTheme = "Bibata-Modern-Ice";
     cursorSize = 24;
   in {
     programs.niri = {

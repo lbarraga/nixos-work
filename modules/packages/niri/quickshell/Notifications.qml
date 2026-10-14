@@ -60,13 +60,13 @@ PanelWindow {
         width: parent.width
         implicitHeight: text.implicitHeight + 28
         radius: 10
-        color: "#f0232518"
+        color: "#f014262e"
         border.width: 2
         border.color: modelData.urgency === NotificationUrgency.Critical
-          ? "#e8703a"
+          ? "#e0705a"
           : modelData.urgency === NotificationUrgency.Low
-            ? "#3f402b"
-            : "#f5d62e"
+            ? "#23424d"
+            : "#f3a48e"
 
         // Slide in from off the right edge, then fade out on the way back.
         x: width
@@ -99,7 +99,7 @@ PanelWindow {
           Text {
             width: parent.width
             text: card.modelData.summary
-            color: "#efe3c4"
+            color: "#deeaf2"
             font.family: "monospace"
             font.pixelSize: 13
             font.bold: true
@@ -110,7 +110,7 @@ PanelWindow {
             width: parent.width
             visible: card.modelData.body !== ""
             text: card.modelData.body
-            color: "#efe3c4"
+            color: "#deeaf2"
             font.family: "monospace"
             font.pixelSize: 12
             wrapMode: Text.Wrap

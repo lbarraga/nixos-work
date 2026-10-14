@@ -9,17 +9,17 @@
           width = 40;
         };
 
-        # Ninth Wave palette -- see CLAUDE.md. fuzzel wants RRGGBBAA.
+        # Charing Cross palette -- see CLAUDE.md. fuzzel wants RRGGBBAA.
         colors = {
-          background = "232518f0";
-          text = "efe3c4ff";
-          prompt = "f5d62eff";
-          placeholder = "9a8265ff";
-          input = "efe3c4ff";
-          match = "f5d62eff";
-          selection = "3f402bff";
-          selection-text = "efe3c4ff";
-          selection-match = "f5d62eff";
+          background = "14262ef0";
+          text = "deeaf2ff";
+          prompt = "f3a48eff";
+          placeholder = "7fa2aeff";
+          input = "deeaf2ff";
+          match = "f3a48eff";
+          selection = "23424dff";
+          selection-text = "deeaf2ff";
+          selection-match = "f3a48eff";
         };
 
         border = {

@@ -11,6 +11,10 @@ PanelWindow {
   WlrLayershell.layer: WlrLayer.Background
   exclusionMode: ExclusionMode.Ignore
 
+  // A namespace of its own so the niri layer-rule can pick this surface out
+  // from the bar and the notifications, which are quickshell surfaces too.
+  WlrLayershell.namespace: "quickshell-wallpaper"
+
   anchors {
     top: true
     bottom: true
@@ -18,16 +22,23 @@ PanelWindow {
     right: true
   }
 
-  color: "#14160e"
+  color: "#0c1a21"
 
   Image {
     anchors.fill: parent
     source: "wallpaper.jpg"
 
+    // The scan keeps the bare canvas edge all the way around, a cream line a
+    // couple of dozen pixels wide that reads as a glitch once it is stretched
+    // across a screen. These numbers are the painted area of this exact file,
+    // which is safe to hardcode: the image is pinned by hash in niri.nix.
+    sourceClipRect: Qt.rect(26, 20, 2352, 1860)
+
     // The painting is taller than either screen, so filling the width leaves
-    // vertical overflow. AlignBottom throws away sky rather than sea.
+    // vertical overflow. AlignTop throws away water rather than the sun, which
+    // sits in the top left corner.
     fillMode: Image.PreserveAspectCrop
-    verticalAlignment: Image.AlignBottom
+    verticalAlignment: Image.AlignTop
 
     asynchronous: true
     cache: true

@@ -2,7 +2,7 @@
   perSystem = {pkgs, ...}: {
     packages.hyprlock = inputs.wrapper-modules.wrappers.hyprlock.wrap {
       inherit pkgs;
-      # Ninth Wave palette -- see CLAUDE.md. hyprlock wants rgba(rrggbbaa).
+      # Charing Cross palette -- see CLAUDE.md. hyprlock wants rgba(rrggbbaa).
       settings = {
         general = {
           hide_cursor = true;
@@ -27,7 +27,7 @@
           {
             monitor = "";
             text = "$TIME";
-            color = "rgba(efe3c4ff)";
+            color = "rgba(deeaf2ff)";
             font_size = 92;
             font_family = "monospace";
             position = "0, 120";
@@ -38,7 +38,7 @@
           {
             monitor = "";
             text = ''cmd[update:60000] date +"%A %-d %B"'';
-            color = "rgba(9a8265ff)";
+            color = "rgba(7fa2aeff)";
             font_size = 20;
             font_family = "monospace";
             position = "0, 50";
@@ -61,11 +61,11 @@
             dots_size = "0.25";
             dots_spacing = "0.3";
 
-            outer_color = "rgba(3f402bff)";
-            inner_color = "rgba(232518d0)";
-            font_color = "rgba(efe3c4ff)";
-            check_color = "rgba(f5d62eff)";
-            fail_color = "rgba(e8703aff)";
+            outer_color = "rgba(23424dff)";
+            inner_color = "rgba(14262ed0)";
+            font_color = "rgba(deeaf2ff)";
+            check_color = "rgba(f3a48eff)";
+            fail_color = "rgba(e0705aff)";
 
             placeholder_text = "";
             fail_text = "$FAIL";

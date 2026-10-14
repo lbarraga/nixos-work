@@ -1,1 +1,2 @@
 screenlock
+wallpaper should not move with workspaces

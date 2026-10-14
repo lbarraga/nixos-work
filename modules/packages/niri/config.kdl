@@ -114,6 +114,11 @@ layout {
     // Set gaps around windows in logical pixels.
     gaps 16
 
+    // Each workspace paints this behind its windows, on top of the backdrop.
+    // It has to be transparent, or it would cover the wallpaper that the
+    // layer-rule at the bottom of this file pins to the backdrop.
+    background-color "transparent"
+
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
@@ -168,13 +173,13 @@ layout {
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        active-color "#f5d62e"
+        active-color "#7fb1d8"
 
         // Color of the ring on inactive monitors.
         //
         // The focus ring only draws around the active window, so the only place
         // where you can see its inactive-color is on other monitors.
-        inactive-color "#3f402b"
+        inactive-color "#23424d"
 
         // You can also use gradients. They take precedence over solid colors.
         // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
@@ -199,11 +204,11 @@ layout {
         off
 
         width 4
-        active-color "#f5d62e"
-        inactive-color "#3f402b"
+        active-color "#7fb1d8"
+        inactive-color "#23424d"
 
         // Color of the border around windows that request your attention.
-        urgent-color "#e8703a"
+        urgent-color "#e0705a"
 
         // Gradients can use a few different interpolation color spaces.
         // For example, this is a pastel rainbow gradient via in="oklch longer hue".
@@ -345,6 +350,24 @@ window-rule {
 window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
+}
+
+// Pin the wallpaper to the backdrop: the painting then stays put while the
+// workspaces slide over it, and it shows through in the overview. Only works
+// for background-layer surfaces that ignore exclusive zones, which is what
+// Wallpaper.qml asks for. The namespace is set in that same file; `niri msg
+// layers` lists what every surface is actually called.
+layer-rule {
+    match namespace="^quickshell-wallpaper$"
+    place-within-backdrop true
+}
+
+// With a transparent workspace background there is nothing for these to fall
+// on, so in the overview they would just be grey rectangles over the painting.
+overview {
+    workspace-shadow {
+        off
+    }
 }
 
 binds {
@@ -635,7 +658,7 @@ binds {
 }
 
 cursor {
-    xcursor-theme "Bibata-Modern-Amber"
+    xcursor-theme "Bibata-Modern-Ice"
     xcursor-size 24
 }
 

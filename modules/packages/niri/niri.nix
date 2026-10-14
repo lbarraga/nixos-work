@@ -4,12 +4,14 @@
     config,
     ...
   }: let
-    # Aivazovsky, The Ninth Wave (1850), public domain. Fetched rather than
-    # committed so the repo stays free of a multi-megabyte binary.
+    # Monet, Charing Cross Bridge, Fog on the Thames (1903), Harvard Art
+    # Museums. The painting is public domain; the photograph of it is the
+    # museum's, under CC BY-SA 4.0. Fetched rather than committed so the repo
+    # stays free of a multi-megabyte binary.
     wallpaper = pkgs.fetchurl {
-      name = "ninth-wave.jpg";
-      url = "https://upload.wikimedia.org/wikipedia/commons/5/54/Aivazovsky%2C_Ivan_-_The_Ninth_Wave.jpg";
-      hash = "sha256-cKiZM4RJcW1sJSnR9Zsx33uFGWW7waBBXS++SZIUarM=";
+      name = "charing-cross-fog.jpg";
+      url = "https://upload.wikimedia.org/wikipedia/commons/6/6f/Monet_-_Charing_Cross_Bridge_Fog_on_the_Thames%2C_1903.jpg";
+      hash = "sha256-BnII6HdiuQSZrGTEhvUsX0v7JAQu1qRheVPl36Hpe/A=";
     };
 
     # The QML refers to the image as a plain relative path, so the image has to

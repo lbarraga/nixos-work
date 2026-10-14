@@ -6,7 +6,7 @@
         format = "$directory$git_branch$git_status$cmd_duration$line_break$character";
 
         directory = {
-          style = "bold #7fb0b3";
+          style = "bold #7fb1d8";
           format = "[$path]($style) ";
           truncation_length = 3;
           truncation_symbol = "…/";
@@ -20,12 +20,12 @@
 
         git_branch = {
           symbol = " ";
-          style = "bold #de982d";
+          style = "bold #dbbc84";
           format = "[$symbol$branch]($style) ";
         };
 
         git_status = {
-          style = "bold #f5d62e";
+          style = "bold #f3a48e";
           format = "[$all_status$ahead_behind]($style)";
           untracked = "?\${count} ";
           stashed = "$\${count} ";
@@ -41,13 +41,13 @@
 
         cmd_duration = {
           min_time = 500;
-          style = "#9a8265";
+          style = "#7fa2ae";
           format = "[$duration]($style) ";
         };
 
         character = {
-          success_symbol = "[❯](bold #9dbf4e)";
-          error_symbol = "[❯](bold #e8703a)";
+          success_symbol = "[❯](bold #6fb08a)";
+          error_symbol = "[❯](bold #e0705a)";
         };
       };
     };
