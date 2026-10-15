@@ -10,6 +10,7 @@
       network
       user
       audio
+      power
       niri
       desktop-apps
       shell
@@ -18,6 +19,8 @@
       cli-tools
       notifications
       bluetooth
+      printing
+      removable-media
       yubikey
       docker
 

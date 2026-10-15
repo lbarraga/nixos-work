@@ -31,6 +31,11 @@
       mine.foot
       mine.fuzzel
       pkgs.bibata-cursors
+
+      # wl-copy and wl-paste, for piping to the clipboard from a shell. Only
+      # useful inside a Wayland session, which is why they live here. nvim does
+      # not need this -- nixvim puts its own copy on the editor's PATH.
+      pkgs.wl-clipboard
     ];
 
     environment.sessionVariables = {
