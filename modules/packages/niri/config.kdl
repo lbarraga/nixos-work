@@ -674,3 +674,21 @@ output "Dell Inc. DELL P2422H 3HS55V3" {
 output "LG Display 0x07E0 Unknown" {
     position x=0 y=0
 }
+
+// The desktop's three screens, left to right. The two LG panels are identical
+// in make and model, so the serial is the only thing that tells them apart and
+// niri's automatic placement had them the wrong way round. Inert elsewhere,
+// like the blocks above.
+output "LG Electronics LG ULTRAGEAR 408NTHM0H177" {
+    position x=0 y=0
+}
+
+output "LG Electronics LG ULTRAGEAR 408NTEP0H164" {
+    position x=2560 y=0
+}
+
+output "Microstep MSI G271 0x30303334" {
+    // EDID marks 60 Hz as preferred, so niri picks that without being told.
+    mode "1920x1080@144.013"
+    position x=5120 y=0
+}
