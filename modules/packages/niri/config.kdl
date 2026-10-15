@@ -173,13 +173,13 @@ layout {
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        active-color "#7fb1d8"
+        active-color "#4fb0f8"
 
         // Color of the ring on inactive monitors.
         //
         // The focus ring only draws around the active window, so the only place
         // where you can see its inactive-color is on other monitors.
-        inactive-color "#23424d"
+        inactive-color "#24406b"
 
         // You can also use gradients. They take precedence over solid colors.
         // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
@@ -204,11 +204,11 @@ layout {
         off
 
         width 4
-        active-color "#7fb1d8"
-        inactive-color "#23424d"
+        active-color "#4fb0f8"
+        inactive-color "#24406b"
 
         // Color of the border around windows that request your attention.
-        urgent-color "#e0705a"
+        urgent-color "#ec7a8c"
 
         // Gradients can use a few different interpolation color spaces.
         // For example, this is a pastel rainbow gradient via in="oklch longer hue".
@@ -352,7 +352,7 @@ window-rule {
     clip-to-geometry true
 }
 
-// Pin the wallpaper to the backdrop: the painting then stays put while the
+// Pin the wallpaper to the backdrop: the wallpaper then stays put while the
 // workspaces slide over it, and it shows through in the overview. Only works
 // for background-layer surfaces that ignore exclusive zones, which is what
 // Wallpaper.qml asks for. The namespace is set in that same file; `niri msg
@@ -363,7 +363,7 @@ layer-rule {
 }
 
 // With a transparent workspace background there is nothing for these to fall
-// on, so in the overview they would just be grey rectangles over the painting.
+// on, so in the overview they would just be grey rectangles over the wallpaper.
 overview {
     workspace-shadow {
         off

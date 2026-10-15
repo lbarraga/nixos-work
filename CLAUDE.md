@@ -94,38 +94,40 @@ One file (or folder) per machine, defining `flake.nixosConfigurations.<name>`.
 - Do NOT build configs by appending Nix strings to a file read with `builtins.readFile`.
 - Do NOT put niri `output` blocks in the config by default. The laptop docks into unknown monitor setups, and niri's automatic placement plus `niri msg output` covers that.
 
-## Colors: the Charing Cross palette
+## Colors: the Blue Hour palette
 
-The desktop is themed after the wallpaper, Monet's *Charing Cross Bridge, Fog
-on the Thames* (1903). The colors below were sampled from the painting itself
-with imagemagick, then stretched at the dark end: the canvas is high-key --
-half of it is pale blue fog -- so there is no shadow deep enough to sit a
-terminal on. The base and surface are the river's own hue carried down past
-anything Monet actually painted, until every foreground reaches WCAG AA on the
-base.
+The desktop is themed after the wallpaper, a flat-vector mountain landscape at
+`modules/packages/niri/quickshell/wallpaper.jpg`. The structural colors were
+sampled from the image itself with imagemagick, then the dark end was extended:
+the darkest thing actually in the image is a saturated indigo peak, far too
+bright and too chromatic to sit a terminal on, so `base` and `surface` carry
+that same hue down into the night behind it until every foreground reaches
+WCAG AA on the base.
 
-| Role | Hex | From the painting |
+| Role | Hex | From the wallpaper |
 |---|---|---|
-| base | `#0C1A21` | the Thames at its deepest -- window and terminal background |
-| surface | `#14262E` | the fog bank; bar, panels, pinentry box |
-| overlay | `#23424D` | the bridge's silhouette; selections, borders, inactive ring |
-| muted | `#7FA2AE` | fog; comments, placeholder, inactive text |
-| text | `#DEEAF2` | pale sky, never pure white |
-| sun | `#F3A48E` | the pink sun through the fog: prompt, matches |
-| sand | `#DBBC84` | warm glints on the water; warnings, git dirty, selection background |
-| ember | `#E0705A` | that same sun at full strength; errors, urgent |
-| moss | `#6FB08A` | the green halo around the sun; success, git clean |
-| thames | `#7FB1D8` | the river; info, the "blue" slot, niri's focus ring |
-| mist | `#86C3C9` | where the water turns green-blue; the "cyan" slot |
+| base | `#0A1226` | the night behind the furthest peak -- window and terminal background |
+| surface | `#121D36` | the far ridge; bar, panels, pinentry box |
+| overlay | `#24406B` | mid-mountain shadow; selections, borders, inactive ring |
+| muted | `#7D9CC2` | haze on the ridge line; comments, placeholder, inactive text |
+| text | `#E9F4FA` | the sun's disc, cooled; never pure white |
+| glow | `#F0DCA0` | the sun's light, warmed: prompt, matches, focus accents |
+| sand | `#DCB169` | the same light lower and deeper; warnings, git dirty, selection background |
+| rose | `#EC7A8C` | *not in the image*; errors, urgent |
+| mint | `#5FC9A4` | *not in the image*; a neighbour of the valley teal; success, git clean |
+| sky | `#4FB0F8` | the sky, half the canvas; info, the "blue" slot, niri's focus ring |
+| haze | `#7FD8F2` | light at the horizon; the "cyan" slot |
+| iris | `#A99BF2` | *not in the image*; a neighbour of the deepest indigo; the magenta slot |
 
-The painting has no purple, so the magenta slot reuses a dimmed `sun` rather
-than inventing a hue that is not on the canvas.
-
-The whole canvas is cold except for the sun and its reflection, and the palette
-keeps that: `sun`, `sand` and `ember` are the only warm colors, everything
-structural is a value of the same blue-green. Where the old palette had one
-cool tone against warm, this one is the reverse -- so warm now means *accent*,
-and it should stay rare.
+**This wallpaper is a single hue family.** 99.4% of its pixels fall between
+hue 190 and 240, and the "sun" is near-white (`#EDFBF1`) rather than warm.
+There is no red, yellow, green or magenta anywhere on it to sample. So four
+slots had to be invented, and the rule used was: keep the chroma and lightness
+of the colors that *are* in the image, and prefer hues that neighbour one
+already present. `mint` sits beside the valley teal, `iris` beside the indigo
+peaks, and `glow`/`sand` are the sun's light pushed warm -- which is also what
+makes them the only warm colors in the scheme, and therefore the accents.
+Warm should stay rare here; everything structural is a value of the same blue.
 
 **The hexes are hardcoded in each config, on purpose.** There is no palette
 module and no theming system. Two of the consumers (`Bar.qml` and
@@ -139,49 +141,123 @@ editing these files:
 - `modules/packages/starship.nix` -- `style` strings
 - `modules/features/shell.nix` -- `autosuggestions.highlightStyle`
 - `modules/packages/niri/config.kdl` -- `focus-ring` and `border` colors
-- `modules/packages/niri/quickshell/Bar.qml` -- bar background and text
-- `modules/packages/niri/quickshell/Wallpaper.qml` -- pre-load fallback
-- `modules/packages/niri/quickshell/Notifications.qml` -- card background, and
-  the border, which is `ember` / `sun` / `overlay` by urgency
+- `modules/packages/niri/quickshell/Colors.qml` -- **every** color used by the
+  QML side: the bar and its widgets, the wallpaper fallback, the notification
+  cards. The one place where sharing is possible at all, since it is a single
+  language with no Nix substitution involved
 - `modules/packages/fastfetch.nix` -- `logo.color` and `display.color`
 - `modules/packages/hyprlock.nix` -- `label` and `input-field` colors
-- `modules/features/yubikey/pinentry.rasi` -- the `*` block
+- `modules/packages/pinentry/pinentry.rasi` -- the `*` block
+
+Two of those hide from a naive grep: `fuzzel.nix` writes `RRGGBBAA` and
+`hyprlock.nix` writes `rgba(rrggbbaa)`, so a search for six hex digits with
+word boundaries misses both. Search for the bare hex without `\b`.
 
 Transparency: foot runs at `alpha=0.82` with `blur=yes`, and the bar at
-`#d014262e`, so the wallpaper shows through both. The blur is real -- niri
+`#d0121d36`, so the wallpaper shows through both. The blur is real -- niri
 advertises `ext_background_effect_manager_v1`, which is the protocol foot's
 `blur` option requires.
 
+## The bar
+
+`./quickshell` is one quickshell instance drawing the wallpaper, the bar and
+the notifications. The bar is split one file per widget, and since quickshell
+auto-registers everything in the config directory, a new widget is a new file
+plus one line in `Bar.qml`.
+
+| File | What it is |
+|---|---|
+| `shell.qml` | the three `Variants`, one per screen |
+| `Bar.qml` | layout only: workspaces left, clock centre, status right, plus the hairline that separates other people's tray icons from our own readouts |
+| `Colors.qml` | singleton, the palette |
+| `Niri.qml` | singleton, workspace state from niri's IPC |
+| `Workspaces.qml` | one pill per workspace, click to focus |
+| `TrayWidget.qml` | system tray, chevron collapses it horizontally |
+| `BluetoothWidget.qml` | adapter state, hidden when the machine has no adapter |
+| `NetworkWidget.qml` | wired/wireless icon; wired wins when both are up |
+| `BatteryWidget.qml` | level and percentage |
+| `Tooltip.qml` | the hover popup the status icons share |
+
+Hovering a status icon opens a `Tooltip`, which is a real `PopupWindow`: the
+bar is 30px tall and claims an exclusive zone, so anything drawn inside it
+would be clipped. It waits 350ms before appearing, so crossing the icons on
+the way elsewhere does not flash three popups.
+
+Clicking opens a manager, named in a `managerCommand` property at the top of
+each widget. Bluetooth gets blueman. Wifi gets the fuzzel picker in
+`packages/networkmanager-dmenu.nix`, because NetworkManager has no small GTK
+window of its own: nm-connection-editor only edits saved connections, and the
+only GUI that actually scans is the whole GNOME Settings application. Neither
+program is in niri's `runtimePkgs` -- they come from the NixOS side
+(`features/network.nix` and `features/bluetooth.nix`), so on another machine
+the click is simply a no-op.
+
+Offline is three states, not two. A link can be associated with nothing behind
+it, so `NetworkWidget` reads `Networking.connectivity` as well: connected and
+`Full` is normal, connected and anything else is `sand` with "no internet" on
+the hover label, and no connected device at all strikes the icon through.
+
+Quickshell 0.3 ships modules for Hyprland and i3 but **not** for niri, so
+`Niri.qml` runs `niri msg --json event-stream` itself. It only reacts to events
+whose name contains `Workspace`: window events fire on every title change,
+which inside a terminal means on every keystroke. Rather than replaying events
+into a local model it re-reads `niri msg --json workspaces` on a 25ms debounce,
+which cannot drift out of sync and costs a few milliseconds.
+
+Things that cost time to find out, all verified against the running session
+rather than assumed:
+
+- **Do not name a singleton `Palette`.** QtQuick has a built-in `Palette` value
+  type, and it wins the name lookup silently -- every color resolves to
+  `undefined`, with a warning that never mentions the collision. Hence
+  `Colors.qml`.
+- A singleton declaring `property color` must `import QtQuick`. Importing only
+  `Quickshell` fails with `color is not a type`.
+- `UPowerDevice.percentage` is a **0..1 ratio**, not 0..100.
+- `UPower.onBattery` is wrong on this laptop -- it reads `false` while the
+  battery is discharging, because the machine exposes three line-power devices.
+  Use `displayDevice.state` (1 charging, 2 discharging, 4 full).
+- Quickshell services connect lazily and populate asynchronously: a singleton
+  read from a one-off `Component.onCompleted` returns empty. Bind to them
+  instead, which is also how a widget should use them anyway.
+- Inside `Connections`, `parent` is not the enclosing element. Give the
+  `Canvas` an id and call `theId.requestPaint()`.
+
+Widget icons are drawn with `Canvas` rather than set as font glyphs, so none of
+this depends on which icons the monospace font happens to ship.
+
 ## Current state of the key files
 
-`modules/packages/niri/niri.nix`:
+`modules/packages/niri/niri.nix`. The bar is wrapped inline here rather than in
+its own file: it is private to niri, so it never needs `_module.args` to cross
+a file boundary. `configDir` is handed the whole `./quickshell` directory,
+wallpaper included, so dropping a new `.qml` or swapping the image needs no
+change here.
 ```nix
 { inputs, ... }: {
-  perSystem = { pkgs, config, niriBar, ... }: {
-    packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
-      inherit pkgs;
-      "config.kdl".path = ./config.kdl;
-      runtimePkgs = [
-        config.packages.foot
-        config.packages.fuzzel
-        pkgs.xwayland-satellite
-        { data = niriBar; prefix = true; }
-      ];
+  perSystem = { pkgs, config, ... }:
+    let
+      niriBar = inputs.wrapper-modules.wrappers.quickshell.wrap {
+        inherit pkgs;
+        configDir = ./quickshell;
+      };
+    in {
+      packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
+        inherit pkgs;
+        "config.kdl".path = ./config.kdl;
+        runtimePkgs = [
+          config.packages.foot
+          config.packages.fuzzel
+          pkgs.xwayland-satellite
+          pkgs.playerctl
+          pkgs.brightnessctl
+          pkgs.procps
+          config.packages.hyprlock
+          { data = niriBar; prefix = true; }
+        ];
+      };
+      packages.default = config.packages.niri;
     };
-    packages.default = config.packages.niri;
-  };
-}
-```
-
-`modules/packages/niri/bar.nix`:
-```nix
-{ inputs, ... }: {
-  perSystem = { pkgs, ... }: {
-    _module.args.niriBar = inputs.wrapper-modules.wrappers.quickshell.wrap {
-      inherit pkgs;
-      configDir = ./quickshell;
-    };
-  };
 }
 ```
 

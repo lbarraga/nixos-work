@@ -7,36 +7,36 @@
           font = "monospace:size=11";
         };
 
-        # Charing Cross palette -- see CLAUDE.md. foot wants bare hex, no '#'.
+        # Blue Hour palette -- see CLAUDE.md. foot wants bare hex, no '#'.
         colors-dark = {
-          # Glass: the painting shows through, and niri implements
+          # Glass: the wallpaper shows through, and niri implements
           # ext-background-effect-v1, so the blur is real rather than faked.
           alpha = 0.82;
           blur = "yes";
 
-          background = "0c1a21";
-          foreground = "deeaf2";
+          background = "0a1226";
+          foreground = "e9f4fa";
 
-          regular0 = "14262e"; # black   / fog bank
-          regular1 = "cc6a5a"; # red     / ember, dimmed
-          regular2 = "6fb08a"; # green   / the halo round the sun
-          regular3 = "dbbc84"; # yellow  / sand
-          regular4 = "7fb1d8"; # blue    / the Thames
-          regular5 = "d98f7d"; # magenta / the sun, dimmed (no purple here)
-          regular6 = "86c3c9"; # cyan    / mist
-          regular7 = "7fa2ae"; # white   / fog
+          regular0 = "121d36"; # black   / the far ridge
+          regular1 = "d26a7c"; # red     / rose, dimmed
+          regular2 = "4fb492"; # green   / mint, dimmed
+          regular3 = "dcb169"; # yellow  / sand
+          regular4 = "4fb0f8"; # blue    / the sky
+          regular5 = "9385dc"; # magenta / iris, dimmed
+          regular6 = "5fc2df"; # cyan    / haze, dimmed
+          regular7 = "7d9cc2"; # white   / the haze on the ridge line
 
-          bright0 = "23424d";
-          bright1 = "e0705a";
-          bright2 = "86c6a0";
-          bright3 = "ecd0a0";
-          bright4 = "9cc6e4";
-          bright5 = "f3a48e";
-          bright6 = "9fd4d8";
-          bright7 = "deeaf2";
+          bright0 = "24406b";
+          bright1 = "ec7a8c";
+          bright2 = "5fc9a4";
+          bright3 = "f0dca0";
+          bright4 = "7fc4ff";
+          bright5 = "a99bf2";
+          bright6 = "7fd8f2";
+          bright7 = "e9f4fa";
 
-          selection-foreground = "0c1a21";
-          selection-background = "dbbc84";
+          selection-foreground = "0a1226";
+          selection-background = "dcb169";
         };
       };
     };

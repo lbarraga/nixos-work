@@ -60,13 +60,13 @@ PanelWindow {
         width: parent.width
         implicitHeight: text.implicitHeight + 28
         radius: 10
-        color: "#f014262e"
+        color: Colors.cardBackground
         border.width: 2
         border.color: modelData.urgency === NotificationUrgency.Critical
-          ? "#e0705a"
+          ? Colors.rose
           : modelData.urgency === NotificationUrgency.Low
-            ? "#23424d"
-            : "#f3a48e"
+            ? Colors.overlay
+            : Colors.glow
 
         // Slide in from off the right edge, then fade out on the way back.
         x: width
@@ -99,7 +99,7 @@ PanelWindow {
           Text {
             width: parent.width
             text: card.modelData.summary
-            color: "#deeaf2"
+            color: Colors.text
             font.family: "monospace"
             font.pixelSize: 13
             font.bold: true
@@ -110,7 +110,7 @@ PanelWindow {
             width: parent.width
             visible: card.modelData.body !== ""
             text: card.modelData.body
-            color: "#deeaf2"
+            color: Colors.text
             font.family: "monospace"
             font.pixelSize: 12
             wrapMode: Text.Wrap

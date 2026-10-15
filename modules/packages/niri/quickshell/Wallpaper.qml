@@ -22,23 +22,17 @@ PanelWindow {
     right: true
   }
 
-  color: "#0c1a21"
+  color: Colors.base
 
   Image {
     anchors.fill: parent
     source: "wallpaper.jpg"
 
-    // The scan keeps the bare canvas edge all the way around, a cream line a
-    // couple of dozen pixels wide that reads as a glitch once it is stretched
-    // across a screen. These numbers are the painted area of this exact file,
-    // which is safe to hardcode: the image is pinned by hash in niri.nix.
-    sourceClipRect: Qt.rect(26, 20, 2352, 1860)
-
-    // The painting is taller than either screen, so filling the width leaves
-    // vertical overflow. AlignTop throws away water rather than the sun, which
-    // sits in the top left corner.
+    // The image is 7680x4320, exactly 16:9, which is also the shape of both
+    // screens here -- so this scales down to an exact fit and crops nothing.
+    // PreserveAspectCrop is kept for the day it meets a screen that is not
+    // 16:9, where filling and cropping beats letterboxing.
     fillMode: Image.PreserveAspectCrop
-    verticalAlignment: Image.AlignTop
 
     asynchronous: true
     cache: true

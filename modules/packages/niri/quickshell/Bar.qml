@@ -2,6 +2,8 @@ import Quickshell
 import QtQuick
 
 PanelWindow {
+  id: bar
+
   required property var modelData
   screen: modelData
 
@@ -13,15 +15,58 @@ PanelWindow {
 
   implicitHeight: 30
 
-  // Charing Cross palette -- see CLAUDE.md. Slightly translucent so the painting
-  // tints the bar, matching foot's glass.
-  color: "#d014262e"
+  // Slightly translucent so the wallpaper tints the bar, matching foot's glass.
+  color: Colors.barBackground
+
+  Workspaces {
+    anchors.left: parent.left
+    anchors.leftMargin: 10
+    anchors.verticalCenter: parent.verticalCenter
+    screenName: bar.modelData.name
+  }
 
   Text {
     anchors.centerIn: parent
-    color: "#deeaf2"
+    color: Colors.text
+    font.family: "monospace"
     font.pixelSize: 14
     text: Qt.formatDateTime(clock.date, "HH:mm")
+  }
+
+  Row {
+    anchors.right: parent.right
+    anchors.rightMargin: 12
+    anchors.verticalCenter: parent.verticalCenter
+    spacing: 12
+
+    TrayWidget {
+      id: tray
+      anchors.verticalCenter: parent.verticalCenter
+      barWindow: bar
+    }
+
+    // Keeps other people's icons visually apart from the status readouts.
+    // Hidden along with the tray, so an empty tray leaves no orphan line.
+    Rectangle {
+      anchors.verticalCenter: parent.verticalCenter
+      width: 1
+      height: 16
+      color: Colors.muted
+      opacity: 0.3
+      visible: tray.visible
+    }
+
+    BluetoothWidget {
+      anchors.verticalCenter: parent.verticalCenter
+    }
+
+    NetworkWidget {
+      anchors.verticalCenter: parent.verticalCenter
+    }
+
+    BatteryWidget {
+      anchors.verticalCenter: parent.verticalCenter
+    }
   }
 
   SystemClock {

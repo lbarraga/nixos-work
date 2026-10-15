@@ -2,7 +2,7 @@
   perSystem = {pkgs, ...}: {
     packages.hyprlock = inputs.wrapper-modules.wrappers.hyprlock.wrap {
       inherit pkgs;
-      # Charing Cross palette -- see CLAUDE.md. hyprlock wants rgba(rrggbbaa).
+      # Blue Hour palette -- see CLAUDE.md. hyprlock wants rgba(rrggbbaa).
       settings = {
         general = {
           hide_cursor = true;
@@ -10,7 +10,7 @@
         };
 
         # "screenshot" blurs whatever was on screen, so the lock inherits the
-        # painting and whatever windows were open rather than a flat color.
+        # wallpaper and whatever windows were open rather than a flat color.
         background = [
           {
             monitor = "";
@@ -27,7 +27,7 @@
           {
             monitor = "";
             text = "$TIME";
-            color = "rgba(deeaf2ff)";
+            color = "rgba(e9f4faff)";
             font_size = 92;
             font_family = "monospace";
             position = "0, 120";
@@ -38,7 +38,7 @@
           {
             monitor = "";
             text = ''cmd[update:60000] date +"%A %-d %B"'';
-            color = "rgba(7fa2aeff)";
+            color = "rgba(7d9cc2ff)";
             font_size = 20;
             font_family = "monospace";
             position = "0, 50";
@@ -61,11 +61,11 @@
             dots_size = "0.25";
             dots_spacing = "0.3";
 
-            outer_color = "rgba(23424dff)";
-            inner_color = "rgba(14262ed0)";
-            font_color = "rgba(deeaf2ff)";
-            check_color = "rgba(f3a48eff)";
-            fail_color = "rgba(e0705aff)";
+            outer_color = "rgba(24406bff)";
+            inner_color = "rgba(121d36d0)";
+            font_color = "rgba(e9f4faff)";
+            check_color = "rgba(f0dca0ff)";
+            fail_color = "rgba(ec7a8cff)";
 
             placeholder_text = "";
             fail_text = "$FAIL";

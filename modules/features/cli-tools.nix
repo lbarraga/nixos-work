@@ -2,18 +2,20 @@
   flake.modules.nixos.cli-tools = {pkgs, ...}: let
     mine = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
   in {
-    environment.systemPackages = [
-      inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
-      mine.fastfetch
-    ]
-    ++ (with pkgs; [
-      git
-      htop
-      btop
-      killall
-      tree
-      unzip
-    ]);
+    environment.systemPackages =
+      [
+        inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
+        mine.fastfetch
+      ]
+      ++ (with pkgs; [
+        git
+        htop
+        btop
+        killall
+        tree
+        unzip
+        wget
+      ]);
 
     programs.git = {
       enable = true;

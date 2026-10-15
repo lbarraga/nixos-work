@@ -8,11 +8,11 @@
         enableCompletion = true;
         autosuggestions.enable = true;
 
-        # Charing Cross palette -- see CLAUDE.md. The default is "fg=8",
+        # Blue Hour palette -- see CLAUDE.md. The default is "fg=8",
         # ANSI bright black, which foot maps to `overlay`: 1.65:1 on the
         # terminal background, so the suggestion is barely visible. `muted` is
         # the palette's inactive-text color and clears WCAG AA at 6.5:1.
-        autosuggestions.highlightStyle = "fg=#7fa2ae";
+        autosuggestions.highlightStyle = "fg=#7d9cc2";
         syntaxHighlighting.enable = true;
         histSize = 50000;
 

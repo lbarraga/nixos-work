@@ -3,25 +3,25 @@
     packages.fastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
       inherit pkgs;
       settings = {
-        # Charing Cross palette -- see CLAUDE.md. fastfetch turns these into
+        # Blue Hour palette -- see CLAUDE.md. fastfetch turns these into
         # truecolor escapes, so the "#rrggbb" form is exact.
         #
-        # All three slots are `thames`. That matters: the built-in NixOS logo
+        # All three slots are `sky`. That matters: the built-in NixOS logo
         # bakes raw 34/36 escapes into its art that these slots cannot
-        # override, and foot maps those two to `thames` and `mist` -- the same
-        # stretch of river a shade apart -- so the baked-in blues blend with
-        # the ones set here rather than clash.
+        # override, and foot maps those two to `sky` and `haze` -- the same
+        # blue two steps apart -- so the baked-in blues blend with the ones set
+        # here rather than clash.
         logo.color = {
-          "1" = "#7fb1d8"; # thames
-          "2" = "#7fb1d8";
-          "3" = "#7fb1d8";
+          "1" = "#4fb0f8"; # sky
+          "2" = "#4fb0f8";
+          "3" = "#4fb0f8";
         };
 
         display.color = {
-          title = "#f3a48e";
-          keys = "#6fb08a";
-          separator = "#7fa2ae";
-          output = "#deeaf2";
+          title = "#f0dca0";
+          keys = "#5fc9a4";
+          separator = "#7d9cc2";
+          output = "#e9f4fa";
         };
 
         # Passing --config replaces fastfetch's built-in config wholesale, so

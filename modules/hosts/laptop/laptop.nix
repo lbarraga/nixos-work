@@ -17,7 +17,9 @@
       claude-code
       cli-tools
       notifications
+      bluetooth
       yubikey
+      docker
 
       inputs.disko.nixosModules.disko
       ./_disko.nix

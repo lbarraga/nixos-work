@@ -4,28 +4,13 @@
     config,
     ...
   }: let
-    # Monet, Charing Cross Bridge, Fog on the Thames (1903), Harvard Art
-    # Museums. The painting is public domain; the photograph of it is the
-    # museum's, under CC BY-SA 4.0. Fetched rather than committed so the repo
-    # stays free of a multi-megabyte binary.
-    wallpaper = pkgs.fetchurl {
-      name = "charing-cross-fog.jpg";
-      url = "https://upload.wikimedia.org/wikipedia/commons/6/6f/Monet_-_Charing_Cross_Bridge_Fog_on_the_Thames%2C_1903.jpg";
-      hash = "sha256-BnII6HdiuQSZrGTEhvUsX0v7JAQu1qRheVPl36Hpe/A=";
-    };
-
-    # The QML refers to the image as a plain relative path, so the image has to
-    # sit inside the config dir. Assembling the directory keeps the .qml files
-    # untouched -- dropping a new one into ./quickshell still just works.
-    barConfig = pkgs.runCommand "niri-bar-config" {} ''
-      cp -r ${./quickshell} $out
-      chmod -R u+w $out
-      ln -s ${wallpaper} $out/wallpaper.jpg
-    '';
-
+    # The wallpaper lives in ./quickshell next to the QML that loads it, so the
+    # whole directory can be handed to the wrapper as-is. It is committed
+    # rather than fetched: at 500K it is small enough not to bloat the repo,
+    # and a local file means the desktop builds without network access.
     niriBar = inputs.wrapper-modules.wrappers.quickshell.wrap {
       inherit pkgs;
-      configDir = barConfig;
+      configDir = ./quickshell;
     };
   in {
     packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {

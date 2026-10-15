@@ -9,17 +9,17 @@
           width = 40;
         };
 
-        # Charing Cross palette -- see CLAUDE.md. fuzzel wants RRGGBBAA.
+        # Blue Hour palette -- see CLAUDE.md. fuzzel wants RRGGBBAA.
         colors = {
-          background = "14262ef0";
-          text = "deeaf2ff";
-          prompt = "f3a48eff";
-          placeholder = "7fa2aeff";
-          input = "deeaf2ff";
-          match = "f3a48eff";
-          selection = "23424dff";
-          selection-text = "deeaf2ff";
-          selection-match = "f3a48eff";
+          background = "121d36f0";
+          text = "e9f4faff";
+          prompt = "f0dca0ff";
+          placeholder = "7d9cc2ff";
+          input = "e9f4faff";
+          match = "f0dca0ff";
+          selection = "24406bff";
+          selection-text = "e9f4faff";
+          selection-match = "f0dca0ff";
         };
 
         border = {
