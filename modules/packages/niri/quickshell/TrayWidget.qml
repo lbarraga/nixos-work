@@ -12,7 +12,8 @@ Row {
 
   property bool expanded: true
 
-  readonly property var items: SystemTray.items ? SystemTray.items.values : []
+  // A Passive item is asking to be hidden. udiskie sits there permanently:
+  readonly property var items: SystemTray.items ? SystemTray.items.values.filter(i => i.status !== Status.Passive) : []
 
   spacing: 6
   height: 16

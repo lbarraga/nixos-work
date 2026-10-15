@@ -14,6 +14,7 @@
       shell
       fonts
       cli-tools
+      claude-code
       notifications
       bluetooth
       printing

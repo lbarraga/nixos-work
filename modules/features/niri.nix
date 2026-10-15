@@ -29,9 +29,7 @@
       mine.foot
       mine.fuzzel
       pkgs.bibata-cursors
-
-      # wl-copy/wl-paste for the shell. nvim does not need it: nixvim carries
-      # its own copy.
+      pkgs.adwaita-icon-theme
       pkgs.wl-clipboard
     ];
 
