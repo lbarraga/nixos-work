@@ -1,14 +1,11 @@
 {inputs, ...}: {
   perSystem = {system, ...}: {
-    # nixvim builds against its own nixpkgs on purpose. Its plugins are pinned
-    # to that tree, and making it follow ours tends to break them, so `pkgs`
-    # is deliberately not passed in here.
+    # No `pkgs`: nixvim builds against its own nixpkgs, which its plugins are
+    # pinned to.
     #
-    # The editor's own config lives in ./_config. The underscore keeps the
-    # outer `import-tree ./modules` out of it: those files are nixvim modules,
-    # not flake-parts modules, and would fail to evaluate as the latter. The
-    # inner import-tree below filters paths relative to ./_config, so it still
-    # sees all of them.
+    # The underscore on ./_config keeps the outer `import-tree ./modules` out
+    # of it -- those are nixvim modules, not flake-parts ones. The inner
+    # import-tree filters relative to ./_config, so it still sees them all.
     packages.nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
       module.imports = [(inputs.import-tree ./_config)];
     };

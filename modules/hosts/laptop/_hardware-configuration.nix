@@ -1,6 +1,5 @@
-# Non-filesystem hardware facts for this specific laptop. Disko owns
-# `fileSystems.*` and `swapDevices` via _disko.nix. Everything here was
-# derived from the output of `nixos-generate-config` on the live machine.
+# From `nixos-generate-config` on the live machine. Disko owns `fileSystems.*`
+# and `swapDevices` via _disko.nix.
 { lib, modulesPath, ... }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")

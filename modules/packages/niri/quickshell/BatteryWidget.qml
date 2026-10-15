@@ -1,8 +1,8 @@
 import QtQuick
 import Quickshell.Services.UPower
 
-// Battery level and percentage. The icon is drawn rather than set in a font:
-// nothing here then depends on which glyphs the monospace font happens to ship.
+// The icon is drawn, not a font glyph, so nothing depends on which runes the
+// monospace font ships.
 Row {
   id: root
 
@@ -12,13 +12,12 @@ Row {
 
   readonly property var bat: UPower.displayDevice
 
-  // UPower reports a 0..1 ratio, not a percentage.
+  // a 0..1 ratio, not a percentage
   readonly property int pct: bat ? Math.round(bat.percentage * 100) : 0
 
-  // UPower device states: 1 charging, 2 discharging, 4 full, 5 pending charge.
-  // `UPower.onBattery` is not used: on this laptop it reads false while the
-  // battery is discharging, because the machine exposes three line-power
-  // devices and the aggregate gets it wrong.
+  // 1 charging, 2 discharging, 4 full, 5 pending. Not `UPower.onBattery`:
+  // this laptop exposes three line-power devices and the aggregate reads
+  // false while the battery is draining.
   readonly property bool charging: bat ? bat.state === 1 || bat.state === 5 : false
   readonly property bool full: bat ? bat.state === 4 : false
 
@@ -59,7 +58,7 @@ Row {
       }
     }
 
-    // The positive terminal.
+    // the positive terminal
     Rectangle {
       x: shell.width
       anchors.verticalCenter: shell.verticalCenter
@@ -69,7 +68,7 @@ Row {
       color: Colors.muted
     }
 
-    // A bolt while charging, drawn over the fill.
+    // a bolt over the fill while charging
     Canvas {
       id: bolt
       anchors.fill: shell

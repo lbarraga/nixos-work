@@ -3,12 +3,11 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 
-// The tray collapses into its own chevron. Collapsed is the default: most of
-// the time these icons are just noise next to the clock.
+// Collapses into its own chevron, and starts collapsed.
 Row {
   id: root
 
-  // Needed for menu placement: a tray menu is a popup anchored to this window.
+  // a tray menu is a popup anchored to this window
   required property var barWindow
 
   property bool expanded: true
@@ -35,7 +34,7 @@ Row {
         ctx.lineWidth = 1.6;
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
-        // Points the way it will move: left to open leftwards, right to close.
+        // points the way it will move
         const x0 = root.expanded ? 6 : 10;
         const dx = root.expanded ? 4 : -4;
         ctx.beginPath();
@@ -59,7 +58,7 @@ Row {
       }
     }
 
-    // The count, so a collapsed tray still says how much it is hiding.
+    // so a collapsed tray still says how much it hides
     Text {
       anchors.left: parent.right
       anchors.leftMargin: 1

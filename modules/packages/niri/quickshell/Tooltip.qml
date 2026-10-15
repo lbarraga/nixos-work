@@ -1,21 +1,19 @@
 import Quickshell
 import QtQuick
 
-// A hover popup in its own window. The bar is 30px tall and sets an exclusive
-// zone, so anything drawn inside it would be clipped at the edge -- a tooltip
-// has to be a separate surface.
+// Its own window: the bar is 30px tall with an exclusive zone, so anything
+// drawn inside it would be clipped.
 PopupWindow {
   id: root
 
-  // The widget the popup hangs under.
+  // the widget it hangs under
   required property Item anchorItem
   required property string text
 
-  // Driven by the widget's HoverHandler.
+  // driven by the widget's HoverHandler
   property bool hovered: false
 
-  // Nothing appears until the pointer has settled, so crossing the status
-  // icons on the way somewhere else does not flash three popups.
+  // wait for the pointer to settle, so crossing the icons does not flash three
   property bool shown: false
 
   anchor.item: root.anchorItem

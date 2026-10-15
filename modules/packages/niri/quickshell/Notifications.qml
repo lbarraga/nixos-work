@@ -3,8 +3,8 @@ import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import QtQuick
 
-// Replaces mako. mako has no animation support at all, and this lives in the
-// quickshell instance that already draws the bar, so one process serves both.
+// Replaces mako, which cannot animate, and shares the quickshell instance
+// that already draws the bar.
 PanelWindow {
   id: root
   required property var modelData
@@ -24,12 +24,11 @@ PanelWindow {
     right: 12
   }
 
-  // Sized to the stack, so the layer surface never swallows clicks meant for
-  // the window underneath.
+  // sized to the stack, so the surface does not swallow clicks beneath it
   implicitWidth: 400
   implicitHeight: Math.max(1, column.implicitHeight)
 
-  // One server for all screens; only the focused one shows the stack.
+  // one server for all screens; only the focused one shows the stack
   NotificationServer {
     id: server
     keepOnReload: false
@@ -38,8 +37,7 @@ PanelWindow {
     actionsSupported: true
     imageSupported: true
 
-    // Without this the server accepts notifications and immediately
-    // forgets them: trackedNotifications only holds the ones opted in.
+    // without this the server accepts notifications and forgets them at once
     onNotification: notification => {
       notification.tracked = true;
     }
@@ -68,7 +66,7 @@ PanelWindow {
             ? Colors.overlay
             : Colors.glow
 
-        // Slide in from off the right edge, then fade out on the way back.
+        // slide in from off the right edge, fade out on the way back
         x: width
         opacity: 0
         Component.onCompleted: {
@@ -124,8 +122,7 @@ PanelWindow {
           onClicked: card.modelData.dismiss()
         }
 
-        // Critical notifications (poweralertd's low battery) stay until
-        // clicked; everything else clears itself.
+        // critical ones (poweralertd's low battery) stay until clicked
         Timer {
           running: card.modelData.urgency !== NotificationUrgency.Critical
           interval: 6000

@@ -1,4 +1,3 @@
-# This file provides fuzzy search for files and text.
 {pkgs, ...}: {
   plugins.telescope = {
     enable = true;

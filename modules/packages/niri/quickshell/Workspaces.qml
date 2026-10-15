@@ -1,11 +1,11 @@
 import QtQuick
 
-// One pill per niri workspace, for this screen only. Click to focus.
+// One pill per workspace on this screen. Click to focus.
 Row {
   id: root
 
-  // The wayland output name, so a bar on the laptop panel does not list the
-  // workspaces living on the dock's monitor.
+  // the wayland output name, so the laptop bar does not list the dock's
+  // workspaces
   required property string screenName
 
   spacing: 4
@@ -28,8 +28,7 @@ Row {
 
       color: modelData.is_urgent ? Colors.rose : modelData.is_active ? Colors.sky : pill.occupied ? Colors.overlay : "transparent"
 
-      // Empty workspaces get an outline rather than a fill, so the row reads
-      // as "these exist" without competing with the one you are on.
+      // empty ones get an outline rather than a fill
       border.width: !pill.occupied && !modelData.is_active && !modelData.is_urgent ? 1 : 0
       border.color: Colors.overlay
 

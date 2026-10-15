@@ -1,4 +1,3 @@
-# This file configures the sidebar file explorer.
 {
   plugins.neo-tree = {
     enable = true;

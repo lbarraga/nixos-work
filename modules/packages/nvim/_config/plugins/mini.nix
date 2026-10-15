@@ -1,4 +1,3 @@
-# This file adds an animated indicator for the current indentation scope.
 {
   plugins.mini = {
     enable = true;
@@ -10,7 +9,7 @@
   };
 
   extraConfigLua = ''
-    -- Aggressively disable the active indent line on specific screens
+    -- no indent guide on the dashboard or the tree
     vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "BufWinEnter" }, {
       pattern = { "dashboard", "neo-tree" },
       callback = function()

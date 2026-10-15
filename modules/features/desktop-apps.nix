@@ -15,9 +15,7 @@
         papers # gnome pdf viewer
       ]);
 
-    # Obsidian and Mattermost are both Electron, and without this they start
-    # under XWayland: blurry whenever the scale changes, and carrying the X11
-    # cursor rather than the session.
+    # Obsidian and Mattermost are Electron; without this they run on XWayland
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
     xdg.mime.defaultApplications = {

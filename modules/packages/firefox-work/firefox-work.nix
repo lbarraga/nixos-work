@@ -1,9 +1,8 @@
 {
   perSystem = {pkgs, ...}: let
-    # Enterprise policy, which is the only way to install an extension without
-    # a per-profile click. force_installed also means it cannot be removed from
-    # about:addons. Firefox fetches the xpi from addons.mozilla.org on first
-    # run, so the very first start of a fresh profile needs network.
+    # The only way to install an extension without a per-profile click;
+    # force_installed also means it cannot be removed from about:addons.
+    # Firefox fetches the xpi on first run, so a fresh profile needs network.
     firefox = pkgs.firefox.override {
       extraPolicies.ExtensionSettings = {
         "uBlock0@raymondhill.net" = {
@@ -15,14 +14,13 @@
 
     # One Firefox per work account, so the two never share a cookie jar.
     #
-    # The profile is addressed by path rather than by name (`-P`): profiles.ini
-    # stopped holding the names in Firefox 154, and a path needs no lookup at
-    # all. --run creates it, so this works on a machine that has never run
-    # Firefox.
+    # The profile is addressed by path, not by name (`-P`): profiles.ini
+    # stopped holding names in Firefox 154. --run creates it, so this works on
+    # a machine that has never run Firefox.
     #
-    # MOZ_APP_REMOTINGNAME becomes the wayland app id. It is what lets niri
-    # window rules tell the two apart, and it keeps the two instances from
-    # merging into one process.
+    # MOZ_APP_REMOTINGNAME becomes the wayland app id, which is what niri
+    # window rules match on and what keeps the two from merging into one
+    # process.
     mkProfile = key: label:
       pkgs.symlinkJoin {
         name = "firefox-${key}";
@@ -35,9 +33,9 @@
             --run 'mkdir -p "$HOME/.mozilla/firefox/${key}"' \
             --add-flags "--profile \"\$HOME/.mozilla/firefox/${key}\""
 
-          # The stock entry is called firefox.desktop in every copy, so two of
-          # them would collide in systemPackages. Its Exec lines also pass
-          # `--name firefox`, which would override the app id set above.
+          # every copy ships firefox.desktop, so two would collide in
+          # systemPackages -- and its Exec passes `--name firefox`, which would
+          # override the app id set above
           rm -f $out/share/applications/firefox.desktop
           substitute ${firefox}/share/applications/firefox.desktop \
             $out/share/applications/firefox-${key}.desktop \

@@ -1,4 +1,3 @@
-# This file sets the global keyboard shortcuts.
 {
   keymaps = [
     {

@@ -1,27 +1,12 @@
-# The Blue Hour palette -- see CLAUDE.md. This is the only file in the editor
-# that names a color, including lualine's, so changing the scheme means
-# changing this file and nothing else.
-#
-# Two layers:
-#
-#   1. base16, which maps the palette onto the sixteen slots every base16
-#      plugin integration already understands (treesitter, telescope, cmp,
-#      gitsigns, notify, indent-blankline).
-#   2. a Lua pass that makes the editor glass. foot runs at alpha=0.82 with
-#      blur, but it only applies that alpha to cells carrying the *default*
-#      background, so anything with an explicit background is opaque.
-#
-# What floats stays solid, on `surface`. That is the same rule the desktop
-# already follows: the bar and the pinentry box are surface over the blur,
-# and a completion menu you cannot read through is worth more than one more
-# transparent rectangle.
+# Blue Hour palette -- see CLAUDE.md. The only file in the editor that names a
+# color. base16 for the sixteen slots every plugin integration understands,
+# then a Lua pass for the glass. Floats stay solid on `surface`, like the bar.
 {
   colorschemes.base16 = {
     enable = true;
 
-    # base04 repeats `muted` and base06/07 repeat `text`: the palette has one
-    # step between comment and foreground, not three. base0F has no hue of its
-    # own in the scheme either, so it borrows `sand`.
+    # base04/06/07 repeat: the palette has one step between comment and
+    # foreground, not three. base0F has no hue of its own, so it borrows sand.
     colorscheme = {
       base00 = "#0a1226"; # base    -- background
       base01 = "#121d36"; # surface -- cursor line, panels
@@ -42,9 +27,8 @@
     };
   };
 
-  # lualine reads its colors from a theme table rather than from highlight
-  # groups, so the glass pass below cannot reach it. Section c is the fill that
-  # spans the window, and it is the part that has to be NONE.
+  # lualine builds its groups from a theme table, so the glass pass cannot
+  # reach it. Section c is the fill that spans the window, hence bg = NONE.
   plugins.lualine.settings.options.theme = {
     normal = {
       a = {
@@ -113,26 +97,20 @@
       iris = "#a99bf2",
     }
 
-    -- nvim hands backgrounds back as numbers, so `base` is needed in that form
-    -- to recognise it.
+    -- nvim hands backgrounds back as numbers.
     local BASE = tonumber("0a1226", 16)
 
     local function set(group, opts)
       vim.api.nvim_set_hl(0, group, opts)
     end
 
-    -- A group whose background is the default background is a group that
-    -- should not have a background at all. foot gives its alpha only to
-    -- default-bg cells, so an explicit #0a1226 comes out as an opaque block
-    -- sitting on the glass -- which is what the git markers in the file tree
-    -- and the signs in the gutter were. base16 paints base00 onto dozens of
-    -- groups, so this is a sweep rather than a list.
+    -- foot only alpha-blends cells carrying the default background, so an
+    -- explicit #0a1226 is an opaque block on the glass. base16 paints base00
+    -- onto dozens of groups, hence a sweep rather than a list.
     --
-    -- Only groups that carry their own background are touched. A linked group
-    -- is left linked, so it goes on following its source, and that is what
-    -- makes this hold for plugins that create their links long after startup:
-    -- neo-tree first defines NeoTreeGitAdded -> GitGutterAdd when the tree
-    -- opens, and inherits the cleared background for free.
+    -- Links are left alone so they keep following their source. That is what
+    -- makes this hold for lazy plugins: neo-tree links NeoTreeGitAdded to
+    -- GitGutterAdd when the tree first opens, and inherits the fix.
     local function unbackground_default()
       for name, hl in pairs(vim.api.nvim_get_hl(0, {})) do
         if not hl.link and hl.bg == BASE then
@@ -159,13 +137,12 @@
       set("MatchParen", { fg = blue_hour.glow, bold = true, underline = true })
       set("LspInlayHint", { fg = blue_hour.muted, italic = true })
 
-      -- Indent guides: the passive ones barely there, the active scope one
-      -- step up so it reads without competing with the code.
+      -- active scope one step brighter than the passive guides
       set("IblIndent", { fg = blue_hour.overlay })
       set("IblScope", { fg = blue_hour.muted })
       set("MiniIndentscopeSymbol", { fg = blue_hour.muted })
 
-      -- What floats: solid surface, overlay border, warm title.
+      -- floats: solid surface, overlay border, warm title
       set("NormalFloat", { fg = blue_hour.text, bg = blue_hour.surface })
       set("FloatBorder", { fg = blue_hour.overlay, bg = blue_hour.surface })
       set("FloatTitle", { fg = blue_hour.glow, bg = blue_hour.surface, bold = true })
@@ -175,8 +152,7 @@
       set("PmenuThumb", { bg = blue_hour.overlay })
       set("NotifyBackground", { bg = blue_hour.surface })
 
-      -- noice draws its own floats and does not route them all through
-      -- NormalFloat, so the cmdline and the message popups are named here too.
+      -- noice does not route all its floats through NormalFloat.
       set("NoiceCmdlinePopup", { fg = blue_hour.text, bg = blue_hour.surface })
       set("NoiceCmdlinePopupBorder", { fg = blue_hour.overlay, bg = blue_hour.surface })
       set("NoiceCmdlinePopupTitle", { fg = blue_hour.glow, bg = blue_hour.surface, bold = true })
@@ -187,15 +163,10 @@
       set("NoiceConfirm", { fg = blue_hour.text, bg = blue_hour.surface })
       set("NoiceConfirmBorder", { fg = blue_hour.overlay, bg = blue_hour.surface })
 
-      -- Telescope is one panel, not four.
-      --
-      -- base16's own integration gives each of the three windows a different
-      -- background and then inverts all three titles into colored blocks, so
-      -- the picker arrives as a stack of slabs with the results title painted
-      -- surface-on-surface and therefore invisible. Here every window is the
-      -- same `surface`, the borders draw the divisions, and the titles are
-      -- colored text rather than colored boxes. Only the selected row takes a
-      -- background, which is then the one thing on screen that has one.
+      -- One panel, not four. base16's integration gives the three windows
+      -- different backgrounds and inverts the titles into blocks, one of them
+      -- surface-on-surface and so invisible. Here the borders do the dividing
+      -- and only the selected row gets a background.
       local panel = { fg = blue_hour.text, bg = blue_hour.surface }
       local border = { fg = blue_hour.overlay, bg = blue_hour.surface }
 
@@ -225,24 +196,17 @@
       set("TelescopeMultiIcon", { fg = blue_hour.iris })
       set("TelescopeMatching", { fg = blue_hour.glow, bold = true })
 
-      -- git_status rows otherwise inherit DiffAdd and friends, whose
-      -- backgrounds base16 blends for whole diff lines and which stripe the
-      -- result list.
+      -- otherwise these inherit DiffAdd's line-blend bg and stripe the list
       set("TelescopeResultsDiffAdd", { fg = blue_hour.mint })
       set("TelescopeResultsDiffChange", { fg = blue_hour.sand })
       set("TelescopeResultsDiffDelete", { fg = blue_hour.rose })
       set("TelescopeResultsDiffUntracked", { fg = blue_hour.muted })
 
-      -- gitsigns builds its staged groups lazily, on first attach, with the
-      -- default background baked in -- after the sweep above has already run,
-      -- so they are the one thing it cannot catch. Defining them up front is
-      -- what catches them: gitsigns, like neo-tree, fills in only the groups a
-      -- colorscheme left empty.
+      -- gitsigns builds its staged groups on first attach, after the sweep
+      -- has run, so the sweep cannot catch them. Defining them up front does:
+      -- gitsigns, like neo-tree, only fills in groups left empty.
       --
-      -- Unstaged carries the accent, staged goes `muted`: the sign character
-      -- already says which kind of change it is, and the color is then free to
-      -- say the part the character cannot, which is whether it still needs
-      -- doing.
+      -- Staged goes muted; the sign character already says which kind it is.
       local git_signs = {
         Add = blue_hour.mint,
         Change = blue_hour.sand,
@@ -258,10 +222,8 @@
         end
       end
 
-      -- neo-tree hardcodes a set of greys and an orange that belong to no
-      -- scheme at all, and it keeps them whenever a colorscheme does not name
-      -- the group. It only fills in groups that are still empty, so defining
-      -- them here wins even though the tree loads later.
+      -- neo-tree hardcodes off-palette greys and an orange for any group a
+      -- colorscheme leaves empty, so these win even though it loads later.
       set("NeoTreeNormal", { fg = blue_hour.text })
       set("NeoTreeNormalNC", { fg = blue_hour.text })
       set("NeoTreeEndOfBuffer", { fg = blue_hour.overlay })
@@ -291,8 +253,7 @@
       set("NeoTreeTabSeparatorActive", { fg = blue_hour.overlay })
       set("NeoTreeTabSeparatorInactive", { fg = blue_hour.overlay })
 
-      -- Git state in the tree reads the same as git state in the prompt:
-      -- mint for what is in, sand for what is dirty, rose for what is gone.
+      -- same as the prompt: mint for in, sand for dirty, rose for gone
       set("NeoTreeGitAdded", { fg = blue_hour.mint })
       set("NeoTreeGitStaged", { fg = blue_hour.mint })
       set("NeoTreeGitModified", { fg = blue_hour.sand })
@@ -312,8 +273,7 @@
       set("DashboardKey", { fg = blue_hour.sand })
     end
 
-    -- Re-apply on every colorscheme load, so :colorscheme and anything that
-    -- reloads highlights (a live-reloaded plugin, :hi clear) does not undo it.
+    -- re-apply on every colorscheme load, so :hi clear does not undo it
     vim.api.nvim_create_autocmd("ColorScheme", {
       desc = "Blue Hour glass overrides",
       callback = blue_hour_overrides,

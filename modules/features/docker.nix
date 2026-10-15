@@ -3,8 +3,7 @@
     virtualisation.docker = {
       enable = true;
 
-      # The socket is only created when something asks for it, so the daemon
-      # is not sitting in memory on a laptop that boots without containers.
+      # socket-activated, so the daemon is not resident on every boot
       enableOnBoot = false;
       rootless = {
         enable = true;

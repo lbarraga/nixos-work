@@ -1,4 +1,3 @@
-# This file adds a floating window for full git repository management.
 {
   plugins.lazygit.enable = true;
 

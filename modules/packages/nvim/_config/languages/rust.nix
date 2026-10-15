@@ -1,5 +1,4 @@
 {
-  # Rustaceanvim for the language server, type hints, and enabling all cargo features
   plugins.rustaceanvim = {
     enable = true;
     settings = {
@@ -18,17 +17,14 @@
     };
   };
 
-  # Crates plugin for dependency management
   plugins.crates = {
     enable = true;
   };
 
-  # Add crates to the autocompletion sources
   plugins.cmp.settings.sources = [
     {name = "crates";}
   ];
 
-  # Syntax highlighting
   plugins.treesitter.settings.ensure_installed = ["rust"];
 
   extraConfigLua = ''
@@ -41,8 +37,8 @@
       end,
     })
 
-    -- Route Rust buffers to rustaceanvim's renderers instead of the generic LSP ones.
-    -- Same server, same requests -- these just stop discarding rust-analyzer's extra data.
+    -- rustaceanvim's renderers: same server, but they keep rust-analyzer's
+    -- extra data that the generic LSP handlers discard.
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "rust",
       callback = function(ev)

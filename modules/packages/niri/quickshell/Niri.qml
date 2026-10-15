@@ -4,13 +4,12 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
-// Quickshell 0.3 has modules for Hyprland and i3 but not for niri, so the
-// workspace state comes from niri's own IPC.
+// Quickshell 0.3 ships modules for Hyprland and i3 but not niri, so workspace
+// state comes from niri's own IPC.
 Singleton {
   id: root
 
-  // Straight from `niri msg --json workspaces`: id, idx, name, output,
-  // is_active, is_focused, is_urgent, active_window_id.
+  // straight from `niri msg --json workspaces`
   property var workspaces: []
 
   property bool pending: false
@@ -29,9 +28,8 @@ Singleton {
     id: focus
   }
 
-  // Re-reading the whole list beats replaying events into a local model: it is
-  // a few milliseconds, it cannot drift out of sync, and it means this file
-  // does not need to know the shape of every workspace event niri can send.
+  // Re-reading the whole list beats replaying events into a local model: a few
+  // milliseconds, and it cannot drift out of sync.
   Process {
     id: query
     command: ["niri", "msg", "--json", "workspaces"]
@@ -42,7 +40,7 @@ Singleton {
       try {
         root.workspaces = JSON.parse(queryOut.text);
       } catch (e) {
-        // A half-read or empty response: the next event will refresh anyway.
+        // half-read or empty; the next event refreshes anyway
       }
       if (root.pending) {
         root.pending = false;
@@ -61,8 +59,8 @@ Singleton {
     running: true
     command: ["niri", "msg", "--json", "event-stream"]
     stdout: SplitParser {
-      // Only workspace-shaped events. Window events fire on every title
-      // change, which inside a terminal means on every keystroke.
+      // Window events fire on every title change, which in a terminal means
+      // every keystroke.
       onRead: line => {
         if (line.indexOf("Workspace") !== -1)
           debounce.restart();

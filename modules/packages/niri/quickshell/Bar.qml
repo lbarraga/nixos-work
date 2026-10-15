@@ -15,7 +15,7 @@ PanelWindow {
 
   implicitHeight: 30
 
-  // Slightly translucent so the wallpaper tints the bar, matching foot's glass.
+  // translucent, so the wallpaper tints the bar like it does foot
   color: Colors.barBackground
 
   Workspaces {
@@ -45,8 +45,8 @@ PanelWindow {
       barWindow: bar
     }
 
-    // Keeps other people's icons visually apart from the status readouts.
-    // Hidden along with the tray, so an empty tray leaves no orphan line.
+    // separates other people's icons from our readouts. Hidden with the tray,
+    // so an empty tray leaves no orphan line.
     Rectangle {
       anchors.verticalCenter: parent.verticalCenter
       width: 1

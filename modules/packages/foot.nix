@@ -9,8 +9,7 @@
 
         # Blue Hour palette -- see CLAUDE.md. foot wants bare hex, no '#'.
         colors-dark = {
-          # Glass: the wallpaper shows through, and niri implements
-          # ext-background-effect-v1, so the blur is real rather than faked.
+          # the blur is real: niri implements ext-background-effect-v1
           alpha = 0.82;
           blur = "yes";
 

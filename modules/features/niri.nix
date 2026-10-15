@@ -15,16 +15,14 @@
     hardware.graphics.enable = true;
     services.upower.enable = true;
 
-    # ExecReload is a systemd list: a second assignment appends rather than
-    # replaces, so the wrapper's --path line would still run after ours and
-    # load the empty config anyway. The empty string first resets the list.
+    # ExecReload is a list and assignment appends, so the empty string is
+    # needed to drop the wrapper's own --path line rather than run both.
     systemd.user.services.niri.serviceConfig.ExecReload = lib.mkForce [
       ""
       "${mine.niri}/bin/niri msg action load-config-file"
     ];
 
-    # hyprlock authenticates through PAM. Without this service file every
-    # password is rejected, with no hint as to why.
+    # without this PAM file hyprlock rejects every password, silently
     security.pam.services.hyprlock = {};
 
     environment.systemPackages = [
@@ -32,9 +30,8 @@
       mine.fuzzel
       pkgs.bibata-cursors
 
-      # wl-copy and wl-paste, for piping to the clipboard from a shell. Only
-      # useful inside a Wayland session, which is why they live here. nvim does
-      # not need this -- nixvim puts its own copy on the editor's PATH.
+      # wl-copy/wl-paste for the shell. nvim does not need it: nixvim carries
+      # its own copy.
       pkgs.wl-clipboard
     ];
 

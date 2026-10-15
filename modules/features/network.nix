@@ -5,8 +5,8 @@
     networking.networkmanager.enable = true;
     networking.firewall.enable = true;
 
-    # What the bar's wifi icon opens. The bar calls it by name, so this and
-    # `managerCommand` in NetworkWidget.qml have to agree.
+    # what the bar's wifi icon opens, by name -- keep in sync with
+    # `managerCommand` in NetworkWidget.qml
     environment.systemPackages = [mine.networkmanager-dmenu];
   };
 }

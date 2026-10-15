@@ -1,5 +1,4 @@
 {
-  # Enable the notification backend
   plugins.notify.enable = true;
 
   plugins.noice = {
@@ -7,7 +6,6 @@
     settings = {
       lsp.progress.enabled = false;
 
-      # Route documentation to Noice
       lsp.override = {
         "vim.lsp.util.convert_input_to_markdown_lines" = true;
         "vim.lsp.util.stylize_markdown" = true;

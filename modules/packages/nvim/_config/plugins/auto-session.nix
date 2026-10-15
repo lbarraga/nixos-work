@@ -1,4 +1,3 @@
-# This file manages session saving and restoration automatically.
 {
   plugins.auto-session = {
     enable = true;

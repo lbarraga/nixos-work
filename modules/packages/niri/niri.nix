@@ -4,10 +4,9 @@
     config,
     ...
   }: let
-    # The wallpaper lives in ./quickshell next to the QML that loads it, so the
-    # whole directory can be handed to the wrapper as-is. It is committed
-    # rather than fetched: at 500K it is small enough not to bloat the repo,
-    # and a local file means the desktop builds without network access.
+    # The wallpaper sits in ./quickshell beside the QML that loads it, so the
+    # directory goes to the wrapper as-is. Committed rather than fetched: 500K,
+    # and it means the desktop builds offline.
     niriBar = inputs.wrapper-modules.wrappers.quickshell.wrap {
       inherit pkgs;
       configDir = ./quickshell;

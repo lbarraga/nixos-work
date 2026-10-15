@@ -2,8 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Bluetooth
 
-// Hidden entirely on a machine with no adapter, so the bar does not carry a
-// dead icon around. Click opens blueman, which is where pairing happens.
+// Hidden entirely when there is no adapter. Click opens blueman.
 Row {
   id: root
 
@@ -11,7 +10,7 @@ Row {
   height: 16
   visible: root.adapter !== null
 
-  // `adapterOn` rather than `enabled`: Item already has an `enabled` property.
+  // not `enabled`: Item already has one
   readonly property var adapter: Bluetooth.defaultAdapter
   readonly property bool adapterOn: root.adapter ? root.adapter.enabled : false
   readonly property var connectedDevices: Bluetooth.devices ? Bluetooth.devices.values.filter(d => d.connected) : []
@@ -19,8 +18,7 @@ Row {
   readonly property color tint: !root.adapterOn ? Colors.muted : root.connectedDevices.length > 0 ? Colors.sky : Colors.text
   readonly property string label: !root.adapterOn ? "Bluetooth off" : root.connectedDevices.length > 0 ? root.connectedDevices.map(d => d.deviceName || d.name).join(", ") : "Bluetooth"
 
-  // The GTK window this opens. One line to change if blueman is ever swapped
-  // for something else.
+  // the window this opens
   readonly property var managerCommand: ["blueman-manager"]
 
   Item {
@@ -40,7 +38,7 @@ Row {
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
 
-        // The rune: a vertical stroke with a chevron above and below.
+        // a vertical stroke with a chevron above and below
         ctx.beginPath();
         ctx.moveTo(5, 11);
         ctx.lineTo(11, 5);
@@ -50,8 +48,7 @@ Row {
         ctx.lineTo(5, 5);
         ctx.stroke();
 
-        // Struck through when the adapter is off, so "off" is not just a
-        // slightly dimmer icon.
+        // struck through when off, rather than just dimmer
         if (!root.adapterOn) {
           ctx.strokeStyle = Colors.muted;
           ctx.beginPath();

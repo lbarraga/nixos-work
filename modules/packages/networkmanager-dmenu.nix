@@ -4,11 +4,9 @@
     config,
     ...
   }: {
-    # A wifi picker and nothing else: the list of nearby networks, connect,
-    # disconnect, toggle the radio. NetworkManager has no small GTK window of
-    # its own for this -- nm-connection-editor only edits saved connections,
-    # and the only GUI that scans is the whole GNOME Settings application --
-    # so this drives the already-themed fuzzel instead.
+    # A wifi picker on top of fuzzel. NetworkManager has no small window of
+    # its own: nm-connection-editor only edits saved connections, and the only
+    # GUI that scans is the whole of GNOME Settings.
     packages.networkmanager-dmenu = let
       settings = pkgs.writeText "networkmanager-dmenu.ini" ''
         [dmenu]
@@ -16,8 +14,7 @@
         compact = True
         prompt = network
 
-        # Passphrases go through the same themed box as the YubiKey PIN rather
-        # than being typed in clear text into the picker.
+        # passphrases go through the same box as the YubiKey PIN, not in clear
         pinentry = ${config.packages.pinentry}/bin/pinentry-rofi
 
         [pinentry]

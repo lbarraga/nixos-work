@@ -9,8 +9,7 @@
           ignore_empty_input = true;
         };
 
-        # "screenshot" blurs whatever was on screen, so the lock inherits the
-        # wallpaper and whatever windows were open rather than a flat color.
+        # blurs whatever was on screen, rather than a flat color
         background = [
           {
             monitor = "";
@@ -23,7 +22,6 @@
         ];
 
         label = [
-          # Time.
           {
             monitor = "";
             text = "$TIME";
@@ -34,7 +32,6 @@
             halign = "center";
             valign = "center";
           }
-          # Date, quieter, underneath.
           {
             monitor = "";
             text = ''cmd[update:60000] date +"%A %-d %B"'';

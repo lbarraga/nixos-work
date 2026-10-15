@@ -1,12 +1,9 @@
 {
-  # CUPS, plus the half that finds printers. Campus and home printers both
-  # advertise themselves over mDNS rather than sitting at an address you know,
-  # so avahi is what makes them appear at all, and nssmdns4 is what lets the
-  # rest of the system resolve the .local name avahi found.
+  # Printers advertise over mDNS, so avahi is what finds them and nssmdns4 is
+  # what resolves the .local name it found.
   #
-  # No driver packages: anything made in the last decade speaks IPP Everywhere,
-  # which CUPS drives with no driver at all. Add to `services.printing.drivers`
-  # only when a specific printer turns out to need it.
+  # No drivers: anything recent speaks IPP Everywhere. Add to
+  # `services.printing.drivers` only if a specific printer needs one.
   flake.modules.nixos.printing = {
     services.printing.enable = true;
 

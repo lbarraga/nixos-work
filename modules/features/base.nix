@@ -5,14 +5,11 @@
     programs.nh = {
       enable = true;
 
-      # So `nh os switch` works from anywhere, with no path. nh reads this as
-      # NH_FLAKE.
+      # exported as NH_FLAKE, so `nh os switch` needs no path
       flake = "/home/lukasbt/nixos-work";
 
-      # Nothing was collecting garbage before this: the store only ever grew.
-      # --keep-since is a floor and not a ceiling -- nh still applies its own
-      # `--keep 1`, so the generation currently booted survives even on a
-      # machine that has not been rebuilt in over a month.
+      # nh keeps at least one generation on top of --keep-since, so the
+      # booted one survives even after a month without a rebuild.
       clean = {
         enable = true;
         dates = "weekly";

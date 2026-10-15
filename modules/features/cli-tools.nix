@@ -17,8 +17,7 @@
         wget
       ]);
 
-    # The system builds a whole editor and then left EDITOR at the NixOS
-    # default, so `git commit`, `systemctl edit` and `visudo` all opened nano.
+    # otherwise `git commit` and friends open the NixOS default, nano
     environment.variables.EDITOR = "nvim";
 
     programs.git = {

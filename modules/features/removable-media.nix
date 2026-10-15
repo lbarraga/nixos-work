@@ -1,22 +1,15 @@
 {
-  # Plugging in a USB stick did nothing whatsoever. udisks2 is what puts the
-  # device on D-Bus, but it only offers -- without something listening there is
-  # nobody to accept, and the desktop has no file manager to do it.
+  # udisks2 puts the device on D-Bus but mounts nothing by itself, and there
+  # is no file manager here to do it.
   flake.modules.nixos.removable-media = {pkgs, ...}: {
     services.udisks2.enable = true;
 
-    # What makes a mounted stick show up in GTK's file chooser, which is the
-    # one xdg-desktop-portal-gtk hands to Firefox.
+    # makes mounts visible in the GTK file chooser the portal hands Firefox
     services.gvfs.enable = true;
 
-    # udiskie is the listener: it mounts under /run/media/$USER, says where in
-    # a notification, and keeps a tray icon for as long as something is plugged
-    # in. `--smart-tray` rather than `--tray`, so there is no permanent icon on
-    # a laptop with nothing in it.
-    #
-    # Both halves work here rather than by luck: udiskie ships the
-    # libappindicator and libnotify typelibs, the bar hosts
-    # StatusNotifierItem, and quickshell is already the notification daemon.
+    # Mounts under /run/media/$USER and says where in a notification.
+    # --smart-tray shows an icon only while something is plugged in; it lands
+    # in the bar, which hosts StatusNotifierItem.
     systemd.user.services.udiskie = {
       description = "Automount removable media";
       partOf = ["graphical-session.target"];
@@ -28,7 +21,7 @@
       };
     };
 
-    # udiskie-umount, for ejecting without going through the tray.
+    # udiskie-umount, for ejecting from a shell
     environment.systemPackages = [pkgs.udiskie];
   };
 }

@@ -8,16 +8,14 @@
         enableCompletion = true;
         autosuggestions.enable = true;
 
-        # Blue Hour palette -- see CLAUDE.md. The default is "fg=8",
-        # ANSI bright black, which foot maps to `overlay`: 1.65:1 on the
-        # terminal background, so the suggestion is barely visible. `muted` is
-        # the palette's inactive-text color and clears WCAG AA at 6.5:1.
+        # Blue Hour `muted` -- see CLAUDE.md. The default fg=8 maps to
+        # `overlay` in foot, 1.65:1 against the background and barely visible.
         autosuggestions.highlightStyle = "fg=#7d9cc2";
         syntaxHighlighting.enable = true;
         histSize = 50000;
 
-        # NixOS runs `prompt suse` after interactiveShellInit, which overwrites
-        # whatever starship just set up.
+        # NixOS runs `prompt suse` after interactiveShellInit, overwriting
+        # whatever starship set up.
         promptInit = "";
 
         shellAliases = {
@@ -29,8 +27,7 @@
           nix-shell = "nix-shell --run zsh";
         };
 
-        # mkAfter so this lands after the plugin modules: autosuggest-accept
-        # only exists once zsh-autosuggestions has been sourced.
+        # mkAfter: autosuggest-accept only exists once the plugin is sourced
         interactiveShellInit = lib.mkAfter ''
           zstyle ':completion:*' menu select
           zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -45,7 +42,7 @@
         '';
       };
 
-      # Programs the aliases call by name.
+      # what the aliases call by name
       environment.systemPackages = [ pkgs.eza pkgs.xdg-utils ];
 
       users.users.lukasbt.shell = pkgs.zsh;

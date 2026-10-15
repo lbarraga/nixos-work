@@ -11,9 +11,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # The editor is built here, from modules/packages/nvim. nixvim pins its own
-    # nixpkgs on purpose: its plugins are built against that tree, and making it
-    # follow ours tends to break them.
+    # The editor, built in modules/packages/nvim. Deliberately not following
+    # our nixpkgs: nixvim's plugins are built against its own.
     nixvim.url = "github:nix-community/nixvim";
   };
 

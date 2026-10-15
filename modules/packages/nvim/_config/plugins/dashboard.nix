@@ -1,4 +1,3 @@
-# This file designs the start screen that appears when you open Neovim.
 {
   plugins.dashboard = {
     enable = true;
