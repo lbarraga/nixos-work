@@ -38,6 +38,10 @@
     environment.sessionVariables = {
       XCURSOR_THEME = cursorTheme;
       XCURSOR_SIZE = toString cursorSize;
+
+      # Electron and Chromium apps -- brave, discord, element, obsidian,
+      # mattermost -- fall back to XWayland without it.
+      NIXOS_OZONE_WL = "1";
     };
 
     xdg.icons.fallbackCursorThemes = [cursorTheme];

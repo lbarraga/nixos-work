@@ -3,7 +3,7 @@
     users.users.lukasbt = {
       isNormalUser = true;
       description = "Lukas Barragan Torres";
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = ["wheel" "networkmanager" "dialout"];
       initialPassword = "changeme";
     };
   };

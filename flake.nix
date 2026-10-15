@@ -14,6 +14,10 @@
     # The editor, built in modules/packages/nvim. Deliberately not following
     # our nixpkgs: nixvim's plugins are built against its own.
     nixvim.url = "github:nix-community/nixvim";
+
+    # Only for brave-origin, which stable does not carry. Referenced directly
+    # rather than as an overlay, so nothing else is built against it.
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs = inputs:

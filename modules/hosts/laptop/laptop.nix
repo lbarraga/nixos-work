@@ -12,7 +12,8 @@
       audio
       power
       niri
-      desktop-apps
+      work-apps
+      common-apps
       shell
       fonts
       claude-code

@@ -1,6 +1,10 @@
 {
   flake.modules.nixos.base = {
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.experimental-features = ["nix-command" "flakes"];
+
+    # steam, discord, the nvidia driver, obsidian -- spread across enough
+    # features that per-feature opt-in was only ever going to be forgotten.
+    nixpkgs.config.allowUnfree = true;
 
     programs.nh = {
       enable = true;

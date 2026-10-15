@@ -25,11 +25,15 @@ flake-parts.
 ## Flake inputs
 
 `nixpkgs` (stable, currently `nixos-26.05`), `flake-parts`, `import-tree`,
-`wrapper-modules`, `disko`, `nixvim`.
+`wrapper-modules`, `disko`, `nixvim`, `nixpkgs-unstable`.
 
-Use stable nixpkgs. Do not add new inputs without asking. Everything follows our
-nixpkgs except `nixvim`, whose plugins are built against its own tree and break
-when pointed at ours.
+Use stable nixpkgs. Do not add new inputs without asking.
+
+Two inputs deliberately do not follow our nixpkgs. `nixvim`'s plugins are built
+against its own tree and break when pointed at ours. `nixpkgs-unstable` exists
+for exactly one package, `brave-origin`, which stable does not carry; it is
+referenced directly from `packages/brave`, never as an overlay, so nothing else
+is built against it.
 
 ## Layout
 
@@ -56,6 +60,8 @@ modules/
       laptop.nix
       _hardware-configuration.nix
       _disko.nix
+      format-disks.sh
+    desktop/           # same four files
 ```
 
 ### `flake/`
@@ -89,9 +95,33 @@ One file or folder per machine, defining `flake.nixosConfigurations.<name>`.
 
 - A host lists its features, then only machine-specific facts: `hostPlatform`,
   `hostName`, `stateVersion`, boot loader, hardware file.
+- Real machines own their disk layout too: `_disko.nix` declares the partitions
+  and `format-disks.sh` wipes, formats and installs from the ISO. Disko owns
+  `fileSystems.*` and `swapDevices`, so `_hardware-configuration.nix` carries
+  only the non-filesystem half of `nixos-generate-config`'s output.
 - `modules = with config.flake.modules.nixos; [ base user audio niri { … } ];`
 - A VM host also exposes `perSystem.packages.<name>` from
   `config.system.build.vm`, so `nix run .#<name>` boots it.
+
+## The two machines
+
+`laptop` and `desktop` share everything structural — niri, the bar, the shell,
+the editor, the palette — and differ only in which features they list.
+
+- Laptop only: `power` (TLP), `work-apps` (the two Firefoxes and Mattermost),
+  `claude-code`, `docker`.
+- Desktop only: `nvidia`, `gaming`, `embedded-dev`, `mouse-config`, `brave`,
+  `netbird`, `cad`, `office`, `personal-apps`.
+- `common-apps` is what both get, and is the place to put anything that turns
+  out to belong on both.
+
+The desktop runs no battery and no bluetooth adapter; the bar needs no
+host-awareness for that, since `BatteryWidget` and `BluetoothWidget` already
+hide themselves when the hardware is absent.
+
+`config.kdl` lives inside the niri *package*, so both machines share one copy.
+That is fine until the desktop wants fixed monitor positions, which the no-
+`output`-blocks rule forbids. Unresolved on purpose.
 
 ## Config file conventions
 
@@ -282,6 +312,8 @@ Things that cost time to find out:
   Alt there). `dbus-run-session nix run .#niri` if apps need to open inside it.
 - `nix run .#claude-vm` boots the full system in a VM — the honest test of a
   real login.
+- Installing a real machine: boot the ISO, clone this flake, run
+  `modules/hosts/<name>/format-disks.sh`. It wipes the disk, so it asks first.
 - `nix run .#nvim` runs the editor. Run it inside foot: the colors assume a
   terminal whose default background is `#0a1226` at `alpha=0.82`.
 - Live-edit the bar with
