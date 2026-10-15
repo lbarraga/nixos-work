@@ -15,6 +15,14 @@ inputs = {
     url = "github:nix-community/nix-wrapper-modules";
     inputs.nixpkgs.follows = "nixpkgs";
   };
+  disko = {
+    url = "github:nix-community/disko";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+  # The editor, built from modules/packages/nvim. The one input that does not
+  # follow our nixpkgs: nixvim's plugins are built against its own tree, and
+  # pointing it at ours tends to break them.
+  nixvim.url = "github:nix-community/nixvim";
 };
 
 outputs = inputs:
@@ -26,7 +34,7 @@ Use stable nixpkgs. Do not add new inputs without asking.
 ## Core philosophy
 
 1. Every `.nix` file under `modules/` is a flake-parts module. `import-tree` loads all of them automatically, so there are no manual `imports` lists for my own files.
-2. A `.nix` file that is NOT a flake-parts module (for example a hardware configuration) must have an underscore in its path, such as `_hardware-configuration.nix`, so `import-tree` skips it.
+2. A `.nix` file that is NOT a flake-parts module (for example a hardware configuration) must have an underscore in its path, such as `_hardware-configuration.nix`, so `import-tree` skips it. The rule is literally that: import-tree drops any path containing `/_`, so an underscore on a *directory* hides the whole subtree. That is how the editor's nixvim modules live under `packages/nvim/_config/` without the outer tree trying to evaluate them as flake-parts modules. The filter runs on the path relative to the directory import-tree was handed, so a second `import-tree ./_config` from inside still sees everything.
 3. Do not use `specialArgs` or `extraSpecialArgs`. Shared values go through the flake-parts config or `perSystem` arguments.
 4. Keep things simple. No theming system for now.
 
@@ -46,6 +54,12 @@ modules/
       quickshell/
         shell.qml
         Bar.qml
+    nvim/
+      nvim.nix
+      _config/
+        core/
+        plugins/
+        languages/
   features/
     base.nix
     user.nix
@@ -64,7 +78,7 @@ Flake setup only. `flake-parts.nix` sets `systems = [ "x86_64-linux" ]` and impo
 ### `packages/`
 Programs wrapped together with my config, usable on any system and any desktop. Files here only define `perSystem.packages`. They never define NixOS modules.
 
-- Wrap programs with `inputs.wrapper-modules.wrappers.<program>.wrap { inherit pkgs; ... }`.
+- Wrap programs with `inputs.wrapper-modules.wrappers.<program>.wrap { inherit pkgs; ... }`. `nvim` is the exception: nixvim is its own wrapper and builds the package itself.
 - A package is published under `packages` only if it is useful on its own.
 - Parts that only make sense inside another package stay private. The quickshell bar only works inside niri (it listens to niri's event stream), so it is wrapped but never published. It is shared with `niri.nix` through `_module.args.niriBar` in `bar.nix`, or written inline. It must never appear under `packages`.
 - A package that is private to another package lives in that package's folder.
@@ -148,6 +162,9 @@ editing these files:
 - `modules/packages/fastfetch.nix` -- `logo.color` and `display.color`
 - `modules/packages/hyprlock.nix` -- `label` and `input-field` colors
 - `modules/packages/pinentry/pinentry.rasi` -- the `*` block
+- `modules/packages/nvim/_config/plugins/theme.nix` -- the base16 slots, the
+  lualine theme table, and the Lua override pass. The other place where
+  sharing works: nothing else in the editor names a color
 
 Two of those hide from a naive grep: `fuzzel.nix` writes `RRGGBBAA` and
 `hyprlock.nix` writes `rgba(rrggbbaa)`, so a search for six hex digits with
@@ -157,6 +174,15 @@ Transparency: foot runs at `alpha=0.82` with `blur=yes`, and the bar at
 `#d0121d36`, so the wallpaper shows through both. The blur is real -- niri
 advertises `ext_background_effect_manager_v1`, which is the protocol foot's
 `blur` option requires.
+
+The editor inherits that glass rather than painting its own. foot applies its
+alpha only to cells carrying the *default* background, so any program that
+sets an explicit background goes opaque -- which is what a colorscheme
+normally does to every cell on screen. Neovim therefore clears the background
+on everything that is "the window" and lets the terminal's own background
+through. Panels stay solid on `surface`, the same way the bar and the pinentry
+box are surface over the blur: a completion menu you can read the wallpaper
+through is worse than one you can read.
 
 ## The bar
 
@@ -226,6 +252,72 @@ rather than assumed:
 Widget icons are drawn with `Canvas` rather than set as font glyphs, so none of
 this depends on which icons the monospace font happens to ship.
 
+## The editor
+
+`packages/nvim` is a nixvim config: one `.nix` file per concern under
+`_config`, loaded by a second `import-tree` that the outer one cannot see.
+`core/` holds options and global keymaps, `plugins/` one file per plugin,
+`languages/` one file per language -- a language file owns everything about
+that language at once, the server, the formatter, the treesitter grammar and
+the extra packages, so adding a language is adding a file.
+
+nixvim is not a wrapper-modules wrapper, so `nvim.nix` does not take `pkgs`
+from `perSystem`. It calls `inputs.nixvim.legacyPackages.${system}` and lets
+nixvim build against its own nixpkgs, which is the point of not making that
+input follow ours.
+
+The colors live in `_config/plugins/theme.nix` and nowhere else. It is two
+layers: base16, which maps the Blue Hour palette onto the sixteen slots every
+base16 plugin integration already understands, and a Lua pass that clears the
+background on everything structural so the terminal's glass shows through.
+The pass runs from a `ColorScheme` autocmd as well as once at startup, so
+`:colorscheme` or anything that reloads highlights does not undo it.
+
+**Transparency is not a list of groups, it is one rule**: a group whose
+background is the default background should not have a background at all.
+base16 paints `base00` onto dozens of groups -- `GitGutterAdd`, every
+`GitSigns*`, `DiffAdded`, `DiffFile` -- and each one lands as an opaque block
+on the glass. That is what put a box around every changed file in the tree and
+every sign in the gutter. So the pass sweeps all of `nvim_get_hl(0, {})` and
+drops any background equal to `base00`, rather than naming groups. Naming them
+would have been wrong as well as long: nothing in that list is a group I wrote.
+
+The sweep deliberately skips groups that are *links*, and only edits the ones
+carrying their own background. A link left intact keeps following its source,
+and that is what makes the rule survive lazy plugins: neo-tree defines
+`NeoTreeGitAdded -> GitGutterAdd` when the tree first opens, long after the
+sweep, and inherits the cleared background for free.
+
+Things that cost time to find out here:
+
+- `vim.api.nvim_set_hl` with no `bg` key means *no background*, which is what
+  transparency is. To clear one group's background without throwing away its
+  foreground, read it back with `nvim_get_hl(0, { name = g, link = false })`
+  first: `link = false` resolves a linked group to real attributes, where the
+  default would hand back `{ link = "Normal" }` and setting a `bg` alongside a
+  `link` is ignored.
+- **A plugin that builds highlights on attach escapes the sweep.** gitsigns'
+  `GitSignsStaged*` -- eighteen groups -- are built the first time it attaches
+  to a buffer, with the default background baked in, so a startup sweep never
+  sees them. Defining them up front is the fix, because gitsigns and neo-tree
+  both fill in only the groups a colorscheme left *empty*. That is worth
+  knowing in general: setting a plugin's groups before it loads wins, and an
+  empty group does not count as set -- clearing the background of a group that
+  does not exist yet leaves `{}` behind, which the plugin then overwrites.
+- lualine does not read highlight groups, it builds them from a theme table.
+  Its section `c` is the fill that spans the window, so that is the one that
+  has to be `bg = "NONE"`; the rest of the statusline is panel.
+- noice does not route all of its floats through `NormalFloat`, so
+  `NoiceCmdlinePopup` and friends need naming separately or the command
+  palette comes out transparent while every other float is solid.
+- base16's telescope integration gives the prompt, results and preview three
+  different backgrounds and inverts all three titles into colored blocks, one
+  of which it paints surface-on-surface and so renders invisible. The picker is
+  overridden to one `surface` panel, divided by its borders, with the titles as
+  colored text; the selected row is then the only thing in it with a background.
+  Its `telescope_borders` setting is left off for the same reason -- the borders
+  are ours.
+
 ## Current state of the key files
 
 `modules/packages/niri/niri.nix`. The bar is wrapped inline here rather than in
@@ -288,6 +380,8 @@ change here.
 - Live editing of niri: `nix run nixpkgs#niri -- -c ./modules/packages/niri/config.kdl`.
 - Validate niri config: `nix run nixpkgs#niri -- validate -c ./modules/packages/niri/config.kdl`.
 - Quickshell panels do not work directly on GNOME (no layer shell). Test the bar inside niri.
+- `nix run .#nvim` runs the editor. Run it inside foot, since the colors assume a terminal whose default background is `#0a1226` at `alpha=0.82`.
+- The editor's theme is checkable without eyes: `nvim --headless -c 'lua ...' -c 'qa!'` and read groups back with `nvim_get_hl(0, { name = g, link = false })`. A background that comes back `nil` is transparent.
 
 ## Things to verify rather than assume
 

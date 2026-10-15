@@ -4,7 +4,7 @@
   in {
     environment.systemPackages =
       [
-        inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
+        mine.nvim
         mine.fastfetch
       ]
       ++ (with pkgs; [
