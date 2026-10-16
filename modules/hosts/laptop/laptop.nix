@@ -23,6 +23,7 @@
       printing
       removable-media
       yubikey
+      login
       docker
 
       inputs.disko.nixosModules.disko

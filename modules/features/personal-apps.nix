@@ -8,17 +8,16 @@
       synology-drive-client
     ];
 
-    # The old config autostarted this through home-manager's xdg.configFile.
-    # A user unit does the same job and does not need niri's config.kdl, which
-    # both hosts share.
     systemd.user.services.synology-drive = {
       description = "Synology Drive client";
       partOf = ["graphical-session.target"];
       after = ["graphical-session.target"];
       wantedBy = ["graphical-session.target"];
       serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
         ExecStart = "${pkgs.synology-drive-client}/bin/synology-drive";
-        Restart = "on-failure";
+        ExecStop = "${pkgs.synology-drive-client}/bin/synology-drive stop";
       };
     };
   };

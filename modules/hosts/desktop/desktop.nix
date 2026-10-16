@@ -20,6 +20,7 @@
       printing
       removable-media
       yubikey
+      login
 
       common-apps
       office
