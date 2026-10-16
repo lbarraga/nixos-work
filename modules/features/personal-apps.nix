@@ -1,7 +1,7 @@
 {
   flake.modules.nixos.personal-apps = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
-      deezer-desktop
+      spotify
       discord
       element-desktop
       anki
