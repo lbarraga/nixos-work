@@ -7,12 +7,11 @@ import Quickshell.Services.SystemTray
 Row {
   id: root
 
-  // a tray menu is a popup anchored to this window
-  required property var barWindow
-
   property bool expanded: true
 
   // A Passive item is asking to be hidden. udiskie sits there permanently:
+  // --smart-tray goes Passive when nothing is plugged in rather than
+  // unregistering, and it offers no icon we can draw anyway.
   readonly property var items: SystemTray.items ? SystemTray.items.values.filter(i => i.status !== Status.Passive) : []
 
   spacing: 6
@@ -127,11 +126,18 @@ Row {
             cursorShape: Qt.PointingHandCursor
           }
 
+          QsMenuAnchor {
+            id: menu
+            menu: entry.modelData.menu
+            anchor.item: entry
+            anchor.edges: Edges.Bottom
+          }
+
           TapHandler {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
-            onTapped: eventPoint => {
-              if (eventPoint.event.button === Qt.RightButton || entry.modelData.onlyMenu)
-                entry.modelData.display(root.barWindow, entry.width / 2, entry.height);
+            onTapped: (eventPoint, button) => {
+              if (button === Qt.RightButton || entry.modelData.onlyMenu)
+                menu.open();
               else
                 entry.modelData.activate();
             }

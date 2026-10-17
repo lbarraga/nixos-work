@@ -1,2 +1,1 @@
-screenlock
-wallpaper should not move with workspaces
+als ik hover over een window zou het geselecteerd moeten worden.

@@ -42,7 +42,6 @@ PanelWindow {
     TrayWidget {
       id: tray
       anchors.verticalCenter: parent.verticalCenter
-      barWindow: bar
     }
 
     // separates other people's icons from our readouts. Hidden with the tray,
