@@ -151,20 +151,29 @@ down until every foreground clears WCAG AA.
 | overlay | `#24406B` | selections, borders, inactive ring |
 | muted | `#7D9CC2` | comments, placeholder, inactive text |
 | text | `#E9F4FA` | foreground; never pure white |
-| glow | `#F0DCA0` | prompt, matches, focus accents |
-| sand | `#DCB169` | warnings, git dirty, selection background |
+| glow | `#F0DCA0` | the "yellow" slot; types in the editor |
+| sand | `#DCB169` | warnings, git dirty, selection background, numbers |
 | rose | `#EC7A8C` | errors, urgent |
 | mint | `#5FC9A4` | success, git clean |
-| sky | `#4FB0F8` | info, the "blue" slot, niri's focus ring |
-| haze | `#7FD8F2` | the "cyan" slot |
-| iris | `#A99BF2` | the magenta slot |
+| sky | `#4FB0F8` | niri's focus ring, and every UI accent: prompts, matches, titles, hover, notification border |
+| haze | `#7FD8F2` | the "cyan" slot; the second accent where sky is taken |
+| iris | `#A99BF2` | the magenta slot; the git branch name |
 
 The wallpaper is a single hue family — 99.4% of pixels between hue 190 and 240,
 with no red, yellow, green or magenta to sample. `rose`, `mint` and `iris` were
 invented by keeping the chroma and lightness of colors that *are* present and
-picking neighbouring hues. `glow` and `sand` are the sun pushed warm, which
-makes them the only warm colors here: warm stays rare, everything structural is
-a value of the same blue.
+picking neighbouring hues.
+
+`glow` and `sand` were invented too, and have no source at all: measured over
+the image, the fraction of pixels with a warm hue is **0.000%**. So warm is not
+rare here, it is foreign, and it does not get to be chrome. Anything structural
+— a prompt, a match, a float title, a hover, a notification border — is `sky`,
+the same blue as niri's focus ring, so a focused window and an arriving
+notification say the same thing. `haze` is the second accent for the few places
+`sky` is already taken: a search hit under the cursor, the command-mode
+indicator, a keybind hint. Warm survives only where the meaning is yellow and
+nothing else will do — ANSI slot 3, numbers and types in the editor, and the
+three warnings (`sand` for git dirty, low battery, no internet).
 
 **The hexes are hardcoded in each config, on purpose.** There is no palette
 module. Two consumers (`config.kdl`, `pinentry.rasi`) are native formats that

@@ -2,7 +2,7 @@
 * {
     bg:     #121d36;
     fg:     #e9f4fa;
-    accent: #f0dca0;
+    accent: #4fb0f8;
     background-color: transparent;
     text-color:       @fg;
     font:             "monospace 12";

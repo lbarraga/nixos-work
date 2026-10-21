@@ -61,7 +61,7 @@
             outer_color = "rgba(24406bff)";
             inner_color = "rgba(121d36d0)";
             font_color = "rgba(e9f4faff)";
-            check_color = "rgba(f0dca0ff)";
+            check_color = "rgba(4fb0f8ff)";
             fail_color = "rgba(ec7a8cff)";
 
             placeholder_text = "";

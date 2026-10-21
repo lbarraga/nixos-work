@@ -62,7 +62,7 @@
     };
     command.a = {
       fg = "#0a1226";
-      bg = "#f0dca0";
+      bg = "#7fd8f2";
       gui = "bold";
     };
     inactive = {
@@ -126,15 +126,15 @@
 
       -- The window
       set("LineNr", { fg = blue_hour.overlay })
-      set("CursorLineNr", { fg = blue_hour.glow, bold = true })
+      set("CursorLineNr", { fg = blue_hour.sky, bold = true })
       set("EndOfBuffer", { fg = blue_hour.overlay })
       set("WinSeparator", { fg = blue_hour.overlay })
       set("VertSplit", { fg = blue_hour.overlay })
       set("Visual", { bg = blue_hour.overlay })
-      set("Search", { fg = blue_hour.base, bg = blue_hour.glow })
-      set("IncSearch", { fg = blue_hour.base, bg = blue_hour.sand })
-      set("CurSearch", { fg = blue_hour.base, bg = blue_hour.sand })
-      set("MatchParen", { fg = blue_hour.glow, bold = true, underline = true })
+      set("Search", { fg = blue_hour.base, bg = blue_hour.sky })
+      set("IncSearch", { fg = blue_hour.base, bg = blue_hour.haze })
+      set("CurSearch", { fg = blue_hour.base, bg = blue_hour.haze })
+      set("MatchParen", { fg = blue_hour.sky, bold = true, underline = true })
       set("LspInlayHint", { fg = blue_hour.muted, italic = true })
 
       -- active scope one step brighter than the passive guides
@@ -145,7 +145,7 @@
       -- floats: solid surface, overlay border, warm title
       set("NormalFloat", { fg = blue_hour.text, bg = blue_hour.surface })
       set("FloatBorder", { fg = blue_hour.overlay, bg = blue_hour.surface })
-      set("FloatTitle", { fg = blue_hour.glow, bg = blue_hour.surface, bold = true })
+      set("FloatTitle", { fg = blue_hour.sky, bg = blue_hour.surface, bold = true })
       set("Pmenu", { fg = blue_hour.text, bg = blue_hour.surface })
       set("PmenuSel", { fg = blue_hour.text, bg = blue_hour.overlay, bold = true })
       set("PmenuSbar", { bg = blue_hour.surface })
@@ -155,9 +155,9 @@
       -- noice does not route all its floats through NormalFloat.
       set("NoiceCmdlinePopup", { fg = blue_hour.text, bg = blue_hour.surface })
       set("NoiceCmdlinePopupBorder", { fg = blue_hour.overlay, bg = blue_hour.surface })
-      set("NoiceCmdlinePopupTitle", { fg = blue_hour.glow, bg = blue_hour.surface, bold = true })
-      set("NoiceCmdlineIcon", { fg = blue_hour.glow })
-      set("NoiceCmdlinePrompt", { fg = blue_hour.glow })
+      set("NoiceCmdlinePopupTitle", { fg = blue_hour.sky, bg = blue_hour.surface, bold = true })
+      set("NoiceCmdlineIcon", { fg = blue_hour.sky })
+      set("NoiceCmdlinePrompt", { fg = blue_hour.sky })
       set("NoicePopup", { fg = blue_hour.text, bg = blue_hour.surface })
       set("NoicePopupBorder", { fg = blue_hour.overlay, bg = blue_hour.surface })
       set("NoiceConfirm", { fg = blue_hour.text, bg = blue_hour.surface })
@@ -176,8 +176,8 @@
 
       set("TelescopePromptNormal", panel)
       set("TelescopePromptBorder", border)
-      set("TelescopePromptTitle", { fg = blue_hour.glow, bg = blue_hour.surface, bold = true })
-      set("TelescopePromptPrefix", { fg = blue_hour.glow, bg = blue_hour.surface })
+      set("TelescopePromptTitle", { fg = blue_hour.sky, bg = blue_hour.surface, bold = true })
+      set("TelescopePromptPrefix", { fg = blue_hour.sky, bg = blue_hour.surface })
       set("TelescopePromptCounter", { fg = blue_hour.muted, bg = blue_hour.surface })
 
       set("TelescopeResultsNormal", panel)
@@ -188,13 +188,13 @@
       set("TelescopePreviewBorder", border)
       set("TelescopePreviewTitle", { fg = blue_hour.sky, bg = blue_hour.surface, bold = true })
       set("TelescopePreviewLine", { bg = blue_hour.overlay })
-      set("TelescopePreviewMatch", { fg = blue_hour.base, bg = blue_hour.glow })
+      set("TelescopePreviewMatch", { fg = blue_hour.base, bg = blue_hour.sky })
 
       set("TelescopeSelection", { fg = blue_hour.text, bg = blue_hour.overlay, bold = true })
-      set("TelescopeSelectionCaret", { fg = blue_hour.glow, bg = blue_hour.overlay })
+      set("TelescopeSelectionCaret", { fg = blue_hour.sky, bg = blue_hour.overlay })
       set("TelescopeMultiSelection", { fg = blue_hour.iris })
       set("TelescopeMultiIcon", { fg = blue_hour.iris })
-      set("TelescopeMatching", { fg = blue_hour.glow, bold = true })
+      set("TelescopeMatching", { fg = blue_hour.sky, bold = true })
 
       -- otherwise these inherit DiffAdd's line-blend bg and stripe the list
       set("TelescopeResultsDiffAdd", { fg = blue_hour.mint })
@@ -229,7 +229,7 @@
       set("NeoTreeEndOfBuffer", { fg = blue_hour.overlay })
       set("NeoTreeWinSeparator", { fg = blue_hour.overlay })
       set("NeoTreeVertSplit", { fg = blue_hour.overlay })
-      set("NeoTreeRootName", { fg = blue_hour.glow, bold = true })
+      set("NeoTreeRootName", { fg = blue_hour.sky, bold = true })
       set("NeoTreeFileName", { fg = blue_hour.text })
       set("NeoTreeFileNameOpened", { fg = blue_hour.text, bold = true })
       set("NeoTreeDirectoryName", { fg = blue_hour.sky })
@@ -246,8 +246,8 @@
       set("NeoTreeMessage", { fg = blue_hour.muted, italic = true })
       set("NeoTreeFileStats", { fg = blue_hour.muted })
       set("NeoTreeFileStatsHeader", { fg = blue_hour.muted, bold = true, italic = true })
-      set("NeoTreeFilterTerm", { fg = blue_hour.glow, bold = true })
-      set("NeoTreeTitleBar", { fg = blue_hour.base, bg = blue_hour.glow, bold = true })
+      set("NeoTreeFilterTerm", { fg = blue_hour.sky, bold = true })
+      set("NeoTreeTitleBar", { fg = blue_hour.base, bg = blue_hour.sky, bold = true })
       set("NeoTreeTabActive", { fg = blue_hour.text, bold = true })
       set("NeoTreeTabInactive", { fg = blue_hour.muted })
       set("NeoTreeTabSeparatorActive", { fg = blue_hour.overlay })
@@ -268,9 +268,9 @@
 
       -- The start screen
       set("DashboardHeader", { fg = blue_hour.sky })
-      set("DashboardIcon", { fg = blue_hour.glow })
+      set("DashboardIcon", { fg = blue_hour.sky })
       set("DashboardDesc", { fg = blue_hour.text })
-      set("DashboardKey", { fg = blue_hour.sand })
+      set("DashboardKey", { fg = blue_hour.haze })
     end
 
     -- re-apply on every colorscheme load, so :hi clear does not undo it

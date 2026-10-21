@@ -64,7 +64,7 @@ PanelWindow {
           ? Colors.rose
           : modelData.urgency === NotificationUrgency.Low
             ? Colors.overlay
-            : Colors.glow
+            : Colors.sky
 
         // slide in from off the right edge, fade out on the way back
         x: width
@@ -143,7 +143,7 @@ PanelWindow {
                 radius: 6
                 color: area.containsMouse ? Colors.overlay : Colors.surface
                 border.width: 1
-                border.color: area.containsMouse ? Colors.glow : Colors.overlay
+                border.color: area.containsMouse ? Colors.sky : Colors.overlay
 
                 Text {
                   id: label
@@ -153,7 +153,7 @@ PanelWindow {
                   text: button.modelData.text !== ""
                     ? button.modelData.text
                     : button.modelData.identifier
-                  color: area.containsMouse ? Colors.glow : Colors.text
+                  color: area.containsMouse ? Colors.sky : Colors.text
                   font.family: "monospace"
                   font.pixelSize: 12
                 }

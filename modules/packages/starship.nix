@@ -20,12 +20,12 @@
 
         git_branch = {
           symbol = " ";
-          style = "bold #dcb169";
+          style = "bold #a99bf2";
           format = "[$symbol$branch]($style) ";
         };
 
         git_status = {
-          style = "bold #f0dca0";
+          style = "bold #dcb169";
           format = "[$all_status$ahead_behind]($style)";
           untracked = "?\${count} ";
           stashed = "$\${count} ";

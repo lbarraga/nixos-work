@@ -13,7 +13,7 @@
         };
 
         display.color = {
-          title = "#f0dca0";
+          title = "#4fb0f8";
           keys = "#5fc9a4";
           separator = "#7d9cc2";
           output = "#e9f4fa";

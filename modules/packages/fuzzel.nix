@@ -13,13 +13,13 @@
         colors = {
           background = "121d36f0";
           text = "e9f4faff";
-          prompt = "f0dca0ff";
+          prompt = "4fb0f8ff";
           placeholder = "7d9cc2ff";
           input = "e9f4faff";
-          match = "f0dca0ff";
+          match = "4fb0f8ff";
           selection = "24406bff";
           selection-text = "e9f4faff";
-          selection-match = "f0dca0ff";
+          selection-match = "4fb0f8ff";
         };
 
         border = {
