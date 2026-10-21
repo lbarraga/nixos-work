@@ -20,6 +20,7 @@
         ll = "eza -lah --git --icons=auto";
         lt = "eza --tree --git --icons=auto";
         open = "xdg-open";
+        nix-shell = "nix-shell --run zsh";
         temp = ''cd "$(mktemp -d)"'';
       };
 

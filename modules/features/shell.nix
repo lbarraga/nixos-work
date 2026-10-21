@@ -23,6 +23,14 @@
       # ...but not the compinit call in /etc/zshrc; the package runs its own
       enableGlobalCompInit = false;
 
+      # The package defines ls and ll. NixOS emits environment.shellAliases
+      # after interactiveShellInit, where they would win; null drops them.
+      # The default l survives, and resolves through the package's ls.
+      shellAliases = {
+        ls = null;
+        ll = null;
+      };
+
       # NixOS runs `prompt suse` after interactiveShellInit, overwriting
       # whatever starship set up.
       promptInit = "";
