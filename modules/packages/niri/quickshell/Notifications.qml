@@ -56,7 +56,7 @@ PanelWindow {
         required property var modelData
 
         width: parent.width
-        implicitHeight: text.implicitHeight + 28
+        implicitHeight: content.implicitHeight + 28
         radius: 10
         color: Colors.cardBackground
         border.width: 2
@@ -83,8 +83,15 @@ PanelWindow {
           NumberAnimation { duration: 200 }
         }
 
+        // declared before the content, so the action buttons sit on top of it
+        // and take their own clicks
+        MouseArea {
+          anchors.fill: parent
+          onClicked: card.modelData.dismiss()
+        }
+
         Column {
-          id: text
+          id: content
           anchors {
             left: parent.left
             right: parent.right
@@ -115,17 +122,66 @@ PanelWindow {
             maximumLineCount: 4
             elide: Text.ElideRight
           }
+
+          // the buttons a pairing request or a "reply" notification carries.
+          // Without these the card is unanswerable: blueman's confirmation
+          // waits on an action it has no way to receive.
+          Row {
+            spacing: 8
+            topPadding: 6
+            visible: card.modelData.actions.length > 0
+
+            Repeater {
+              model: card.modelData.actions
+
+              delegate: Rectangle {
+                id: button
+                required property var modelData
+
+                implicitWidth: label.implicitWidth + 20
+                implicitHeight: label.implicitHeight + 10
+                radius: 6
+                color: area.containsMouse ? Colors.overlay : Colors.surface
+                border.width: 1
+                border.color: area.containsMouse ? Colors.glow : Colors.overlay
+
+                Text {
+                  id: label
+                  anchors.centerIn: parent
+                  // the spec's "default" action is the whole-card click, not a
+                  // button, and its text is conventionally empty
+                  text: button.modelData.text !== ""
+                    ? button.modelData.text
+                    : button.modelData.identifier
+                  color: area.containsMouse ? Colors.glow : Colors.text
+                  font.family: "monospace"
+                  font.pixelSize: 12
+                }
+
+                MouseArea {
+                  id: area
+                  anchors.fill: parent
+                  hoverEnabled: true
+                  onClicked: {
+                    button.modelData.invoke();
+                    if (!card.modelData.resident)
+                      card.modelData.dismiss();
+                  }
+                }
+              }
+            }
+          }
         }
 
-        MouseArea {
-          anchors.fill: parent
-          onClicked: card.modelData.dismiss()
-        }
-
-        // critical ones (poweralertd's low battery) stay until clicked
+        // critical ones (poweralertd's low battery) stay until clicked, and so
+        // does anything waiting on an answer or asking for no timeout
         Timer {
           running: card.modelData.urgency !== NotificationUrgency.Critical
-          interval: 6000
+            && card.modelData.actions.length === 0
+            && card.modelData.expireTimeout !== 0
+          interval: card.modelData.expireTimeout > 0
+            ? card.modelData.expireTimeout * 1000
+            : 6000
           onTriggered: card.modelData.expire()
         }
       }
