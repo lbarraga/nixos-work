@@ -173,15 +173,26 @@ PanelWindow {
           }
         }
 
+        // A card with buttons may be a question (blueman's pairing confirm) or
+        // only an offer (Mattermost's "View"), and nothing in the protocol
+        // tells them apart. So buttons buy time to answer, not a card that
+        // never leaves.
+        readonly property int lifetime: {
+          if (card.modelData.actions.length > 0)
+            return Math.max(30000, card.modelData.expireTimeout * 1000);
+          if (card.modelData.expireTimeout === 0)
+            return 0;
+          return card.modelData.expireTimeout > 0
+            ? card.modelData.expireTimeout * 1000
+            : 6000;
+        }
+
         // critical ones (poweralertd's low battery) stay until clicked, and so
-        // does anything waiting on an answer or asking for no timeout
+        // does anything asking for no timeout with nothing to click
         Timer {
           running: card.modelData.urgency !== NotificationUrgency.Critical
-            && card.modelData.actions.length === 0
-            && card.modelData.expireTimeout !== 0
-          interval: card.modelData.expireTimeout > 0
-            ? card.modelData.expireTimeout * 1000
-            : 6000
+            && card.lifetime > 0
+          interval: card.lifetime
           onTriggered: card.modelData.expire()
         }
       }
