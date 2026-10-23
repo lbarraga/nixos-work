@@ -5,11 +5,6 @@
 
       # socket-activated, so the daemon is not resident on every boot
       enableOnBoot = false;
-      rootless = {
-        enable = true;
-        setSocketVariable = true;
-      };
-
       autoPrune = {
         enable = true;
         dates = "weekly";

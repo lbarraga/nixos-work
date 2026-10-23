@@ -13,10 +13,11 @@
       zdotFilesDirname = "zsh-dot-dir";
 
       # what the aliases call by name
-      runtimePkgs = [pkgs.eza pkgs.xdg-utils];
+      runtimePkgs = [pkgs.eza];
 
       zshAliases = {
         ls = "eza --git --icons=auto";
+        l = "eza -lah --git --icons=auto";
         ll = "eza -lah --git --icons=auto";
         lt = "eza --tree --git --icons=auto";
         open = "xdg-open";
