@@ -55,6 +55,10 @@ PanelWindow {
       visible: tray.visible
     }
 
+    DndWidget {
+      anchors.verticalCenter: parent.verticalCenter
+    }
+
     BluetoothWidget {
       anchors.verticalCenter: parent.verticalCenter
     }

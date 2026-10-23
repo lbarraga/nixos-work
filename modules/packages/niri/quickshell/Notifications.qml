@@ -37,8 +37,13 @@ PanelWindow {
     actionsSupported: true
     imageSupported: true
 
-    // without this the server accepts notifications and forgets them at once
+    // without this the server accepts notifications and forgets them at once,
+    // which is exactly what do not disturb wants for everything but the
+    // critical ones -- poweralertd's dying battery still gets through. There is
+    // no history panel, so a suppressed card is dropped rather than queued.
     onNotification: notification => {
+      if (Dnd.active && notification.urgency !== NotificationUrgency.Critical)
+        return;
       notification.tracked = true;
     }
   }
