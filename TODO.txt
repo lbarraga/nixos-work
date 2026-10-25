@@ -1,1 +1,0 @@
-als ik hover over een window zou het geselecteerd moeten worden.
