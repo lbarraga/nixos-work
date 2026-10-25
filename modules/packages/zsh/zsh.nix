@@ -47,9 +47,11 @@
         bindkey '^k' up-line-or-history
         bindkey '^j' down-line-or-history
 
-        # starship.toml rather than a wrapped starship: `starship init` resolves
-        # its own path through /proc/self/exe, so the shell it writes always
-        # calls the real binary and a wrapper around it is never consulted.
+        ns() { nix shell "''${@/#/nixpkgs#}" }
+        nr() { nix run "nixpkgs#$1" -- "''${@:2}" }
+        nsu() { nix shell "''${@/#/nixpkgs/nixpkgs-unstable#}" }
+        nru() { nix run "nixpkgs/nixpkgs-unstable#$1" -- "''${@:2}" }
+
         export STARSHIP_CONFIG=${./starship.toml}
         eval "$(${lib.getExe pkgs.starship} init zsh)"
       '';
