@@ -22,6 +22,10 @@
         open = "xdg-open";
         nix-shell = "nix-shell --run zsh";
         temp = ''cd "$(mktemp -d)"'';
+
+        # Not in runtimePkgs like eza: fastfetch's closure is 440M, which is
+        # not a thing to carry in the shell. features/cli-tools.nix installs it.
+        ff = "fastfetch";
       };
 
       zshrc.content = ''

@@ -187,7 +187,6 @@ have covered more than half of them. Changing a color means editing:
 - `features/shell.nix` — `autosuggestions.highlightStyle`
 - `packages/niri/config.kdl` — `focus-ring` and `border`
 - `packages/niri/quickshell/Colors.qml` — every color on the QML side
-- `packages/fastfetch.nix` — `logo.color`, `display.color`
 - `packages/hyprlock.nix` — `label` and `input-field`
 - `packages/pinentry/pinentry.rasi` — the `*` block
 - `packages/nvim/_config/plugins/theme.nix` — every color in the editor

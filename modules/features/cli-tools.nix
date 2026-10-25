@@ -3,11 +3,9 @@
     mine = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
   in {
     environment.systemPackages =
-      [
-        mine.nvim
-        mine.fastfetch
-      ]
+      [mine.nvim]
       ++ (with pkgs; [
+        fastfetch
         git
         btop
         killall
