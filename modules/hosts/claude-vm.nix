@@ -1,4 +1,8 @@
-{ config, inputs, ... }: {
+{
+  config,
+  inputs,
+  ...
+}: {
   flake.nixosConfigurations.claude-vm = inputs.nixpkgs.lib.nixosSystem {
     modules = with config.flake.modules.nixos; [
       base
@@ -22,7 +26,11 @@
           diskSize = 8192;
           cores = 4;
           forwardPorts = [
-            { from = "host"; host.port = 2222; guest.port = 22; }
+            {
+              from = "host";
+              host.port = 2222;
+              guest.port = 22;
+            }
           ];
         };
       }
