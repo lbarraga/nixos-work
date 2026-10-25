@@ -29,7 +29,7 @@
         RemainAfterExit = true;
       };
       script = ''
-        gpg --batch --quiet --import ${./keys/gpg-public.asc}
+        gpg --batch --quiet --import ${./gpg-public.asc}
         echo "${fingerprint}:6:" | gpg --batch --quiet --import-ownertrust
 
         # creates the stubs; only works with the key in, so do not fail without
