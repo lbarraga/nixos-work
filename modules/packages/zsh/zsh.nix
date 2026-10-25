@@ -1,7 +1,6 @@
 {inputs, ...}: {
   perSystem = {
     pkgs,
-    config,
     lib,
     ...
   }: {
@@ -48,7 +47,11 @@
         bindkey '^k' up-line-or-history
         bindkey '^j' down-line-or-history
 
-        eval "$(${lib.getExe config.packages.starship} init zsh)"
+        # starship.toml rather than a wrapped starship: `starship init` resolves
+        # its own path through /proc/self/exe, so the shell it writes always
+        # calls the real binary and a wrapper around it is never consulted.
+        export STARSHIP_CONFIG=${./starship.toml}
+        eval "$(${lib.getExe pkgs.starship} init zsh)"
       '';
     };
   };
