@@ -48,14 +48,16 @@ Row {
         ctx.lineCap = "round";
 
         if (root.wired) {
+          // two nodes joined by a cable. A plug or a port needs pins and a
+          // latch to read as either, and at 16px those blur into a blob.
           ctx.beginPath();
-          ctx.rect(2.5, 5.5, 11, 7);
+          ctx.rect(1, 4, 4.5, 6);
+          ctx.rect(10.5, 4, 4.5, 6);
           ctx.stroke();
           ctx.beginPath();
-          ctx.moveTo(8, 5.5);
-          ctx.lineTo(8, 1.5);
+          ctx.moveTo(5.5, 7);
+          ctx.lineTo(10.5, 7);
           ctx.stroke();
-          ctx.fillRect(5.5, 8.5, 5, 4);
         } else {
           const cx = 8;
           const cy = 12.5;

@@ -7,6 +7,10 @@
     niriBar = inputs.wrapper-modules.wrappers.quickshell.wrap {
       inherit pkgs;
       configDir = ./quickshell;
+
+      # SysInfo reads /proc directly for everything except free disk space,
+      # which has no /proc equivalent, so it shells out to df.
+      runtimePkgs = [pkgs.coreutils];
     };
   in {
     packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {

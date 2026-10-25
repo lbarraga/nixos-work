@@ -55,6 +55,11 @@ PanelWindow {
       visible: tray.visible
     }
 
+    SystemWidget {
+      anchors.verticalCenter: parent.verticalCenter
+      screenInfo: bar.modelData
+    }
+
     DndWidget {
       anchors.verticalCenter: parent.verticalCenter
     }

@@ -1,7 +1,2 @@
-- bluetuith instead of the blueman
 - look for a better theme on brave
-- instead of allowunfree in base, it should be next to every features that needs it
 - greetd autologin, then lock? as there is a disk encryption prompt first.
-- translate niri config to wrapper settings (maybe)
-- fastfetch override niet nodig
-- starship does not display the counts for the git operations, also some substitutions are blank

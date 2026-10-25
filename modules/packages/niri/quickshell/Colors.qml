@@ -23,4 +23,7 @@ Singleton {
   // translucent, so the wallpaper tints the bar and the cards
   readonly property color barBackground: "#d0121d36"
   readonly property color cardBackground: "#f0121d36"
+
+  // the readouts inside the system panel, a shade down so they read as recessed
+  readonly property color panelCard: "#700a1226"
 }
