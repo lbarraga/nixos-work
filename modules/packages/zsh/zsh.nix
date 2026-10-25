@@ -38,7 +38,7 @@
         zstyle ':completion:*' menu select
         zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#7d9cc2'
+        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#80a48e'
 
         # autosuggestions first: syntax-highlighting wraps the widgets it binds
         source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh

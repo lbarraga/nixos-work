@@ -66,10 +66,10 @@ PanelWindow {
         color: Colors.cardBackground
         border.width: 2
         border.color: modelData.urgency === NotificationUrgency.Critical
-          ? Colors.rose
+          ? Colors.ember
           : modelData.urgency === NotificationUrgency.Low
             ? Colors.overlay
-            : Colors.sky
+            : Colors.aqua
 
         // slide in from off the right edge, fade out on the way back
         x: width
@@ -148,7 +148,7 @@ PanelWindow {
                 radius: 6
                 color: area.containsMouse ? Colors.overlay : Colors.surface
                 border.width: 1
-                border.color: area.containsMouse ? Colors.sky : Colors.overlay
+                border.color: area.containsMouse ? Colors.aqua : Colors.overlay
 
                 Text {
                   id: label
@@ -158,7 +158,7 @@ PanelWindow {
                   text: button.modelData.text !== ""
                     ? button.modelData.text
                     : button.modelData.identifier
-                  color: area.containsMouse ? Colors.sky : Colors.text
+                  color: area.containsMouse ? Colors.aqua : Colors.text
                   font.family: "monospace"
                   font.pixelSize: 12
                 }

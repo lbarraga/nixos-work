@@ -26,7 +26,7 @@ Row {
       height: 18
       radius: 9
 
-      color: modelData.is_urgent ? Colors.rose : modelData.is_active ? Colors.sky : pill.occupied ? Colors.overlay : "transparent"
+      color: modelData.is_urgent ? Colors.ember : modelData.is_active ? Colors.aqua : pill.occupied ? Colors.overlay : "transparent"
 
       // empty ones get an outline rather than a fill
       border.width: !pill.occupied && !modelData.is_active && !modelData.is_urgent ? 1 : 0

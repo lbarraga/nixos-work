@@ -15,7 +15,7 @@ Row {
   readonly property bool adapterOn: root.adapter ? root.adapter.enabled : false
   readonly property var connectedDevices: Bluetooth.devices ? Bluetooth.devices.values.filter(d => d.connected) : []
 
-  readonly property color tint: !root.adapterOn ? Colors.muted : root.connectedDevices.length > 0 ? Colors.sky : Colors.text
+  readonly property color tint: !root.adapterOn ? Colors.muted : root.connectedDevices.length > 0 ? Colors.aqua : Colors.text
   readonly property string label: !root.adapterOn ? "Bluetooth off" : root.connectedDevices.length > 0 ? root.connectedDevices.map(d => d.deviceName || d.name).join(", ") : "Bluetooth"
 
   // the window this opens

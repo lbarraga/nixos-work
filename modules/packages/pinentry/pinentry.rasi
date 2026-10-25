@@ -1,8 +1,8 @@
-/* Theme for the YubiKey PIN prompt. Blue Hour palette -- see CLAUDE.md. */
+/* Theme for the YubiKey PIN prompt. Hillside palette -- see CLAUDE.md. */
 * {
-    bg:     #121d36;
-    fg:     #e9f4fa;
-    accent: #4fb0f8;
+    bg:     #102416;
+    fg:     #ecf5ed;
+    accent: #1fbfbf;
     background-color: transparent;
     text-color:       @fg;
     font:             "monospace 12";

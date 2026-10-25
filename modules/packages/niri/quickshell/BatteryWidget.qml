@@ -21,7 +21,7 @@ Row {
   readonly property bool charging: bat ? bat.state === 1 || bat.state === 5 : false
   readonly property bool full: bat ? bat.state === 4 : false
 
-  readonly property color levelColor: charging || full ? Colors.mint : pct <= 15 ? Colors.rose : pct <= 30 ? Colors.sand : Colors.text
+  readonly property color levelColor: charging || full ? Colors.fern : pct <= 15 ? Colors.ember : pct <= 30 ? Colors.wheat : Colors.text
 
   Item {
     width: 24

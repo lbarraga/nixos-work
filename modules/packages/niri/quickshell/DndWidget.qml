@@ -9,7 +9,7 @@ Row {
   spacing: 6
   height: 16
 
-  readonly property color tint: Dnd.active ? Colors.sand : Colors.text
+  readonly property color tint: Dnd.active ? Colors.wheat : Colors.text
   readonly property string label: Dnd.active
     ? "Do not disturb -- only urgent"
     : "Notifications on"

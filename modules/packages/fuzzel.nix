@@ -9,17 +9,17 @@
           width = 40;
         };
 
-        # Blue Hour palette -- see CLAUDE.md. fuzzel wants RRGGBBAA.
+        # Hillside palette -- see CLAUDE.md. fuzzel wants RRGGBBAA.
         colors = {
-          background = "121d36f0";
-          text = "e9f4faff";
-          prompt = "4fb0f8ff";
-          placeholder = "7d9cc2ff";
-          input = "e9f4faff";
-          match = "4fb0f8ff";
-          selection = "24406bff";
-          selection-text = "e9f4faff";
-          selection-match = "4fb0f8ff";
+          background = "102416f0";
+          text = "ecf5edff";
+          prompt = "1fbfbfff";
+          placeholder = "80a48eff";
+          input = "ecf5edff";
+          match = "1fbfbfff";
+          selection = "274a31ff";
+          selection-text = "ecf5edff";
+          selection-match = "1fbfbfff";
         };
 
         border = {

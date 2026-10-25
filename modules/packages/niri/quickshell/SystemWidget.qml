@@ -106,7 +106,7 @@ Row {
 
     // 0..1, oldest first
     property var values: []
-    property color tint: Colors.sky
+    property color tint: Colors.aqua
 
     onValuesChanged: spark.requestPaint()
 
@@ -223,7 +223,7 @@ Row {
               anchors.right: parent.right
               anchors.bottom: parent.bottom
               radius: 2
-              color: Colors.sky
+              color: Colors.aqua
               height: Math.round(parent.height * Math.max(0, Math.min(1, grid.loads[tile.index])))
 
               Behavior on height {
@@ -309,7 +309,7 @@ Row {
     property string value: ""
     property int valueWidth: 92
     property var history: []
-    property color tint: Colors.sky
+    property color tint: Colors.aqua
 
     implicitHeight: 28
 
@@ -360,7 +360,7 @@ Row {
     Glyph {
       anchors.fill: parent
       kind: "cpu"
-      tint: root.open ? Colors.sky : Colors.text
+      tint: root.open ? Colors.aqua : Colors.text
     }
   }
 
@@ -443,7 +443,7 @@ Row {
             kind: "ram"
             value: SysInfo.formatSize(SysInfo.memUsed) + " / " + SysInfo.formatSize(SysInfo.memTotal)
             history: SysInfo.memHistory
-            tint: Colors.iris
+            tint: Colors.bloom
           }
 
           StatRow {
@@ -451,7 +451,7 @@ Row {
             kind: "cpu"
             value: Math.round(SysInfo.cpu * 100) + "%"
             history: SysInfo.cpuHistory
-            tint: Colors.sky
+            tint: Colors.aqua
           }
 
           CoreGrid {
@@ -476,7 +476,7 @@ Row {
                 spacing: 6
                 Glyph {
                   kind: "down"
-                  tint: Colors.mint
+                  tint: Colors.fern
                   anchors.verticalCenter: parent.verticalCenter
                 }
                 Text {
@@ -521,7 +521,7 @@ Row {
                 }
                 Glyph {
                   kind: "up"
-                  tint: Colors.haze
+                  tint: Colors.sky
                   anchors.verticalCenter: parent.verticalCenter
                 }
               }
@@ -578,7 +578,7 @@ Row {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 radius: 3
-                color: Colors.sky
+                color: Colors.aqua
                 width: SysInfo.diskTotal > 0 ? Math.round(parent.width * SysInfo.diskUsed / SysInfo.diskTotal) : 0
               }
             }

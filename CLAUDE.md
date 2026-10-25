@@ -137,43 +137,61 @@ That is fine until the desktop wants fixed monitor positions, which the no-
 - Do NOT add niri `output` blocks by default. The laptop docks into unknown
   monitor setups; niri's automatic placement plus `niri msg output` covers it.
 
-## Colors: the Blue Hour palette
+## Colors: the Hillside palette
 
-Sampled from the wallpaper at `modules/packages/niri/quickshell/wallpaper.jpg`,
-with the dark end extended: the darkest thing in the image is a saturated indigo
-peak, too bright to sit a terminal on, so `base` and `surface` carry that hue
-down until every foreground clears WCAG AA.
+Sampled from the wallpaper at `modules/packages/niri/quickshell/wallpaper.jpg` —
+a sunlit valley — with the dark end extended: the darkest thing in the image is
+a forest shadow at OKLCH lightness 0.39, far too bright to sit a terminal on, so
+`base` and `surface` carry that hue down until every foreground clears WCAG AA.
 
 | Role | Hex | Used for |
 |---|---|---|
-| base | `#0A1226` | window and terminal background |
-| surface | `#121D36` | bar, panels, floats, pinentry box |
-| overlay | `#24406B` | selections, borders, inactive ring |
-| muted | `#7D9CC2` | comments, placeholder, inactive text |
-| text | `#E9F4FA` | foreground; never pure white |
-| glow | `#F0DCA0` | the "yellow" slot; types in the editor |
-| sand | `#DCB169` | warnings, git dirty, selection background, numbers |
-| rose | `#EC7A8C` | errors, urgent |
-| mint | `#5FC9A4` | success, git clean |
-| sky | `#4FB0F8` | niri's focus ring, and every UI accent: prompts, matches, titles, hover, notification border |
-| haze | `#7FD8F2` | the "cyan" slot; the second accent where sky is taken |
-| iris | `#A99BF2` | the magenta slot; the git branch name |
+| base | `#09180D` | window and terminal background |
+| surface | `#102416` | bar, panels, floats, pinentry box |
+| overlay | `#274A31` | selections, borders, inactive ring |
+| muted | `#80A48E` | comments, placeholder, inactive text |
+| text | `#ECF5ED` | foreground; never pure white |
+| sun | `#EDDDA0` | the "bright yellow" slot; types in the editor |
+| wheat | `#D9B361` | warnings, git dirty, selection background, numbers |
+| ember | `#EE7D76` | errors, urgent |
+| fern | `#94C976` | success, git clean |
+| aqua | `#1FBFBF` | niri's focus ring, and every UI accent: prompts, matches, titles, hover, notification border |
+| sky | `#83D7F2` | the "blue" slot; the second accent where aqua is taken |
+| bloom | `#CB90D8` | the magenta slot; the git branch name |
 
-The wallpaper is a single hue family — 99.4% of pixels between hue 190 and 240,
-with no red, yellow, green or magenta to sample. `rose`, `mint` and `iris` were
-invented by keeping the chroma and lightness of colors that *are* present and
-picking neighbouring hues.
+The palette is built in OKLCH rather than by eye, in the three lightness tiers
+the image already has: `base`/`surface`/`overlay` low, `muted` at 0.68, the
+accents between 0.72 and 0.90. Hue is the only thing that varies within a tier,
+so no accent shouts over its neighbours. Measured against `base`, the weakest
+foreground is `muted` at 6.6:1 and the weakest against `surface` is `muted` at
+5.9:1 — every pairing clears AA, most clear AAA.
 
-`glow` and `sand` were invented too, and have no source at all: measured over
-the image, the fraction of pixels with a warm hue is **0.000%**. So warm is not
-rare here, it is foreign, and it does not get to be chrome. Anything structural
-— a prompt, a match, a float title, a hover, a notification border — is `sky`,
-the same blue as niri's focus ring, so a focused window and an arriving
-notification say the same thing. `haze` is the second accent for the few places
-`sky` is already taken: a search hit under the cursor, the command-mode
-indicator, a keybind hint. Warm survives only where the meaning is yellow and
-nothing else will do — ANSI slot 3, numbers and types in the editor, and the
-three warnings (`sand` for git dirty, low battery, no internet).
+The hues come from the image where the image has them. Measured over the
+wallpaper: **77.7%** of pixels fall between hue 60 and 179 — the chartreuse
+grass, the foliage, the sage on the far hillside — and another **19.5%** between
+180 and 199, the teal haze over the valley. `fern`, `aqua` and the structural
+greens are sampled from those directly: the grass quantizes to OKLCH hue 126,
+the forest to 141, the haze to 197, the sky patches to 216.
+
+What the image does *not* contain is red or magenta: **0.000%** of pixels,
+exactly. `ember` and `bloom` are invented, by keeping the lightness and chroma
+of colors that *are* present and rotating the hue. Warm is nearly as foreign at
+**0.3%**, so `wheat` and `sun` are invented too, and warm does not get to be
+chrome. Anything structural — a prompt, a match, a float title, a hover, a
+notification border — is `aqua`, the same teal as niri's focus ring, so a
+focused window and an arriving notification say the same thing. `sky` is the
+second accent for the few places `aqua` is already taken: a search hit under the
+cursor, the command-mode indicator, a keybind hint. Warm survives only where the
+meaning is yellow and nothing else will do — ANSI slot 3, numbers and types in
+the editor, and the three warnings (`wheat` for git dirty, low battery, no
+internet).
+
+**The accent sits in the cyan slot, not the blue one.** That is the one
+structural difference from a conventional scheme: green is spoken for by
+`fern` (success, git clean, strings), so the UI accent cannot be green without
+colliding with it, and the teal haze is both the next most present hue and far
+enough from `fern` to stay distinct. `foot.nix` therefore has `regular6` as the
+accent where a blue-based scheme would use `regular4`.
 
 **The hexes are hardcoded in each config, on purpose.** There is no palette
 module. Two consumers (`config.kdl`, `pinentry.rasi`) are native formats that
@@ -184,7 +202,7 @@ have covered more than half of them. Changing a color means editing:
 - `packages/fuzzel.nix` — `colors` block, RRGGBBAA
 - `packages/zsh/starship.toml` — nothing: the prompt uses ANSI color names, so
   it follows `foot.nix`’s 16 slots
-- `features/shell.nix` — `autosuggestions.highlightStyle`
+- `packages/zsh/zsh.nix` — `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE`
 - `packages/niri/config.kdl` — `focus-ring` and `border`
 - `packages/niri/quickshell/Colors.qml` — every color on the QML side
 - `packages/hyprlock.nix` — `label` and `input-field`
@@ -198,7 +216,7 @@ Two hide from a naive grep: `fuzzel.nix` writes `RRGGBBAA` and `hyprlock.nix`
 writes `rgba(rrggbbaa)`. Search for the bare hex without `\b`.
 
 **Glass.** foot runs `alpha=0.82` with `blur=yes` and the bar sits at
-`#d0121d36`, so the wallpaper shows through both. The blur is real: niri
+`#d0102416`, so the wallpaper shows through both. The blur is real: niri
 advertises `ext_background_effect_manager_v1`, which is what foot's `blur`
 requires. foot applies that alpha only to cells carrying the *default*
 background, so any program setting an explicit background goes opaque — which is
@@ -324,7 +342,7 @@ Things that cost time to find out:
 - Installing a real machine: boot the ISO, clone this flake, run
   `modules/hosts/<name>/format-disks.sh`. It wipes the disk, so it asks first.
 - `nix run .#nvim` runs the editor. Run it inside foot: the colors assume a
-  terminal whose default background is `#0a1226` at `alpha=0.82`.
+  terminal whose default background is `#09180d` at `alpha=0.82`.
 - Live-edit the bar with
   `nix run nixpkgs#quickshell -- -p ./modules/packages/niri/quickshell` after
   `pkill quickshell`. Not the wrapped one, which already passes a config path.

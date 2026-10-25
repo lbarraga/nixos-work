@@ -23,7 +23,7 @@ Row {
 
   readonly property string connectionName: root.wired ? "Ethernet" : root.wifiNetwork ? root.wifiNetwork.name : root.wifi ? "Wi-Fi" : ""
 
-  readonly property color tint: !root.online ? Colors.muted : root.limited ? Colors.sand : Colors.text
+  readonly property color tint: !root.online ? Colors.muted : root.limited ? Colors.wheat : Colors.text
   readonly property string label: !root.online ? "Offline" : root.limited ? root.connectionName + " - no internet" : root.connectionName
 
   // Comes from features/network.nix, not from the niri package, so on another

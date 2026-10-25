@@ -30,7 +30,7 @@ Row {
       onPaint: {
         const ctx = getContext("2d");
         ctx.reset();
-        ctx.strokeStyle = toggleHover.hovered ? Colors.sky : Colors.muted;
+        ctx.strokeStyle = toggleHover.hovered ? Colors.aqua : Colors.muted;
         ctx.lineWidth = 1.6;
         ctx.lineCap = "round";
         ctx.lineJoin = "round";

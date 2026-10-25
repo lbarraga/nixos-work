@@ -7,35 +7,35 @@
           font = "monospace:size=11";
         };
 
-        # Blue Hour palette -- see CLAUDE.md. foot wants bare hex, no '#'.
+        # Hillside palette -- see CLAUDE.md. foot wants bare hex, no '#'.
         colors-dark = {
           # the blur is real: niri implements ext-background-effect-v1
           alpha = 0.82;
           blur = "yes";
 
-          background = "0a1226";
-          foreground = "e9f4fa";
+          background = "09180d";
+          foreground = "ecf5ed";
 
-          regular0 = "121d36"; # black   / the far ridge
-          regular1 = "d26a7c"; # red     / rose, dimmed
-          regular2 = "4fb492"; # green   / mint, dimmed
-          regular3 = "dcb169"; # yellow  / sand
-          regular4 = "4fb0f8"; # blue    / the sky
-          regular5 = "9385dc"; # magenta / iris, dimmed
-          regular6 = "5fc2df"; # cyan    / haze, dimmed
-          regular7 = "7d9cc2"; # white   / the haze on the ridge line
+          regular0 = "102416"; # black   / the forest floor
+          regular1 = "d8655f"; # red     / ember, dimmed
+          regular2 = "7cb05e"; # green   / fern, dimmed
+          regular3 = "d9b361"; # yellow  / wheat
+          regular4 = "46b8d7"; # blue    / the sky over the ridge
+          regular5 = "b379c0"; # magenta / bloom, dimmed
+          regular6 = "1fbfbf"; # cyan    / aqua, the accent
+          regular7 = "80a48e"; # white   / sage on the far hillside
 
-          bright0 = "24406b";
-          bright1 = "ec7a8c";
-          bright2 = "5fc9a4";
-          bright3 = "f0dca0";
-          bright4 = "7fc4ff";
-          bright5 = "a99bf2";
-          bright6 = "7fd8f2";
-          bright7 = "e9f4fa";
+          bright0 = "274a31";
+          bright1 = "ee7d76";
+          bright2 = "94c976";
+          bright3 = "eddda0";
+          bright4 = "83d7f2";
+          bright5 = "cb90d8";
+          bright6 = "79dede";
+          bright7 = "ecf5ed";
 
-          selection-foreground = "0a1226";
-          selection-background = "dcb169";
+          selection-foreground = "09180d";
+          selection-background = "d9b361";
         };
       };
     };
