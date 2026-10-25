@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Bluetooth
 
-// Hidden entirely when there is no adapter. Click opens blueman.
+// Hidden entirely when there is no adapter. Click opens bluetuith.
 Row {
   id: root
 
@@ -19,7 +19,7 @@ Row {
   readonly property string label: !root.adapterOn ? "Bluetooth off" : root.connectedDevices.length > 0 ? root.connectedDevices.map(d => d.deviceName || d.name).join(", ") : "Bluetooth"
 
   // the window this opens
-  readonly property var managerCommand: ["blueman-manager"]
+  readonly property var managerCommand: ["footclient", "--app-id=bluetuith", "bluetuith"]
 
   Item {
     id: btIcon
