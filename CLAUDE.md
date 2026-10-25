@@ -182,7 +182,8 @@ have covered more than half of them. Changing a color means editing:
 
 - `packages/foot.nix` — 16 ANSI slots
 - `packages/fuzzel.nix` — `colors` block, RRGGBBAA
-- `packages/zsh/starship.toml` — `style` strings
+- `packages/zsh/starship.toml` — nothing: the prompt uses ANSI color names, so
+  it follows `foot.nix`’s 16 slots
 - `features/shell.nix` — `autosuggestions.highlightStyle`
 - `packages/niri/config.kdl` — `focus-ring` and `border`
 - `packages/niri/quickshell/Colors.qml` — every color on the QML side
