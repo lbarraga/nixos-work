@@ -9,7 +9,6 @@
       ]
       ++ (with pkgs; [
         git
-        htop
         btop
         killall
         tree
@@ -17,7 +16,6 @@
         wget
       ]);
 
-    # otherwise `git commit` and friends open the NixOS default, nano
     environment.variables.EDITOR = "nvim";
 
     programs.git = {
@@ -26,6 +24,7 @@
         user.name = "Lukas Barragan Torres";
         user.email = "lukas.barragantorres@ugent.be";
         init.defaultBranch = "main";
+        push.autoSetupRemote = true;
       };
     };
 

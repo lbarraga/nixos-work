@@ -3,7 +3,6 @@
     environment.systemPackages = with pkgs; [
       spotify
       discord
-      element-desktop
       anki
       synology-drive-client
     ];

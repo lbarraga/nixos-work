@@ -35,8 +35,6 @@
         zstyle ':completion:*' menu select
         zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-        # Blue Hour `muted` -- see CLAUDE.md. The default fg=8 maps to
-        # `overlay` in foot, 1.65:1 against the background and barely visible.
         ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#7d9cc2'
 
         # autosuggestions first: syntax-highlighting wraps the widgets it binds

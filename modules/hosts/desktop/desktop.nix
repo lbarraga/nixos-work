@@ -23,7 +23,6 @@
       login
 
       common-apps
-      office
       personal-apps
       cad
       brave
@@ -31,7 +30,6 @@
 
       nvidia
       gaming
-      embedded-dev
       mouse-config
 
       inputs.disko.nixosModules.disko
