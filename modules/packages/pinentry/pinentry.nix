@@ -8,13 +8,10 @@
     # theme has to be baked into the rofi that pinentry-rofi calls. bemenu
     # cannot: it is a bar at a screen edge, with no centred box.
     packages.pinentry = let
-      themedRofi = pkgs.symlinkJoin {
-        name = "rofi-pinentry";
-        paths = [pkgs.rofi];
-        nativeBuildInputs = [pkgs.makeWrapper];
-        postBuild = ''
-          wrapProgram $out/bin/rofi --add-flags "-theme ${./pinentry.rasi}"
-        '';
+      themedRofi = inputs.wrapper-modules.lib.wrapPackage {
+        inherit pkgs;
+        package = pkgs.rofi;
+        flags."-theme" = ./pinentry.rasi;
       };
     in
       pkgs.pinentry-rofi.override {rofi = themedRofi;};

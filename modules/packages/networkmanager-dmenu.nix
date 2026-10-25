@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   perSystem = {
     pkgs,
     config,
@@ -22,15 +22,10 @@
         prompt = password
       '';
     in
-      pkgs.symlinkJoin {
-        name = "networkmanager-dmenu";
-        paths = [pkgs.networkmanager_dmenu];
-        nativeBuildInputs = [pkgs.makeWrapper];
-        postBuild = ''
-          wrapProgram $out/bin/networkmanager_dmenu \
-            --add-flags "--config ${settings}"
-        '';
-        meta.mainProgram = "networkmanager_dmenu";
+      inputs.wrapper-modules.lib.wrapPackage {
+        inherit pkgs;
+        package = pkgs.networkmanager_dmenu;
+        flags."--config" = settings;
       };
   };
 }
