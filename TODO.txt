@@ -12,12 +12,6 @@ Then lock, since the disk encryption prompt already comes first.
 Fix: expose both host toplevels as `checks` -- that catches a new file not
 `git add`ed before a rebuild does.
 
-## Make the username explicit
-`users.users.lukasbt` is hardcoded in system/user.nix, system/docker.nix and
-shell/zsh/nixos.nix, and system/base.nix hardcodes /home/lukasbt/nixos-work.
-docker and zsh silently depend on the user module being in the host's list.
-Fix: declare `options.my.username` in base, use `users.users.${config.my.username}`.
-
 ## wpctl is called by name but never provided
 config.kdl binds the volume keys to wpctl; niri's runtimePkgs has no
 wireplumber. Works here only because services.pipewire puts it on the system

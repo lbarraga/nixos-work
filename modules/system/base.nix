@@ -1,5 +1,9 @@
 {self, ...}: {
-  flake.modules.nixos.base = {pkgs, ...}: {
+  flake.modules.nixos.base = {
+    config,
+    pkgs,
+    ...
+  }: {
     _module.args.mine = self.packages.${pkgs.stdenv.hostPlatform.system};
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -11,7 +15,7 @@
       enable = true;
 
       # so `nh os switch` needs no path
-      flake = "/home/lukasbt/nixos-work";
+      flake = "/home/${config.my.username}/nixos-work";
 
       clean = {
         enable = true;

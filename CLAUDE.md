@@ -111,6 +111,9 @@ What hosts pick from, as `flake.modules.nixos.<name>`.
   `services.upower` because the bar's battery widget reads it, and imports the
   hyprlock module because its keybind spawns hyprlock.
 - They know nothing about hosts.
+- The login account is `config.my.username`, declared in `system/user.nix`. A
+  module that touches `users.users` goes through it rather than naming the
+  account, so `user` must be in the host's list for them to work.
 - A module whose system half is inseparable from its package — hyprlock's PAM
   file — lives in the same file. A package nothing has to configure, like foot,
   is installed by whatever module wants it.

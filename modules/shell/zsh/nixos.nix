@@ -1,5 +1,6 @@
 {
   flake.modules.nixos.zsh = {
+    config,
     pkgs,
     lib,
     mine,
@@ -27,7 +28,7 @@
     };
 
     environment.shells = [zsh];
-    users.users.lukasbt.shell = zsh;
+    users.users.${config.my.username}.shell = zsh;
 
     environment.systemPackages = [pkgs.eza pkgs.xdg-utils];
   };
