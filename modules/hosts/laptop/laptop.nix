@@ -1,8 +1,4 @@
-{
-  config,
-  inputs,
-  ...
-}: {
+{ config, inputs, ... }: {
   flake.nixosConfigurations.laptop = inputs.nixpkgs.lib.nixosSystem {
     modules = with config.flake.modules.nixos; [
       workstation
@@ -23,7 +19,7 @@
         boot.loader.efi.canTouchEfiVariables = true;
       }
 
-      ({lib, ...}: {
+      ({ lib, ... }: {
         virtualisation.vmVariant = {
           disko.enableConfig = lib.mkForce false;
 

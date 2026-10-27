@@ -1,9 +1,5 @@
 {
-  flake.modules.nixos.login = {
-    pkgs,
-    mine,
-    ...
-  }: {
+  flake.modules.nixos.login = { pkgs, mine, ... }: {
     services.greetd = {
       enable = true;
       useTextGreeter = true;

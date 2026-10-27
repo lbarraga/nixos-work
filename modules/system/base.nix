@@ -1,12 +1,11 @@
-{self, ...}: {
-  flake.modules.nixos.base = {
-    config,
-    pkgs,
-    ...
-  }: {
+{ self, ... }: {
+  flake.modules.nixos.base = { config, pkgs, ... }: {
     _module.args.mine = self.packages.${pkgs.stdenv.hostPlatform.system};
 
-    nix.settings.experimental-features = ["nix-command" "flakes"];
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     # I know, I know
     nixpkgs.config.allowUnfree = true;

@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-  extraPackages = [pkgs.tree-sitter];
+{ pkgs, ... }: {
+  extraPackages = [ pkgs.tree-sitter ];
 
   plugins = {
     lsp.enable = true;

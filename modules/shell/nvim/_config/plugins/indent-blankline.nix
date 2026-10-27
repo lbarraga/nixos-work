@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       scope.enabled = false;
-      exclude.filetypes = ["dashboard"];
+      exclude.filetypes = [ "dashboard" ];
     };
   };
 }

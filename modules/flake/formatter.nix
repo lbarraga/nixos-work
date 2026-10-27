@@ -1,11 +1,7 @@
 {
-  perSystem = {pkgs, ...}: {
-    # `nix fmt` with no arguments passes none on, and alejandra then reads
-    # stdin and blocks. Default it to the whole tree.
-    formatter = pkgs.writeShellApplication {
-      name = "alejandra-tree";
-      runtimeInputs = [pkgs.alejandra];
-      text = ''alejandra "''${@:-.}"'';
-    };
+  perSystem = { pkgs, ... }: {
+    # The treefmt wrapper, not bare nixfmt: `nix fmt` passes no arguments and
+    # nixfmt would then read stdin and block.
+    formatter = pkgs.nixfmt-tree;
   };
 }

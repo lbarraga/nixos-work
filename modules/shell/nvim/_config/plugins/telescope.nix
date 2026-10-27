@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   plugins.telescope = {
     enable = true;
 
@@ -8,7 +8,10 @@
     };
   };
 
-  extraPackages = [pkgs.ripgrep pkgs.fd];
+  extraPackages = [
+    pkgs.ripgrep
+    pkgs.fd
+  ];
 
   keymaps = [
     {

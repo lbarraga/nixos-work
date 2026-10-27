@@ -1,9 +1,5 @@
 {
-  flake.modules.nixos.docker = {
-    config,
-    pkgs,
-    ...
-  }: {
+  flake.modules.nixos.docker = { config, pkgs, ... }: {
     virtualisation.docker = {
       enable = true;
 
@@ -15,7 +11,7 @@
       };
     };
 
-    users.users.${config.my.username}.extraGroups = ["docker"];
+    users.users.${config.my.username}.extraGroups = [ "docker" ];
 
     environment.systemPackages = with pkgs; [
       docker-compose

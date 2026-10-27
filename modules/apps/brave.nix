@@ -1,12 +1,12 @@
-{inputs, ...}: {
-  perSystem = {system, ...}: {
+{ inputs, ... }: {
+  perSystem = { system, ... }: {
     packages.brave = inputs.nixpkgs-unstable.legacyPackages.${system}.brave-origin.override {
-      commandLineArgs = ["--disable-features=WebRtcAllowInputVolumeAdjustment"];
+      commandLineArgs = [ "--disable-features=WebRtcAllowInputVolumeAdjustment" ];
     };
   };
 
-  flake.modules.nixos.brave = {mine, ...}: {
-    environment.systemPackages = [mine.brave];
+  flake.modules.nixos.brave = { mine, ... }: {
+    environment.systemPackages = [ mine.brave ];
 
     programs.chromium = {
       enable = true;

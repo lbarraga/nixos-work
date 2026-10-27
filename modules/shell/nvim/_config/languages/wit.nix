@@ -1,3 +1,3 @@
 {
-  plugins.treesitter.settings.ensure_installed = ["wit"];
+  plugins.treesitter.settings.ensure_installed = [ "wit" ];
 }

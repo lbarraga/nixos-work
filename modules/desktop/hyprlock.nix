@@ -1,5 +1,5 @@
-{inputs, ...}: {
-  perSystem = {pkgs, ...}: {
+{ inputs, ... }: {
+  perSystem = { pkgs, ... }: {
     packages.hyprlock = inputs.wrapper-modules.wrappers.hyprlock.wrap {
       inherit pkgs;
       # Blue Hour palette -- see CLAUDE.md. hyprlock wants rgba(rrggbbaa).
@@ -74,6 +74,6 @@
 
   flake.modules.nixos.hyprlock = {
     # without this PAM file hyprlock rejects every password, silently
-    security.pam.services.hyprlock = {};
+    security.pam.services.hyprlock = { };
   };
 }

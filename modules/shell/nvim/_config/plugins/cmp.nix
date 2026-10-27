@@ -20,9 +20,9 @@
         };
       };
       sources = [
-        {name = "nvim_lsp";}
-        {name = "luasnip";}
-        {name = "path";}
+        { name = "nvim_lsp"; }
+        { name = "luasnip"; }
+        { name = "path"; }
       ];
       mapping = {
         "<CR>" = "cmp.mapping.confirm({ select = true })";
@@ -30,7 +30,8 @@
         "<C-k>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
         "<C-Space>" = "cmp.mapping.complete()";
         "<C-e>" = "cmp.mapping.abort()";
-        "<C-h>" = "cmp.mapping(function() local cmp = require('cmp'); if cmp.visible_docs() then cmp.close_docs() else cmp.open_docs() end end)";
+        "<C-h>" =
+          "cmp.mapping(function() local cmp = require('cmp'); if cmp.visible_docs() then cmp.close_docs() else cmp.open_docs() end end)";
       };
     };
   };

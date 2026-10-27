@@ -7,7 +7,11 @@
       options.desc = "Escape insert mode";
     }
     {
-      mode = ["n" "i" "v"];
+      mode = [
+        "n"
+        "i"
+        "v"
+      ];
       key = "<C-s>";
       action = "<cmd>w<cr><esc>";
       options.desc = "Save file";

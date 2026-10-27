@@ -1,9 +1,5 @@
-{inputs, ...}: {
-  perSystem = {
-    pkgs,
-    lib,
-    ...
-  }: {
+{ inputs, ... }: {
+  perSystem = { pkgs, lib, ... }: {
     packages.zsh = inputs.wrapper-modules.wrappers.zsh.wrap {
       inherit pkgs;
 
@@ -12,7 +8,7 @@
       zdotFilesDirname = "zsh-dot-dir";
 
       # what the aliases call by name
-      runtimePkgs = [pkgs.eza];
+      runtimePkgs = [ pkgs.eza ];
 
       zshAliases = {
         ls = "eza --git --icons=auto";

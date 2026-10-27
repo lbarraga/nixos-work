@@ -1,20 +1,17 @@
 {
-  flake.modules.nixos.cli-tools = {
-    pkgs,
-    mine,
-    ...
-  }: {
-    environment.systemPackages =
-      [mine.nvim]
-      ++ (with pkgs; [
-        fastfetch
-        git
-        btop
-        killall
-        tree
-        unzip
-        wget
-      ]);
+  flake.modules.nixos.cli-tools = { pkgs, mine, ... }: {
+    environment.systemPackages = [
+      mine.nvim
+    ]
+    ++ (with pkgs; [
+      fastfetch
+      git
+      btop
+      killall
+      tree
+      unzip
+      wget
+    ]);
 
     environment.variables.EDITOR = "nvim";
 

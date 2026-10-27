@@ -22,10 +22,10 @@
   };
 
   plugins.cmp.settings.sources = [
-    {name = "crates";}
+    { name = "crates"; }
   ];
 
-  plugins.treesitter.settings.ensure_installed = ["rust"];
+  plugins.treesitter.settings.ensure_installed = [ "rust" ];
 
   extraConfigLua = ''
     vim.api.nvim_create_autocmd("LspAttach", {

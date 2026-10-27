@@ -1,9 +1,5 @@
-{inputs, ...}: {
-  perSystem = {
-    pkgs,
-    system,
-    ...
-  }: {
+{ inputs, ... }: {
+  perSystem = { pkgs, system, ... }: {
     packages.orca-slicer = inputs.wrapper-modules.lib.wrapPackage {
       inherit pkgs;
       package = inputs.nixpkgs-unstable.legacyPackages.${system}.orca-slicer;
@@ -11,11 +7,7 @@
     };
   };
 
-  flake.modules.nixos.cad = {
-    pkgs,
-    mine,
-    ...
-  }: {
+  flake.modules.nixos.cad = { pkgs, mine, ... }: {
     programs.dconf.enable = true;
 
     environment.systemPackages = [

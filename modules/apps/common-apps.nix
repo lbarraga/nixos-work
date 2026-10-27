@@ -1,6 +1,6 @@
 {
   # apps shared by all workstations/laptops
-  flake.modules.nixos.common-apps = {pkgs, ...}: {
+  flake.modules.nixos.common-apps = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
       obsidian
       papers # gnome pdf viewer

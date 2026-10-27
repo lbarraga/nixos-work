@@ -1,8 +1,4 @@
-{
-  config,
-  inputs,
-  ...
-}: {
+{ config, inputs, ... }: {
   flake.nixosConfigurations.claude-vm = inputs.nixpkgs.lib.nixosSystem {
     modules = with config.flake.modules.nixos; [
       base

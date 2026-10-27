@@ -1,8 +1,4 @@
-{
-  config,
-  inputs,
-  ...
-}: {
+{ config, inputs, ... }: {
   flake.nixosConfigurations.desktop = inputs.nixpkgs.lib.nixosSystem {
     modules = with config.flake.modules.nixos; [
       workstation

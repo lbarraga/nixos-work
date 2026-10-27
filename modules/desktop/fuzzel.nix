@@ -1,5 +1,5 @@
-{inputs, ...}: {
-  perSystem = {pkgs, ...}: {
+{ inputs, ... }: {
+  perSystem = { pkgs, ... }: {
     packages.fuzzel = inputs.wrapper-modules.wrappers.fuzzel.wrap {
       inherit pkgs;
       settings = {

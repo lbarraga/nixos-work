@@ -1,35 +1,41 @@
 {
-  flake.modules.nixos.zsh = {
-    config,
-    pkgs,
-    lib,
-    mine,
-    ...
-  }: let
-    zsh = "${mine.zsh}/bin/zsh";
-  in {
-    programs.zsh = {
-      enable = true;
-      autosuggestions.enable = false;
-      syntaxHighlighting.enable = false;
-      enableCompletion = true;
-      enableGlobalCompInit = false;
+  flake.modules.nixos.zsh =
+    {
+      config,
+      pkgs,
+      lib,
+      mine,
+      ...
+    }:
+    let
+      zsh = "${mine.zsh}/bin/zsh";
+    in
+    {
+      programs.zsh = {
+        enable = true;
+        autosuggestions.enable = false;
+        syntaxHighlighting.enable = false;
+        enableCompletion = true;
+        enableGlobalCompInit = false;
 
-      shellAliases = {
-        ls = null;
-        l = null;
-        ll = null;
+        shellAliases = {
+          ls = null;
+          l = null;
+          ll = null;
+        };
+
+        promptInit = "";
+        interactiveShellInit = lib.mkAfter ''
+          source ${mine.zsh}/zsh-dot-dir/.zshrc
+        '';
       };
 
-      promptInit = "";
-      interactiveShellInit = lib.mkAfter ''
-        source ${mine.zsh}/zsh-dot-dir/.zshrc
-      '';
+      environment.shells = [ zsh ];
+      users.users.${config.my.username}.shell = zsh;
+
+      environment.systemPackages = [
+        pkgs.eza
+        pkgs.xdg-utils
+      ];
     };
-
-    environment.shells = [zsh];
-    users.users.${config.my.username}.shell = zsh;
-
-    environment.systemPackages = [pkgs.eza pkgs.xdg-utils];
-  };
 }
