@@ -18,6 +18,7 @@
       yubikey
       login
       common-apps
+      music
     ];
   };
 }
