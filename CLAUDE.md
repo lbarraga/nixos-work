@@ -75,7 +75,7 @@ modules/
       yubikey.nix
       gpg-public.asc
     ...
-  apps/                # GUI programs
+  apps/                # programs I run to do a thing
     brave.nix
     work-apps.nix
     ...
@@ -139,8 +139,8 @@ the editor, the palette — and differ only in which features they list.
 
 - Laptop only: `power` (TLP), `work-apps` (the two Firefoxes and Mattermost),
   `claude-code`, `docker`.
-- Desktop only: `nvidia`, `gaming`, `embedded-dev`, `mouse-config`, `brave`,
-  `netbird`, `cad`, `office`, `personal-apps`.
+- Desktop only: `nvidia`, `gaming`, `mouse-config`, `brave`, `netbird`, `cad`,
+  `personal-apps`, `music`.
 - `common-apps` is what both get, and is the place to put anything that turns
   out to belong on both.
 
@@ -154,6 +154,9 @@ That is fine until the desktop wants fixed monitor positions, which the no-
 
 ## Config file conventions
 
+- nixfmt keeps a function's argument pattern on one line only if it is written
+  that way; it never collapses one. Write `{a, b, ...}: {`, not a block. The
+  exception is a `let` body, which it spreads regardless.
 - Prefer each program's native config format over a Nix translation. niri gets a
   real `config.kdl` via `"config.kdl".path`; quickshell gets real QML via
   `configDir`. INI-shaped programs like foot and fuzzel may use the wrapper's
@@ -161,6 +164,9 @@ That is fine until the desktop wants fixed monitor positions, which the no-
 - Programs called by name from a config (`spawn "foot"`) go on the wrapped
   program's PATH via `runtimePkgs`. Use `{ data = <pkg>; prefix = true; }` when
   the wrapped copy must beat a system-installed one, as the bar does.
+- rmpc ignores `--theme` unless `theme` is also set in its `config.ron`: the
+  lookup is gated on that field. The flag then short-circuits the search to
+  the one path. Set wrong, it falls back to the default theme and says nothing.
 - Do NOT use `@placeholder@` substitution (`replaceVars`).
 - Do NOT build configs by appending Nix strings to `builtins.readFile`.
 - Do NOT add niri `output` blocks by default. The laptop docks into unknown
@@ -205,8 +211,8 @@ nothing else will do — ANSI slot 3, numbers and types in the editor, and the
 three warnings (`sand` for git dirty, low battery, no internet).
 
 **The hexes are hardcoded in each config, on purpose.** There is no palette
-module. Two consumers (`config.kdl`, `pinentry.rasi`) are native formats that
-would need the substitution this file forbids, so a shared palette could never
+module. Three consumers (`config.kdl`, `pinentry.rasi`, `theme.ron`) are native
+formats that would need the substitution this file forbids, so a shared palette could never
 have covered more than half of them. Changing a color means editing:
 
 - `desktop/foot.nix` — 16 ANSI slots
@@ -219,6 +225,7 @@ have covered more than half of them. Changing a color means editing:
 - `desktop/hyprlock.nix` — `label` and `input-field`
 - `desktop/pinentry/pinentry.rasi` — the `*` block
 - `shell/nvim/_config/plugins/theme.nix` — every color in the editor
+- `apps/music/theme.ron` — every color in the player
 
 `Colors.qml` and `theme.nix` are the two places sharing works at all, each being
 one language with no Nix substitution involved.

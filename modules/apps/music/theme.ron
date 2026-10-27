@@ -1,0 +1,267 @@
+#![enable(implicit_some)]
+#![enable(unwrap_newtypes)]
+#![enable(unwrap_variant_newtypes)]
+(
+    // Blue Hour palette -- see CLAUDE.md. rmpc wants #rrggbb, no alpha.
+    //
+    // No background: the terminal's own base shows through, so rmpc sits on
+    // the same glass as everything else foot runs. Only the modal is solid.
+    background_color: None,
+    header_background_color: None,
+    modal_background_color: "#121d36",
+    text_color: "#e9f4fa",
+
+    borders_style: (fg: "#24406b"),
+    highlight_border_style: (fg: "#4fb0f8"),
+
+    current_item_style: (fg: "#e9f4fa", bg: "#24406b", modifiers: "Bold"),
+    highlighted_item_style: (fg: "#4fb0f8", modifiers: "Bold"),
+
+    preview_label_style: (fg: "#7fd8f2"),
+    preview_metadata_group_style: (fg: "#4fb0f8", modifiers: "Bold"),
+
+    tab_bar: (
+        active_style: (fg: "#0a1226", bg: "#4fb0f8", modifiers: "Bold"),
+        inactive_style: (fg: "#7d9cc2"),
+    ),
+
+    // plain BMP glyphs rather than nerd font runes, so the package stands on
+    // its own on a machine without the font
+    symbols: (
+        song: "♪",
+        dir: "▸",
+        playlist: "≡",
+        marker: "●",
+        ellipsis: "…",
+        song_style: (fg: "#e9f4fa"),
+        dir_style: (fg: "#4fb0f8"),
+        playlist_style: (fg: "#a99bf2"),
+    ),
+
+    level_styles: (
+        info:  (fg: "#4fb0f8", bg: "#121d36"),
+        warn:  (fg: "#dcb169", bg: "#121d36"),
+        error: (fg: "#ec7a8c", bg: "#121d36"),
+        debug: (fg: "#5fc9a4", bg: "#121d36"),
+        trace: (fg: "#a99bf2", bg: "#121d36"),
+    ),
+
+    progress_bar: (
+        symbols: ["█", "█", "█", " ", "█"],
+        track_style: (fg: "#24406b"),
+        elapsed_style: (fg: "#4fb0f8"),
+        thumb_style: (fg: "#7fd8f2"),
+        use_track_when_empty: true,
+    ),
+
+    scrollbar: (
+        symbols: ["│", "█", "▲", "▼"],
+        track_style: (fg: "#24406b"),
+        ends_style: (fg: "#24406b"),
+        thumb_style: (fg: "#7d9cc2"),
+    ),
+
+    // Spotify order: tabs on top, library in the middle, now playing at the
+    // bottom. Its left and right edges are rounded rather than the default's
+    // ├ ┤, which were there only to join the tab box that used to sit below.
+    layout: Split(
+        direction: Vertical,
+        panes: [
+            (
+                pane: Pane(Tabs),
+                borders: "ALL",
+                border_symbols: Rounded,
+                size: "3",
+            ),
+            (
+                pane: Pane(TabContent),
+                size: "100%",
+            ),
+            (
+                size: "4",
+                pane: Split(
+                    direction: Horizontal,
+                    panes: [
+                        (
+                            size: "35",
+                            borders: "LEFT | TOP | BOTTOM",
+                            border_symbols: Rounded,
+                            pane: Component("header_left")
+                        ),
+                        (
+                            size: "100%",
+                            borders: "ALL",
+                            border_symbols: Inherited(parent: Rounded, top_left: "┬", top_right: "┬", bottom_left: "┴", bottom_right: "┴"),
+                            pane: Component("header_center")
+                        ),
+                        (
+                            size: "35",
+                            borders: "RIGHT | TOP | BOTTOM",
+                            border_symbols: Rounded,
+                            pane: Component("header_right")
+                        ),
+                    ]
+                )
+            ),
+            (
+                size: "3",
+                pane: Split(
+                    direction: Horizontal,
+                    panes: [
+                        (
+                            size: "12",
+                            borders: "ALL",
+                            border_symbols: Inherited(parent: Rounded, top_right: "┬", bottom_right: "┴"),
+                            pane: Component("input_mode")
+                        ),
+                        (
+                            size: "100%",
+                            borders: "TOP | BOTTOM | RIGHT",
+                            border_symbols: Rounded,
+                            border_title: [(kind: Text(" ")), (kind: Property(Status(QueueLength()))), (kind: Text(" songs / ")), (kind: Property(Status(QueueTimeTotal()))), (kind: Text(" total time "))],
+                            border_title_alignment: Right,
+                            pane: Component("progress_bar"),
+                        ),
+                    ]
+                ),
+            ),
+        ],
+    ),
+
+    // Copied from `rmpc theme` and recoloured. The default paints the state
+    // marker, the artist and the mode flags yellow, which is the one thing
+    // the palette does not allow as chrome.
+    components: {
+        "state": Pane(Property(
+            content: [
+                (kind: Text("["), style: (fg: "#4fb0f8", modifiers: "Bold")),
+                (kind: Property(Status(StateV2( ))), style: (fg: "#4fb0f8", modifiers: "Bold")),
+                (kind: Text("]"), style: (fg: "#4fb0f8", modifiers: "Bold")),
+            ], align: Left,
+        )),
+        "title": Pane(Property(
+            content: [
+                (kind: Property(Song(Title)), style: (fg: "#e9f4fa", modifiers: "Bold"),
+                    default: (kind: Text("No Song"), style: (fg: "#7d9cc2", modifiers: "Bold"))),
+            ], align: Center, scroll_speed: 1
+        )),
+        "volume": Split(
+            direction: Horizontal,
+            panes: [
+                (size: "1", pane: Pane(Property(content: [(kind: Text(""))]))),
+                (size: "100%", pane: Pane(Volume(kind: Slider(symbols: (filled: "─", thumb: "●", track: "─"))))),
+                (size: "3", pane: Pane(Property(content: [(kind: Property(Status(Volume)), style: (fg: "#4fb0f8"))], align: Right))),
+                (size: "2", pane: Pane(Property(content: [(kind: Text("%"), style: (fg: "#4fb0f8"))]))),
+            ]
+        ),
+        "elapsed_and_bitrate": Pane(Property(
+            content: [
+                (kind: Property(Status(Elapsed))),
+                (kind: Text(" / ")),
+                (kind: Property(Status(Duration))),
+                (kind: Group([
+                    (kind: Text(" (")),
+                    (kind: Property(Status(Bitrate))),
+                    (kind: Text(" kbps)")),
+                ]), style: (fg: "#7d9cc2")),
+            ],
+            align: Left,
+        )),
+        "artist_and_album": Pane(Property(
+            content: [
+                (kind: Property(Song(Artist)), style: (fg: "#e9f4fa", modifiers: "Bold"),
+                    default: (kind: Text("Unknown"), style: (fg: "#7d9cc2", modifiers: "Bold"))),
+                (kind: Text(" - "), style: (fg: "#7d9cc2")),
+                (kind: Property(Song(Album)), style: (fg: "#7d9cc2"),
+                    default: (kind: Text("Unknown Album"), style: (fg: "#7d9cc2"))),
+            ], align: Center, scroll_speed: 1
+        )),
+        "states": Split(
+            direction: Horizontal,
+            panes: [
+                (
+                    size: "1",
+                    pane: Pane(Empty())
+                ),
+                (
+                    size: "100%",
+                    pane: Pane(Property(content: [(kind: Property(Status(InputBuffer())), style: (fg: "#7fd8f2"), align: Left)]))
+                ),
+                (
+                    size: "6",
+                    pane: Pane(Property(content: [
+                        (kind: Text("["), style: (fg: "#7d9cc2")),
+                        (kind: Property(Status(RepeatV2(
+                            on_label: "z",
+                            off_label: "z",
+                            on_style: (fg: "#4fb0f8", modifiers: "Bold"),
+                            off_style: (fg: "#7d9cc2", modifiers: "Dim"),
+                        )))),
+                        (kind: Property(Status(RandomV2(
+                            on_label: "x",
+                            off_label: "x",
+                            on_style: (fg: "#4fb0f8", modifiers: "Bold"),
+                            off_style: (fg: "#7d9cc2", modifiers: "Dim"),
+                        )))),
+                        (kind: Property(Status(ConsumeV2(
+                            on_label: "c",
+                            off_label: "c",
+                            oneshot_label: "c",
+                            on_style: (fg: "#4fb0f8", modifiers: "Bold"),
+                            off_style: (fg: "#7d9cc2", modifiers: "Dim"),
+                            oneshot_style: (fg: "#ec7a8c", modifiers: "Bold"),
+                        )))),
+                        (kind: Property(Status(SingleV2(
+                            on_label: "v",
+                            off_label: "v",
+                            oneshot_label: "v",
+                            on_style: (fg: "#4fb0f8", modifiers: "Bold"),
+                            off_style: (fg: "#7d9cc2", modifiers: "Dim"),
+                            oneshot_style: (fg: "#ec7a8c", modifiers: "Bold"),
+                        )))),
+                        (kind: Text("]"), style: (fg: "#7d9cc2")),
+                        ],
+                        align: Right
+                    ))
+                ),
+            ]
+        ),
+        "input_mode": Pane(Property(
+            content: [
+                (kind: Transform(Replace(content: (kind: Property(Status(InputMode()))), replacements: [
+                    (match: "Normal", replace: (kind: Text(" NORMAL "), style: (fg: "#0a1226", bg: "#4fb0f8"))),
+                    (match: "Insert", replace: (kind: Text(" INSERT "), style: (fg: "#0a1226", bg: "#5fc9a4"))),
+                ])))
+            ], align: Center
+        )),
+        "header_left": Split(
+            direction: Vertical,
+            panes: [
+                (size: "1", pane: Component("state")),
+                (size: "1", pane: Component("elapsed_and_bitrate")),
+            ]
+        ),
+        "header_center": Split(
+            direction: Vertical,
+            panes: [
+                (size: "1", pane: Component("title")),
+                (size: "1", pane: Component("artist_and_album")),
+            ]
+        ),
+        "header_right": Split(
+            direction: Vertical,
+            panes: [
+                (size: "1", pane: Component("volume")),
+                (size: "1", pane: Component("states")),
+            ]
+        ),
+        "progress_bar": Split(
+            direction: Horizontal,
+            panes: [
+                (size: "1", pane: Pane(Empty())),
+                (size: "100%", pane: Pane(ProgressBar)),
+                (size: "1", pane: Pane(Empty())),
+            ]
+        )
+    },
+)

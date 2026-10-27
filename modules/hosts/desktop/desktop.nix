@@ -4,6 +4,7 @@
       workstation
 
       personal-apps
+      music
       cad
       brave
       netbird

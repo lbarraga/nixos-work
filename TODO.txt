@@ -28,12 +28,12 @@ same drvPath as the x86 one. Wrong under `nix flake check` on ARM, and VM
 runners are not packages by our own definition.
 Fix: move claude-vm and laptop-vm to `apps`, or guard on system.
 
-## A shared palette would still cover seven of nine consumers
-The no-palette argument only rules out config.kdl and pinentry.rasi. The rest
-are Nix.
+## A shared palette would still cover seven of ten consumers
+The no-palette argument only rules out config.kdl, pinentry.rasi and the rmpc
+theme.ron. The rest are Nix.
 Fix: `flake.lib.palette` as a plain attrset, plus functions for the RRGGBBAA
-and rgba() spellings. Cuts the "changing a color means editing" list from nine
-files to three, and kills the two hexes that hide from grep. No substitution,
+and rgba() spellings. Cuts the "changing a color means editing" list from ten
+files to four, and kills the two hexes that hide from grep. No substitution,
 no new input.
 
 ## config.kdl is 696 lines, 230 of them real
