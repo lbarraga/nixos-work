@@ -25,12 +25,9 @@ PanelWindow {
     screenName: bar.modelData.name
   }
 
-  Text {
+  ClockWidget {
     anchors.centerIn: parent
-    color: Colors.text
-    font.family: "monospace"
-    font.pixelSize: 14
-    text: Qt.formatDateTime(clock.date, "HH:mm")
+    screenInfo: bar.modelData
   }
 
   Row {
@@ -75,10 +72,5 @@ PanelWindow {
     BatteryWidget {
       anchors.verticalCenter: parent.verticalCenter
     }
-  }
-
-  SystemClock {
-    id: clock
-    precision: SystemClock.Minutes
   }
 }

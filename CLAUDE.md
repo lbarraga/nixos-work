@@ -220,6 +220,7 @@ a new widget is a new file plus one line in `Bar.qml`.
 | `Colors.qml` | singleton, the palette |
 | `Niri.qml` | singleton, workspace state from niri's IPC |
 | `Workspaces.qml` | one pill per workspace, click to focus |
+| `ClockWidget.qml` | the clock, click opens a month calendar |
 | `TrayWidget.qml` | system tray, chevron collapses it |
 | `BluetoothWidget.qml` | adapter state, hidden with no adapter |
 | `NetworkWidget.qml` | wired/wireless; wired wins when both are up |
