@@ -1,7 +1,9 @@
-{self, ...}: {
-  flake.modules.nixos.login = {pkgs, ...}: let
-    mine = self.packages.${pkgs.stdenv.hostPlatform.system};
-  in {
+{
+  flake.modules.nixos.login = {
+    pkgs,
+    mine,
+    ...
+  }: {
     services.greetd = {
       enable = true;
       useTextGreeter = true;

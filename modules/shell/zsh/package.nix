@@ -7,7 +7,7 @@
     packages.zsh = inputs.wrapper-modules.wrappers.zsh.wrap {
       inherit pkgs;
 
-      # features/shell.nix sources this directory's .zshrc into /etc/zshrc,
+      # nixos.nix sources this directory's .zshrc into /etc/zshrc,
       # so the name is pinned here rather than left to the wrapper default.
       zdotFilesDirname = "zsh-dot-dir";
 
@@ -24,7 +24,7 @@
         temp = ''cd "$(mktemp -d)"'';
 
         # Not in runtimePkgs like eza: fastfetch's closure is 440M, which is
-        # not a thing to carry in the shell. features/cli-tools.nix installs it.
+        # not a thing to carry in the shell. shell/cli-tools.nix installs it.
         ff = "fastfetch";
       };
 

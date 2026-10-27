@@ -71,4 +71,9 @@
       };
     };
   };
+
+  flake.modules.nixos.hyprlock = {
+    # without this PAM file hyprlock rejects every password, silently
+    security.pam.services.hyprlock = {};
+  };
 }

@@ -1,5 +1,7 @@
-{
-  flake.modules.nixos.base = {
+{self, ...}: {
+  flake.modules.nixos.base = {pkgs, ...}: {
+    _module.args.mine = self.packages.${pkgs.stdenv.hostPlatform.system};
+
     nix.settings.experimental-features = ["nix-command" "flakes"];
 
     # I know, I know

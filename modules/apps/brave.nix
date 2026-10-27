@@ -1,7 +1,11 @@
-{self, ...}: {
-  flake.modules.nixos.brave = {pkgs, ...}: let
-    mine = self.packages.${pkgs.stdenv.hostPlatform.system};
-  in {
+{inputs, ...}: {
+  perSystem = {system, ...}: {
+    packages.brave = inputs.nixpkgs-unstable.legacyPackages.${system}.brave-origin.override {
+      commandLineArgs = ["--disable-features=WebRtcAllowInputVolumeAdjustment"];
+    };
+  };
+
+  flake.modules.nixos.brave = {mine, ...}: {
     environment.systemPackages = [mine.brave];
 
     programs.chromium = {

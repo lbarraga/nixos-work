@@ -1,8 +1,11 @@
-{self, ...}: {
-  flake.modules.nixos.yubikey = {pkgs, ...}: let
+{
+  flake.modules.nixos.yubikey = {
+    pkgs,
+    mine,
+    ...
+  }: let
     # my cards fingerprint
     fingerprint = "7D7927AE9E9E61C7736EE6A8D78940BF1814BF2E";
-    mine = self.packages.${pkgs.stdenv.hostPlatform.system};
   in {
     services.pcscd.enable = true;
     services.udev.packages = with pkgs; [yubikey-personalization];

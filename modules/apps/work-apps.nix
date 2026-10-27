@@ -51,4 +51,22 @@
     packages.firefox-ugent = mkProfile "ugent" "UGent";
     packages.firefox-imec = mkProfile "imec" "imec";
   };
+
+  flake.modules.nixos.work-apps = {
+    pkgs,
+    mine,
+    ...
+  }: {
+    environment.systemPackages = [
+      mine.firefox-ugent
+      mine.firefox-imec
+      pkgs.mattermost-desktop
+    ];
+
+    xdg.mime.defaultApplications = {
+      "text/html" = "firefox-ugent.desktop";
+      "x-scheme-handler/http" = "firefox-ugent.desktop";
+      "x-scheme-handler/https" = "firefox-ugent.desktop";
+    };
+  };
 }

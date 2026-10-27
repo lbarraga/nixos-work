@@ -5,25 +5,10 @@
 }: {
   flake.nixosConfigurations.laptop = inputs.nixpkgs.lib.nixosSystem {
     modules = with config.flake.modules.nixos; [
-      base
-      locale
-      network
-      user
-      audio
+      workstation
+
       power
-      niri
       work-apps
-      common-apps
-      shell
-      fonts
-      claude-code
-      cli-tools
-      notifications
-      bluetooth
-      printing
-      removable-media
-      yubikey
-      login
       docker
 
       inputs.disko.nixosModules.disko

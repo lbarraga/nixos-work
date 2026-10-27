@@ -1,18 +1,20 @@
-{self, ...}: {
-  flake.modules.nixos.niri = {pkgs, ...}: let
-    mine = self.packages.${pkgs.stdenv.hostPlatform.system};
+{config, ...}: {
+  flake.modules.nixos.niri = {
+    pkgs,
+    mine,
+    ...
+  }: let
     cursorTheme = "Bibata-Modern-Ice";
     cursorSize = 24;
   in {
+    imports = [config.flake.modules.nixos.hyprlock];
+
     programs.niri = {
       enable = true;
       package = mine.niri;
     };
     hardware.graphics.enable = true;
     services.upower.enable = true;
-
-    # without this PAM file hyprlock rejects every password, silently
-    security.pam.services.hyprlock = {};
 
     environment.systemPackages = [
       mine.foot

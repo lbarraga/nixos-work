@@ -28,4 +28,13 @@
         flags."--config" = settings;
       };
   };
+
+  flake.modules.nixos.network = {mine, ...}: {
+    networking.networkmanager.enable = true;
+    networking.firewall.enable = true;
+
+    # what the bar's wifi icon opens, by name -- keep in sync with
+    # `managerCommand` in NetworkWidget.qml
+    environment.systemPackages = [mine.networkmanager-dmenu];
+  };
 }

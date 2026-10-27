@@ -5,24 +5,8 @@
 }: {
   flake.nixosConfigurations.desktop = inputs.nixpkgs.lib.nixosSystem {
     modules = with config.flake.modules.nixos; [
-      base
-      locale
-      network
-      user
-      audio
-      niri
-      shell
-      fonts
-      cli-tools
-      claude-code
-      notifications
-      bluetooth
-      printing
-      removable-media
-      yubikey
-      login
+      workstation
 
-      common-apps
       personal-apps
       cad
       brave

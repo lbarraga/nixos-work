@@ -14,7 +14,7 @@ flake-parts.
 2. **An underscore in the path hides a file from that.** import-tree drops any
    path containing `/_`, so `_hardware-configuration.nix` is skipped and a
    `_config/` *directory* hides a whole subtree — which is how the editor's
-   nixvim modules live under `packages/nvim/_config/` without the outer tree
+   nixvim modules live under `shell/nvim/_config/` without the outer tree
    trying to evaluate them as flake-parts modules. The filter runs on the path
    relative to the directory import-tree was handed, so a second
    `import-tree ./_config` from inside still sees everything.
@@ -32,29 +32,55 @@ Use stable nixpkgs. Do not add new inputs without asking.
 Two inputs deliberately do not follow our nixpkgs. `nixvim`'s plugins are built
 against its own tree and break when pointed at ours. `nixpkgs-unstable` exists
 for exactly one package, `brave-origin`, which stable does not carry; it is
-referenced directly from `packages/brave`, never as an overlay, so nothing else
+referenced directly from `apps/brave.nix`, never as an overlay, so nothing else
 is built against it.
 
 ## Layout
 
+One concern, one file — until it needs assets or grows, then one directory.
+A file defines whatever output classes its concern needs: `perSystem.packages`,
+`flake.modules.nixos.<name>`, or both.
+
 ```
 modules/
-  flake/flake-parts.nix
-  packages/
-    foot.nix
-    fuzzel.nix
+  flake/               # flake setup only
+    flake-parts.nix
+    formatter.nix
+  desktop/             # the session
     niri/
-      niri.nix
+      package.nix
+      nixos.nix
       config.kdl
       quickshell/      # shell.qml, Bar.qml, widgets, wallpaper
+    foot.nix
+    hyprlock.nix       # package and the PAM file it cannot work without
+    pinentry/
+      package.nix
+      pinentry.rasi
+    login.nix
+    ...
+  shell/               # the terminal side
+    zsh/
+      package.nix
+      nixos.nix
+      starship.toml
     nvim/
-      nvim.nix
+      package.nix
       _config/         # core/, plugins/, languages/
-  features/
+    cli-tools.nix
+  system/              # hardware and services
     base.nix
-    niri.nix
+    network.nix        # NetworkManager and the fuzzel wifi picker
+    yubikey/
+      yubikey.nix
+      gpg-public.asc
+    ...
+  apps/                # GUI programs
+    brave.nix
+    work-apps.nix
     ...
   hosts/
+    workstation.nix    # what both machines share
     claude-vm.nix
     laptop/
       laptop.nix
@@ -64,42 +90,42 @@ modules/
     desktop/           # same four files
 ```
 
-### `flake/`
-Flake setup only. Sets `systems` and imports
-`inputs.flake-parts.flakeModules.modules`, which provides
-`flake.modules.<class>.<name>`.
-
-### `packages/`
-Programs wrapped with my config, usable on any system and any desktop. These
-files define `perSystem.packages` and never NixOS modules.
+### Packages
+Programs wrapped with my config, usable on any system and any desktop, defined
+as `perSystem.packages`.
 
 - Wrap with `inputs.wrapper-modules.wrappers.<program>.wrap { inherit pkgs; … }`.
   `nvim` is the exception: nixvim is its own wrapper.
 - A package is published only if it is useful on its own. The quickshell bar
   only works inside niri — it reads niri's event stream — so it is wrapped
-  inline in `niri.nix` and never appears under `packages`.
+  inline in `niri/package.nix` and never appears under `packages`.
 - A package private to another package lives in that package's folder.
 
-### `features/`
-NixOS modules hosts pick from, as `flake.modules.nixos.<name>`.
+### NixOS modules
+What hosts pick from, as `flake.modules.nixos.<name>`.
 
-- Thin. They install from `self.packages.${pkgs.stdenv.hostPlatform.system}` and
-  add only what the system itself must provide: services, drivers, session
-  registration, PAM.
-- Each feature brings everything it needs. The niri feature enables
-  `services.upower` because the bar's battery widget reads it.
-- Features know nothing about hosts.
+- Thin. They install from `mine`, the argument `system/base.nix` binds to
+  `self.packages.${pkgs.stdenv.hostPlatform.system}`, and add only what the
+  system itself must provide: services, drivers, session registration, PAM.
+- Each module brings everything it needs. The niri module enables
+  `services.upower` because the bar's battery widget reads it, and imports the
+  hyprlock module because its keybind spawns hyprlock.
+- They know nothing about hosts.
+- A module whose system half is inseparable from its package — hyprlock's PAM
+  file — lives in the same file. A package nothing has to configure, like foot,
+  is installed by whatever module wants it.
 
 ### `hosts/`
 One file or folder per machine, defining `flake.nixosConfigurations.<name>`.
 
-- A host lists its features, then only machine-specific facts: `hostPlatform`,
-  `hostName`, `stateVersion`, boot loader, hardware file.
+- A host lists `workstation` plus what makes it different, then only
+  machine-specific facts: `hostPlatform`, `hostName`, `stateVersion`, boot
+  loader, hardware file.
 - Real machines own their disk layout too: `_disko.nix` declares the partitions
   and `format-disks.sh` wipes, formats and installs from the ISO. Disko owns
   `fileSystems.*` and `swapDevices`, so `_hardware-configuration.nix` carries
   only the non-filesystem half of `nixos-generate-config`'s output.
-- `modules = with config.flake.modules.nixos; [ base user audio niri { … } ];`
+- `modules = with config.flake.modules.nixos; [ workstation nvidia gaming { … } ];`
 - A VM host also exposes `perSystem.packages.<name>` from
   `config.system.build.vm`, so `nix run .#<name>` boots it.
 
@@ -139,7 +165,7 @@ That is fine until the desktop wants fixed monitor positions, which the no-
 
 ## Colors: the Blue Hour palette
 
-Sampled from the wallpaper at `modules/packages/niri/quickshell/wallpaper.jpg`,
+Sampled from the wallpaper at `modules/desktop/niri/quickshell/wallpaper.jpg`,
 with the dark end extended: the darkest thing in the image is a saturated indigo
 peak, too bright to sit a terminal on, so `base` and `surface` carry that hue
 down until every foreground clears WCAG AA.
@@ -180,16 +206,16 @@ module. Two consumers (`config.kdl`, `pinentry.rasi`) are native formats that
 would need the substitution this file forbids, so a shared palette could never
 have covered more than half of them. Changing a color means editing:
 
-- `packages/foot.nix` — 16 ANSI slots
-- `packages/fuzzel.nix` — `colors` block, RRGGBBAA
-- `packages/zsh/starship.toml` — nothing: the prompt uses ANSI color names, so
+- `desktop/foot.nix` — 16 ANSI slots
+- `desktop/fuzzel.nix` — `colors` block, RRGGBBAA
+- `shell/zsh/starship.toml` — nothing: the prompt uses ANSI color names, so
   it follows `foot.nix`’s 16 slots
-- `features/shell.nix` — `autosuggestions.highlightStyle`
-- `packages/niri/config.kdl` — `focus-ring` and `border`
-- `packages/niri/quickshell/Colors.qml` — every color on the QML side
-- `packages/hyprlock.nix` — `label` and `input-field`
-- `packages/pinentry/pinentry.rasi` — the `*` block
-- `packages/nvim/_config/plugins/theme.nix` — every color in the editor
+- `shell/zsh/nixos.nix` — `autosuggestions.highlightStyle`
+- `desktop/niri/config.kdl` — `focus-ring` and `border`
+- `desktop/niri/quickshell/Colors.qml` — every color on the QML side
+- `desktop/hyprlock.nix` — `label` and `input-field`
+- `desktop/pinentry/pinentry.rasi` — the `*` block
+- `shell/nvim/_config/plugins/theme.nix` — every color in the editor
 
 `Colors.qml` and `theme.nix` are the two places sharing works at all, each being
 one language with no Nix substitution involved.
@@ -233,8 +259,8 @@ does not flash three popups.
 
 Clicking a status icon opens a manager, named in `managerCommand` at the top of
 the widget — blueman for bluetooth, the fuzzel picker in
-`packages/networkmanager-dmenu.nix` for wifi. Neither is in niri's
-`runtimePkgs`; they come from `features/`, so on another machine the click is a
+`system/network.nix` for wifi. Neither is in niri's
+`runtimePkgs`; they come from the NixOS modules, so on another machine the click is a
 no-op.
 
 Offline is three states. A link can be associated with nothing behind it, so
@@ -269,7 +295,7 @@ Things that cost time to find out:
 
 ## The editor
 
-`packages/nvim` is a nixvim config, one file per concern under `_config`, loaded
+`shell/nvim` is a nixvim config, one file per concern under `_config`, loaded
 by a second `import-tree` the outer one cannot see. `core/` holds options and
 keymaps, `plugins/` one file per plugin, `languages/` one file per language — a
 language file owns the server, the formatter, the grammar and the extra packages
@@ -327,9 +353,9 @@ Things that cost time to find out:
 - `nix run .#nvim` runs the editor. Run it inside foot: the colors assume a
   terminal whose default background is `#0a1226` at `alpha=0.82`.
 - Live-edit the bar with
-  `nix run nixpkgs#quickshell -- -p ./modules/packages/niri/quickshell` after
+  `nix run nixpkgs#quickshell -- -p ./modules/desktop/niri/quickshell` after
   `pkill quickshell`. Not the wrapped one, which already passes a config path.
-- Live-edit niri with `nix run nixpkgs#niri -- -c ./modules/packages/niri/config.kdl`,
+- Live-edit niri with `nix run nixpkgs#niri -- -c ./modules/desktop/niri/config.kdl`,
   and check it with `niri validate -c …`.
 - Quickshell panels need layer shell, so they do not work on GNOME. Test the bar
   inside niri.

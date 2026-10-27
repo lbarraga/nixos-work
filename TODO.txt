@@ -1,2 +1,53 @@
-- look for a better theme on brave
-- greetd autologin, then lock? as there is a disk encryption prompt first.
+## Brave theme
+Look for a better one.
+
+## Greetd autologin
+Then lock, since the disk encryption prompt already comes first.
+
+
+# Structure review
+
+## Expose the hosts as checks
+`nix fmt` works now; `nix flake check` still builds nothing.
+Fix: expose both host toplevels as `checks` -- that catches a new file not
+`git add`ed before a rebuild does.
+
+## Make the username explicit
+`users.users.lukasbt` is hardcoded in system/user.nix, system/docker.nix and
+shell/zsh/nixos.nix, and system/base.nix hardcodes /home/lukasbt/nixos-work.
+docker and zsh silently depend on the user module being in the host's list.
+Fix: declare `options.my.username` in base, use `users.users.${config.my.username}`.
+
+## wpctl is called by name but never provided
+config.kdl binds the volume keys to wpctl; niri's runtimePkgs has no
+wireplumber. Works here only because services.pipewire puts it on the system
+path -- dead keys for anyone running `nix run .#niri`.
+Fix: add pkgs.wireplumber to runtimePkgs in desktop/niri/package.nix.
+
+## An efi-boot module
+The boot loader + stateVersion block is repeated in all three hosts.
+Fix: a small `efi-boot` module for the boot block.
+
+## laptop-vm on aarch64 is an x86_64 derivation
+`perSystem = _:` ignores system, so packages.aarch64-linux.laptop-vm has the
+same drvPath as the x86 one. Wrong under `nix flake check` on ARM, and VM
+runners are not packages by our own definition.
+Fix: move claude-vm and laptop-vm to `apps`, or guard on system.
+
+## A shared palette would still cover seven of nine consumers
+The no-palette argument only rules out config.kdl and pinentry.rasi. The rest
+are Nix.
+Fix: `flake.lib.palette` as a plain attrset, plus functions for the RRGGBBAA
+and rgba() spellings. Cuts the "changing a color means editing" list from nine
+files to three, and kills the two hexes that hide from grep. No substitution,
+no new input.
+
+## config.kdl is 696 lines, 230 of them real
+The rest is niri's shipped example comments.
+Fix: trim to what we actually set. Makes the open laptop/desktop monitor
+question visible.
+
+## Doc drift in CLAUDE.md
+- Says niri gets `"config.kdl".path`; package.nix uses `.content = builtins.readFile`.
+  Switch the code to `.path`, which is what the doc describes and is better.
+- The bar table is missing Dnd.qml, DndWidget.qml, SysInfo.qml, SystemWidget.qml.

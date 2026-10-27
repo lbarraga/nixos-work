@@ -1,10 +1,10 @@
-{self, ...}: {
-  flake.modules.nixos.shell = {
+{
+  flake.modules.nixos.zsh = {
     pkgs,
     lib,
+    mine,
     ...
   }: let
-    mine = self.packages.${pkgs.stdenv.hostPlatform.system};
     zsh = "${mine.zsh}/bin/zsh";
   in {
     programs.zsh = {

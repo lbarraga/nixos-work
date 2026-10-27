@@ -10,4 +10,17 @@
       env.WEBKIT_DISABLE_DMABUF_RENDERER = "1";
     };
   };
+
+  flake.modules.nixos.cad = {
+    pkgs,
+    mine,
+    ...
+  }: {
+    programs.dconf.enable = true;
+
+    environment.systemPackages = [
+      pkgs.freecad
+      mine.orca-slicer
+    ];
+  };
 }

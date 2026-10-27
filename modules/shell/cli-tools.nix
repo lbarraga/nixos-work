@@ -1,7 +1,9 @@
-{inputs, ...}: {
-  flake.modules.nixos.cli-tools = {pkgs, ...}: let
-    mine = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
-  in {
+{
+  flake.modules.nixos.cli-tools = {
+    pkgs,
+    mine,
+    ...
+  }: {
     environment.systemPackages =
       [mine.nvim]
       ++ (with pkgs; [
