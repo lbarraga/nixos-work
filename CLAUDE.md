@@ -167,6 +167,17 @@ That is fine until the desktop wants fixed monitor positions, which the no-
 - rmpc ignores `--theme` unless `theme` is also set in its `config.ron`: the
   lookup is gated on that field. The flag then short-circuits the search to
   the one path. Set wrong, it falls back to the default theme and says nothing.
+- rmpc recursively inotify-watches the directory its config file sits in, and
+  does it with `enable_config_hot_reload: false` too — `main.rs` writes
+  `flag.then_some(config_watcher::init(…))`, and `then_some`'s argument is
+  evaluated whichever way the flag goes. Pointing `--config` at a bare store
+  path therefore watches all of `/nix/store`: 2.6s before the first frame and
+  tens of thousands of watches. `linkFarm` gives it a directory of its own.
+  Fixed upstream in `f677f67`, which also refuses hot reload for any `--config`
+  outside rmpc's standard directories — but unreleased as of 0.11.0, so the
+  `linkFarm` stays until nixpkgs carries the next tag. A wrapped program whose
+  config file lands loose in the store is the general shape of that; check
+  before adding another.
 - Do NOT use `@placeholder@` substitution (`replaceVars`).
 - Do NOT build configs by appending Nix strings to `builtins.readFile`.
 - Do NOT add niri `output` blocks by default. The laptop docks into unknown
