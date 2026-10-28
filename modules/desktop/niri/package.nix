@@ -23,6 +23,7 @@
           pkgs.brightnessctl
           pkgs.procps
           config.packages.hyprlock
+          config.packages.swayidle
           {
             data = niriBar;
             prefix = true;
