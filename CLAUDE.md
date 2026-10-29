@@ -178,6 +178,13 @@ That is fine until the desktop wants fixed monitor positions, which the no-
   `linkFarm` stays until nixpkgs carries the next tag. A wrapped program whose
   config file lands loose in the store is the general shape of that; check
   before adding another.
+- The zsh wrapper points `ZDOTDIR` at its own store directory, and `compinit`
+  defaults its dump to `$ZDOTDIR/.zcompdump` — unwritable, so no dump is ever
+  kept and every shell rescans `fpath` and replays ~1900 compdefs. That was
+  360ms of a 420ms prompt. `compinit -d` into `$XDG_CACHE_HOME` fixes it; the
+  dump header carries `#files` and `version`, so compinit reinvalidates it by
+  itself when a rebuild changes either. The general trap is the same as rmpc's:
+  a wrapped program that wants to *write* next to its config can't.
 - Do NOT use `@placeholder@` substitution (`replaceVars`).
 - Do NOT build configs by appending Nix strings to `builtins.readFile`.
 - Do NOT add niri `output` blocks by default. The laptop docks into unknown

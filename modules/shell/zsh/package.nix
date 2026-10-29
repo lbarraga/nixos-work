@@ -30,7 +30,13 @@
         SAVEHIST=50000
         setopt share_history hist_ignore_dups hist_ignore_space
 
-        autoload -Uz compinit && compinit
+        # ZDOTDIR is the wrapper's own store directory, and compinit defaults
+        # its dump to $ZDOTDIR/.zcompdump — a path nothing can ever write. With
+        # no dump it rescans fpath and replays every compdef on each shell:
+        # 360ms of a 420ms startup. Point the dump somewhere writable.
+        _zcompdump=''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump
+        [[ -d ''${_zcompdump:h} ]] || mkdir -p ''${_zcompdump:h}
+        autoload -Uz compinit && compinit -d $_zcompdump
         zstyle ':completion:*' menu select
         zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
