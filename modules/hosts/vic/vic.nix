@@ -8,6 +8,7 @@
       mdns-publish
       zsh
       cli-tools
+      netbird
 
       inputs.disko.nixosModules.disko
       ./_disko.nix
