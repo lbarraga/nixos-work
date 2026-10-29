@@ -1,11 +1,8 @@
-{
+{ config, ... }: {
   flake.modules.nixos.printing = {
-    services.printing.enable = true;
+    # CUPS finds network printers over mDNS and nothing else.
+    imports = [ config.flake.modules.nixos.mdns ];
 
-    services.avahi = {
-      enable = true;
-      nssmdns4 = true;
-      openFirewall = true;
-    };
+    services.printing.enable = true;
   };
 }

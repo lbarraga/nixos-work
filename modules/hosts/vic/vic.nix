@@ -5,6 +5,7 @@
       locale
       user
       ssh
+      mdns-publish
       zsh
       cli-tools
 
