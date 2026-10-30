@@ -9,6 +9,7 @@
       zsh
       cli-tools
       netbird
+      home-assistant
 
       inputs.disko.nixosModules.disko
       ./_disko.nix

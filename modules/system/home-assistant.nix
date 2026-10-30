@@ -1,0 +1,25 @@
+{
+  flake.modules.nixos.home-assistant = {
+    services.home-assistant = {
+      enable = true;
+      openFirewall = true;
+
+      extraComponents = [
+        "default_config"
+        "met"
+        "zha"
+      ];
+
+      config = {
+        default_config = { };
+        homeassistant = {
+          name = "Home";
+          latitude = 51.0536;
+          longitude = 3.7253;
+          unit_system = "metric";
+        };
+        http = { };
+      };
+    };
+  };
+}
